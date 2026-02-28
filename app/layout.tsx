@@ -26,6 +26,11 @@ export const metadata: Metadata = {
     title: `${SITE_NAME} — The modern way to manage & book stays`,
     description: SITE_DESCRIPTION,
   },
+  icons: {
+    icon: [
+      { url: '/icon.svg', type: 'image/svg+xml' },
+    ],
+  },
   robots: {
     index: true,
     follow: true,

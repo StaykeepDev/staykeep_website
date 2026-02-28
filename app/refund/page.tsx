@@ -24,7 +24,7 @@ const SECTIONS = [
     },
     {
         title: 'Contact for Disputes',
-        content: 'For billing disputes, contact billing@staykeep.com or call +91 98765 43210 during business hours (Mon-Fri, 9am-6pm IST).',
+        content: 'For billing disputes, contact billing@staykeep.com or call +91 99807 83609 during business hours (Mon-Fri, 9am-6pm IST)',
     },
 ];
 

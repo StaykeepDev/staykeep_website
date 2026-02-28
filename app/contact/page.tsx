@@ -80,7 +80,7 @@ export default function ContactPage() {
                                                 type="tel"
                                                 value={form.phone}
                                                 onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                                                placeholder="+91 98765 43210"
+                                                placeholder="+91 99807 83609"
                                                 className="w-full px-4 py-3 rounded-xl bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.08)] text-white placeholder-[#444455] text-sm focus:outline-none focus:border-[rgba(233,69,96,0.4)] transition-colors"
                                             />
                                         </div>
@@ -134,7 +134,7 @@ export default function ContactPage() {
                                     <div className="space-y-4">
                                         {[
                                             { icon: Mail, text: 'hello@staykeep.com', href: 'mailto:hello@staykeep.com', color: '#e94560' },
-                                            { icon: Phone, text: '+91 98765 43210', href: 'tel:+919876543210', color: '#06d6a0' },
+                                            { icon: Phone, text: '+91 99807 83609', href: 'tel:+919980783609', color: '#06d6a0' },
                                             { icon: MapPin, text: 'Bangalore, Karnataka, India', href: '#', color: '#9b5de5' },
                                         ].map(({ icon: Icon, text, href, color }) => (
                                             <a key={text} href={href} className="flex items-center gap-3 text-sm text-[#888888] hover:text-white transition-colors">
