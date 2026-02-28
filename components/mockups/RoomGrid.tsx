@@ -24,7 +24,7 @@ export default function RoomGrid() {
             setStatuses((prev) => {
                 const next = [...prev];
                 const idx = Math.floor(Math.random() * ROOM_COUNT);
-                next[idx] = (next[idx] + 1) % 4;
+                next[idx] = ((next[idx] + 1) % 4) as 0 | 1 | 2 | 3;
                 return next;
             });
         }, 1500);

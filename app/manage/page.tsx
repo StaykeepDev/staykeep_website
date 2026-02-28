@@ -113,7 +113,7 @@ export default function ManagePage() {
                     <motion.div
                         initial={{ opacity: 0, x: -30 }}
                         animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
+                        transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] as const }}
                     >
                         <div
                             className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium mb-6"
