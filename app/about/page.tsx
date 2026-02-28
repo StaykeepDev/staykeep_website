@@ -5,14 +5,7 @@ import FadeInOnScroll from '@/components/animations/FadeInOnScroll';
 import GradientMesh from '@/components/animations/GradientMesh';
 import CTABanner from '@/components/sections/CTABanner';
 
-const TEAM = [
-    { name: 'Kiran Patel', role: 'Co-founder & CEO', color: '#e94560' },
-    { name: 'Meera Rao', role: 'Co-founder & CTO', color: '#9b5de5' },
-    { name: 'Arjun Singh', role: 'Head of Product', color: '#06d6a0' },
-    { name: 'Priya Menon', role: 'Head of Design', color: '#f77f00' },
-    { name: 'Rohit Sharma', role: 'Head of Engineering', color: '#00b4d8' },
-    { name: 'Divya Nair', role: 'Head of Operations', color: '#ffd60a' },
-];
+
 
 const VALUES = [
     { icon: '🎯', title: 'Mission', body: 'Empower every independent hospitality business in India with world-class software.' },
@@ -81,36 +74,7 @@ export default function AboutPage() {
                 </div>
             </section>
 
-            {/* Team */}
-            <section className="py-16 px-4" style={{ background: 'rgba(13,13,21,0.5)' }}>
-                <div className="max-w-5xl mx-auto">
-                    <FadeInOnScroll className="text-center mb-12">
-                        <h2 className="text-3xl font-bold">Meet the team</h2>
-                    </FadeInOnScroll>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6">
-                        {TEAM.map((member, i) => (
-                            <FadeInOnScroll key={member.name} delay={i * 0.08}>
-                                <motion.div
-                                    whileHover={{ y: -4, scale: 1.02 }}
-                                    className="flex flex-col items-center text-center group"
-                                >
-                                    <div
-                                        className="w-16 h-16 rounded-2xl flex items-center justify-center text-2xl font-bold text-white mb-3 transition-shadow"
-                                        style={{
-                                            background: `linear-gradient(135deg, ${member.color}30, ${member.color}60)`,
-                                            border: `1px solid ${member.color}30`,
-                                        }}
-                                    >
-                                        {member.name.split(' ').map((n) => n[0]).join('')}
-                                    </div>
-                                    <div className="text-sm font-semibold text-white">{member.name}</div>
-                                    <div className="text-xs text-[#555555] mt-0.5">{member.role}</div>
-                                </motion.div>
-                            </FadeInOnScroll>
-                        ))}
-                    </div>
-                </div>
-            </section>
+
 
             <CTABanner />
         </>
