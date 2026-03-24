@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.staykeep.app",
+      "sha256_cert_fingerprints": [
+        "42:83:B5:06:C6:EE:58:D5:1F:B6:8C:3F:63:14:CC:A8:E0:1A:05:6D:A9:3F:7B:B0:67:33:CB:AC:CD:1F:D1:EF"
+      ]
+    }
+  }
+]

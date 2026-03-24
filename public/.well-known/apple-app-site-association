@@ -1,0 +1,18 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "TEAM_ID.com.staykeep.app",
+        "paths": [
+          "/property/*",
+          "/booking/*",
+          "/profile",
+          "/profile/*",
+          "/inbox",
+          "/inbox/*"
+        ]
+      }
+    ]
+  }
+}
