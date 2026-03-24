@@ -1,9 +1,22 @@
 'use client';
 
+import { useEffect } from 'react';
+
 const APP_STORE_URL = 'https://apps.apple.com/app/staykeep/YOUR_APP_STORE_ID';
 const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.staykeep.app';
 
 export default function DeepLinkFallback({ type, id }: { type: string; id?: string }) {
+  useEffect(() => {
+    const ua = navigator.userAgent.toLowerCase();
+    const isAndroid = ua.includes('android');
+    const isIOS = /iphone|ipad|ipod/.test(ua);
+
+    if (isAndroid) {
+      window.location.href = PLAY_STORE_URL;
+    } else if (isIOS) {
+      window.location.href = APP_STORE_URL;
+    }
+  }, []);
   const titles: Record<string, string> = {
     property: 'View this property on StayKeep',
     booking: 'Manage your booking on StayKeep',
