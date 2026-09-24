@@ -1,0 +1,49 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import { APP_STAYS_URL } from '../content/site';
+---
+
+<BaseLayout
+  title="Page not found | StayKeep"
+  description="This page doesn't exist on StayKeep."
+  path="/404"
+>
+  <section class="section not-found">
+    <div class="container container-narrow">
+      <p class="eyebrow">404</p>
+      <h1 class="display-1">We can't find that page.</h1>
+      <p class="lede">
+        The link might be old, or the page may have moved. Here are a few places to try instead.
+      </p>
+
+      <div class="not-found-actions">
+        <a href="/" class="btn btn-primary">
+          Go home
+          <Icon name="arrow-right" size={18} />
+        </a>
+        <a href={APP_STAYS_URL} class="btn btn-outline" rel="noopener">Find a stay</a>
+        <a href="/owners" class="btn btn-outline">For property owners</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .not-found {
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+  }
+
+  .container-narrow {
+    max-width: 640px;
+  }
+
+  .not-found-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    margin-top: var(--space-xl);
+  }
+</style>

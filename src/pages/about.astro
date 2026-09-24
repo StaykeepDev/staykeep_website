@@ -1,0 +1,54 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import FinalCta from '../components/sections/FinalCta.astro';
+---
+
+<BaseLayout
+  title="About | StayKeep"
+  description="StayKeep exists so homestays and hotels can take direct, commission-free bookings, and guests pay no booking fee."
+  path="/about"
+>
+  <section class="section">
+    <div class="container container-narrow">
+      <div class="section-heading">
+        <p class="eyebrow">Our mission</p>
+        <h1 class="display-1">Booking, without the middleman's cut</h1>
+      </div>
+
+      <div class="about-copy">
+        <p class="lede">
+          Booking platforms have made it easy to find a place to stay. They've also made it
+          normal to hand over up to 30% of every booking in fees — split between the property
+          and the guest.
+        </p>
+        <p class="body-text">
+          StayKeep exists to change that. We built a straightforward way for homestays and
+          hotels to take bookings directly — no commission on any booking, ever — so guests pay
+          less and owners keep what they earn.
+        </p>
+        <p class="body-text">
+          For guests, that means searching and booking a stay without a booking fee, and having
+          everything for the trip — the host's number, the address, the bill — in one place. For
+          owners, it means the tools to run a property day to day: bookings and check-in, staff
+          and service requests, billing, and a website of their own — without giving away a share
+          of every booking to get there.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <FinalCta variant="home" />
+</BaseLayout>
+
+<style>
+  .container-narrow {
+    max-width: 720px;
+  }
+
+  .about-copy {
+    margin-top: var(--space-xl);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+</style>

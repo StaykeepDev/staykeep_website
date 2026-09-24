@@ -1,0 +1,43 @@
+---
+import LegalLayout from '../layouts/LegalLayout.astro';
+
+// Legal TEXT ported verbatim from the previous site (app/refund/page.tsx on
+// `main`). The "14-day free trial" line is a live free-trial claim the site
+// is not allowed to make right now (no pricing has been published) —
+// flagged for the owner in the handoff report, not changed here.
+const sections = [
+  {
+    title: 'Subscription Refunds',
+    content:
+      "Monthly subscriptions are non-refundable after the billing date. Annual subscriptions may be refunded on a pro-rata basis within 30 days of purchase. After 30 days, the remaining balance is non-refundable.",
+  },
+  {
+    title: 'Free Trial',
+    content:
+      'Your 14-day free trial incurs no charges. No refund is applicable as no payment is collected during the trial period.',
+  },
+  {
+    title: 'Booking Cancellation Refunds',
+    content:
+      "Booking cancellation refunds are governed by the individual property's cancellation policy as set in StayKeep. StayKeep is not responsible for disputes between hosts and guests regarding booking refunds.",
+  },
+  {
+    title: 'How to Request a Refund',
+    content:
+      'Submit your refund request to billing@staykeep.com within the eligible period. Include your account email, subscription details, and reason for the request. We process eligible refunds within 5-7 business days.',
+  },
+  {
+    title: 'Contact for Disputes',
+    content:
+      'For billing disputes, contact billing@staykeep.com or call +91 99807 83609 during business hours (Mon-Fri, 9am-6pm IST)',
+  },
+];
+---
+
+<LegalLayout
+  title="Refund Policy"
+  description="StayKeep refund policy."
+  path="/refund"
+  lastUpdated="January 1, 2024"
+  sections={sections}
+/>

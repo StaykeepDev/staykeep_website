@@ -1,0 +1,87 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import { CONTACT_EMAIL, CONTACT_PHONE_DISPLAY, CONTACT_PHONE_TEL } from '../content/site';
+---
+
+<BaseLayout
+  title="Contact us | StayKeep"
+  description="Get in touch with StayKeep — questions about booking a stay, listing your property, or anything else."
+  path="/contact"
+>
+  <section class="section">
+    <div class="container container-narrow">
+      <div class="section-heading">
+        <p class="eyebrow">Get in touch</p>
+        <h1 class="display-1">Contact us</h1>
+        <p class="lede">Questions about booking a stay, listing your property, or anything else — we're happy to help.</p>
+      </div>
+
+      <div class="contact-cards">
+        <a class="card contact-card" href={`mailto:${CONTACT_EMAIL}`}>
+          <div class="icon-circle"><Icon name="mail" /></div>
+          <div>
+            <p class="label">Email</p>
+            <p class="display-4">{CONTACT_EMAIL}</p>
+          </div>
+        </a>
+
+        <a class="card contact-card" href={CONTACT_PHONE_TEL}>
+          <div class="icon-circle"><Icon name="phone" /></div>
+          <div>
+            <p class="label">Phone</p>
+            <p class="contact-phone-value sk-tabular">{CONTACT_PHONE_DISPLAY}</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .container-narrow {
+    max-width: 720px;
+  }
+
+  .contact-cards {
+    display: grid;
+    gap: var(--space-md);
+    grid-template-columns: 1fr;
+    margin-top: var(--space-2xl);
+  }
+
+  .contact-card {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    transition: transform var(--duration-fast) var(--ease-standard);
+  }
+
+  .contact-card:hover {
+    transform: translateY(-2px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .contact-card:hover {
+      transform: none;
+    }
+  }
+
+  @media (min-width: 560px) {
+    .contact-cards {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  /* The phone number wrapped mid-digit at display-4/Cormorant size inside
+     a two-column card (found in review) — sans, tabular and slightly
+     smaller keeps "+91 99807 83609" on one line at every width this grid
+     uses. */
+  .contact-phone-value {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 1.25rem;
+    color: var(--color-on-surface);
+    white-space: nowrap;
+  }
+</style>
