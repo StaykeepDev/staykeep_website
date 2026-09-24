@@ -16,6 +16,10 @@ jobs:
   deploy:
     name: Build & deploy to Cloudflare
     runs-on: ubuntu-latest
+    # `secrets` is not available in a step's `if:` (GitHub rejects the whole file),
+    # so the job exposes only whether the token exists.
+    env:
+      CF_TOKEN_SET: ${{ secrets.CLOUDFLARE_API_TOKEN != '' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -35,12 +39,12 @@ jobs:
       # No CLOUDFLARE_API_TOKEN secret configured yet -> skip deploy with a
       # clear notice instead of failing the workflow.
       - name: Skip deploy (no CLOUDFLARE_API_TOKEN secret)
-        if: ${{ !secrets.CLOUDFLARE_API_TOKEN }}
+        if: env.CF_TOKEN_SET != 'true'
         run: |
           echo "::notice title=Deploy skipped::CLOUDFLARE_API_TOKEN secret is not set. Add it in the repo's Settings > Secrets and variables > Actions, then re-run this workflow (or push to prod again) to deploy."
 
       - name: Deploy to Cloudflare Workers
-        if: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        if: env.CF_TOKEN_SET == 'true'
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
