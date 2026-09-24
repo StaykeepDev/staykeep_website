@@ -3,8 +3,14 @@ main = "worker/index.ts"
 compatibility_date = "2026-09-24"
 compatibility_flags = ["nodejs_compat"]
 
-# No [[routes]] here on purpose — the lead attaches staykeep.com/* and
-# www.staykeep.com/* after reviewing this deploy. See DEPLOY.md.
+# Live since 2026-09-24. Both hostnames are proxied DNS records (the apex still
+# points at the old Vercel origin), so these routes are what serve the site;
+# removing them hands staykeep.com back to the old deployment. www → apex 301
+# happens in worker/index.ts.
+routes = [
+  { pattern = "staykeep.com/*", zone_name = "staykeep.com" },
+  { pattern = "www.staykeep.com/*", zone_name = "staykeep.com" },
+]
 
 [assets]
 directory = "./dist"

@@ -26,6 +26,15 @@ export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
 
+    // Plain http never serves a page: the old host (Vercel) redirected it, and HSTS
+    // only protects a browser that has already been here once.
+    if (url.protocol === 'http:' && url.hostname.endsWith('staykeep.com')) {
+      const target = new URL(url.toString());
+      target.protocol = 'https:';
+      if (target.hostname === 'www.staykeep.com') target.hostname = 'staykeep.com';
+      return Response.redirect(target.toString(), 301);
+    }
+
     if (url.hostname === 'www.staykeep.com') {
       const target = new URL(url.toString());
       target.hostname = 'staykeep.com';
