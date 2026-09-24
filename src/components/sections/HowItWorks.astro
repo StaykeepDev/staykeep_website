@@ -1,102 +1,87 @@
 ---
-import Icon from '../Icon.astro';
-
 interface Props {
-  /** /owners already opens with its own "For property owners" eyebrow in
-   * the hero right above this section — repeating it immediately below
-   * read as redundant in review, so that page passes false. */
   showEyebrow?: boolean;
 }
-
-const { showEyebrow = true } = Astro.props;
-
 const steps = [
   {
-    icon: 'building' as const,
-    title: 'Set up your property',
-    description: 'Add your rooms, rates and photos in the Manage app — on Android or on the web.',
+    title: "Make yourself at home.",
+    text: "Add your property, rooms, rates and photos in StayKeep Manage.",
   },
   {
-    icon: 'palette' as const,
-    title: 'Share your own website or link',
-    description: 'Set up your free yourname.staykeep.com website, or just share your booking link directly.',
+    title: "Put your place out there.",
+    text: "Set up your website or share a direct booking link with guests.",
   },
   {
-    icon: 'check' as const,
-    title: 'Guests book you directly',
-    description: 'Bookings come straight to you — no commission, no middleman, ever.',
+    title: "Welcome your next guest.",
+    text: "Receive bookings directly and manage the stay from check-in to check-out.",
   },
 ];
 ---
 
 <section class="section" aria-labelledby="how-it-works-heading">
   <div class="container">
-    <div class="section-heading">
-      {showEyebrow && <p class="eyebrow">For property owners</p>}
-      <h2 class="display-2" id="how-it-works-heading">How it works</h2>
+    <div class="steps-heading">
+      <p class="eyebrow">Simple to get started</p>
+      <h2 class="display-2" id="how-it-works-heading">
+        From your property
+        <br />
+        to their next great stay.
+      </h2>
     </div>
-
     <ol class="steps">
-      {steps.map((step, index) => (
-        <li class="step">
-          <div class="step-number-row">
-            <span class="step-number">{index + 1}</span>
-            <div class="icon-circle"><Icon name={step.icon} /></div>
-          </div>
+      {steps.map((step, i) => (
+        <li>
+          <span class="step-number">0{i + 1}</span>
           <h3 class="display-4">{step.title}</h3>
-          <p class="body-text">{step.description}</p>
+          <p class="body-text">{step.text}</p>
         </li>
       ))}
     </ol>
   </div>
 </section>
-
 <style>
+  .steps-heading {
+    margin-bottom: 3rem;
+  }
   .steps {
-    list-style: none;
     display: grid;
-    gap: var(--space-lg);
-    grid-template-columns: 1fr;
-    counter-reset: step;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+    list-style: none;
   }
-
-  .step {
-    background: var(--color-surface-lowest);
-    border-radius: var(--radius-card);
-    padding: var(--space-lg);
-    box-shadow: var(--shadow-soft);
-    display: flex;
-    flex-direction: column;
-    gap: 0.6rem;
-    position: relative;
+  .steps > li {
+    border-top: 1px solid var(--color-outline-variant);
+    padding-top: 1.5rem;
   }
-
-  @media (prefers-color-scheme: dark) {
-    .step {
-      border: 1px solid var(--color-outline-variant);
-    }
-  }
-
-  .step-number-row {
-    display: flex;
-    align-items: center;
-    gap: var(--space-sm);
-    margin-bottom: 0.4rem;
-  }
-
   .step-number {
-    font-family: var(--font-display);
+    font-size: 0.875rem;
     font-weight: 600;
-    font-size: 1.5rem;
-    /* --color-outline is for hairlines/chevrons only, never text (design
-       direction doc §1) — this uses onSurfaceVariant, same as other
-       secondary text. */
-    color: var(--color-on-surface-variant);
+    color: var(--color-primary);
+    display: inline-flex;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    background: #edf2ff;
+    margin-bottom: 1.5rem;
   }
-
-  @media (min-width: 780px) {
+  .steps h3 {
+    margin-bottom: 0.85rem;
+  }
+  .steps p {
+    font-size: 0.9375rem;
+  }
+  @media (max-width: 760px) {
     .steps {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    .step-number {
+      margin-bottom: 1rem;
+    }
+    .steps-heading {
+      margin-bottom: 2rem;
     }
   }
 </style>

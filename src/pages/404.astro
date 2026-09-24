@@ -1,49 +1,64 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import Icon from '../components/Icon.astro';
-import { APP_STAYS_URL } from '../content/site';
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Icon from "../components/Icon.astro";
+import { APP_STAYS_URL } from "../content/site";
 ---
 
 <BaseLayout
   title="Page not found | StayKeep"
-  description="This page doesn't exist on StayKeep."
+  description="This page has checked out. Find your way back to StayKeep."
   path="/404"
 >
   <section class="section not-found">
-    <div class="container container-narrow">
-      <p class="eyebrow">404</p>
-      <h1 class="display-1">We can't find that page.</h1>
+    <div class="container">
+      <span class="error-code" aria-hidden="true">
+        404
+      </span>
+      <p class="eyebrow">Looks like a wrong turn</p>
+      <h1 class="display-1">
+        This page has
+        <br />
+        checked out.
+      </h1>
       <p class="lede">
-        The link might be old, or the page may have moved. Here are a few places to try instead.
+        The link may have moved, but your next stay is still out there.
       </p>
-
-      <div class="not-found-actions">
+      <div class="actions">
         <a href="/" class="btn btn-primary">
-          Go home
-          <Icon name="arrow-right" size={18} />
+          Back to home <Icon name="arrow-right" />
         </a>
-        <a href={APP_STAYS_URL} class="btn btn-outline" rel="noopener">Find a stay</a>
-        <a href="/owners" class="btn btn-outline">For property owners</a>
+        <a href={APP_STAYS_URL} class="btn btn-outline">
+          Find a stay
+        </a>
       </div>
     </div>
   </section>
 </BaseLayout>
-
 <style>
   .not-found {
-    min-height: 60vh;
+    text-align: center;
+    background: linear-gradient(#f3f6ff, #fff);
+    min-height: 70vh;
     display: flex;
     align-items: center;
   }
-
-  .container-narrow {
-    max-width: 640px;
+  .error-code {
+    display: block;
+    font-size: clamp(5rem, 13vw, 9rem);
+    line-height: 1;
+    font-weight: 800;
+    letter-spacing: -0.08em;
+    color: #dce5ff;
+    margin-bottom: 1.5rem;
   }
-
-  .not-found-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-sm);
-    margin-top: var(--space-xl);
+  .not-found h1 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+  }
+  .not-found .lede {
+    max-width: 30rem;
+    margin: 1.5rem auto 0;
+  }
+  .not-found .actions {
+    justify-content: center;
   }
 </style>

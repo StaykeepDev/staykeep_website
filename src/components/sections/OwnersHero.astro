@@ -1,62 +1,212 @@
 ---
-import Icon from '../Icon.astro';
-import { MANAGE_URL } from '../../content/site';
+import Icon from "../Icon.astro";
+import { MANAGE_URL } from "../../content/site";
+import BrowserFrame from "../BrowserFrame.astro";
+import calendar from "../../assets/screenshots/calendar.png";
+import calendarMobile from "../../assets/screenshots/calendar-mobile.png";
 ---
 
-<section class="hero">
-  <div class="container hero-inner">
-    <p class="eyebrow">For property owners</p>
-    <h1 class="display-1">Keep 100% of every booking.</h1>
-    <p class="lede hero-lede">
-      Run bookings, check-in, staff and billing from one app — and take direct bookings at 0%
-      commission, always. No booking-fee cut for the guest either.
-    </p>
-
-    <div class="hero-actions">
-      <a href={MANAGE_URL} class="btn btn-primary" rel="noopener">
-        Get started on Manage
-        <Icon name="arrow-right" size={18} />
-      </a>
-      <a href="#how-it-works-heading" class="btn btn-outline">See how it works</a>
+<section class="owners-hero">
+  <div class="container">
+    <div class="owners-intro" data-reveal>
+      <div>
+        <p class="eyebrow">For homestays, hotels & the people behind them</p>
+        <h1 class="display-1">
+          Your property.
+          <br />
+          Your hard work.
+          <br />
+          <span>Your earnings.</span>
+        </h1>
+      </div>
+      <div class="owners-lede">
+        <p class="lede">
+          Take direct bookings at <strong>0% commission</strong>. Run the rest
+          of your day from one place: rooms, guests, your team and every bill.
+        </p>
+        <div class="actions">
+          <a href={MANAGE_URL} class="btn btn-primary">
+            List your property <Icon name="arrow-right" />
+          </a>
+          <a href="/contact" class="btn btn-outline">
+            Talk to us
+          </a>
+        </div>
+        <a href="#how-it-works-heading" class="text-link">
+          See how to get started ↓
+        </a>
+      </div>
     </div>
+    <div class="owner-product" data-scroll-lift>
+      <div class="owner-promise">
+        <strong>
+          0<span>%</span>
+        </strong>
+        <h2>
+          Booking commission.
+          <br />
+          Always.
+        </h2>
+        <p>
+          More of every booking
+          <br />
+          stays with your property.
+        </p>
+        <span class="owner-platforms">Manage on web & Android</span>
+      </div>
+      <div class="owner-screen">
+        <BrowserFrame
+          src={calendar}
+          mobileSrc={calendarMobile}
+          alt="StayKeep Manage room availability calendar for an example property"
+          widths={[640, 960, 1440]}
+          sizes="(min-width: 900px) 68vw, 100vw"
+        />
+      </div>
+    </div>
+    <p class="owner-note">
+      Example property shown. Plan costs, taxes and payment charges are separate
+      from booking commission.
+    </p>
   </div>
 </section>
-
 <style>
-  .hero {
-    background: linear-gradient(
-      165deg,
-      var(--color-primary-container) 0%,
-      var(--color-surface-container-high) 45%,
-      var(--color-surface) 100%
-    );
-    border-radius: 0 0 var(--radius-curve) var(--radius-curve);
-    padding-top: var(--space-2xl);
+  .owners-hero {
+    padding: 4rem 0 0;
+    background: linear-gradient(#f5f7ff, #fff);
   }
-
-  .hero-inner {
-    padding-bottom: var(--space-3xl);
-    max-width: 46rem;
+  .owners-intro {
+    display: grid;
+    grid-template-columns: 1fr 0.8fr;
+    gap: 6rem;
+    align-items: center;
   }
-
-  .hero-lede {
-    margin-top: var(--space-md);
-    max-width: 38rem;
+  .owners-intro h1 {
+    font-size: clamp(2.9rem, 5vw, 4.7rem);
   }
-
-  .hero-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-sm);
-    margin-top: var(--space-xl);
+  .owners-intro h1 span {
+    color: var(--color-primary);
   }
-
-  @media (max-width: 479px) {
-    .hero-actions {
-      flex-direction: column;
+  .owners-intro .eyebrow {
+    font-size: 0.75rem;
+  }
+  .owners-lede strong {
+    color: var(--color-primary);
+  }
+  .owners-lede > .text-link {
+    margin-top: 1rem;
+    font-size: 0.875rem;
+  }
+  .owner-product {
+    display: grid;
+    grid-template-columns: 0.6fr 1.4fr;
+    gap: 2.5rem;
+    align-items: center;
+    margin-top: 3.5rem;
+    padding: 2.5rem 2.5rem 0;
+    background: #edf2ff;
+    border-radius: 24px;
+    overflow: hidden;
+    border: 1px solid #dbe3f5;
+  }
+  .owner-promise {
+    align-self: center;
+    padding-bottom: 2.5rem;
+  }
+  .owner-promise > strong {
+    font-size: 7rem;
+    line-height: 1;
+    letter-spacing: -0.08em;
+    color: var(--color-primary);
+  }
+  .owner-promise > strong span {
+    font-size: 3rem;
+    vertical-align: top;
+    line-height: 1.8;
+  }
+  .owner-promise h2 {
+    font-size: 1.3rem;
+    letter-spacing: -0.025em;
+    line-height: 1.35;
+    margin-top: 1rem;
+  }
+  .owner-promise p {
+    font-size: 0.875rem;
+    color: var(--color-on-surface-variant);
+    margin-top: 0.8rem;
+  }
+  .owner-platforms {
+    display: block;
+    font-size: 0.75rem;
+    margin-top: 1.75rem;
+  }
+  .owner-screen {
+    min-width: 0;
+    max-height: 390px;
+    overflow: hidden;
+    align-self: end;
+  }
+  .owner-note {
+    font-size: 0.75rem;
+    color: var(--color-on-surface-variant);
+    margin-top: 1rem;
+  }
+  @media (max-width: 900px) {
+    .owners-intro {
+      gap: 2rem;
     }
-    .hero-actions .btn {
-      width: 100%;
+    .owner-product {
+      gap: 1.5rem;
+      padding: 1.5rem 1.5rem 0;
+    }
+    .owner-promise > strong {
+      font-size: 6rem;
+    }
+  }
+  @media (max-width: 760px) {
+    .owners-hero {
+      padding-top: 2.5rem;
+    }
+    .owners-intro {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    .owners-lede .actions {
+      margin-top: 1.5rem;
+    }
+    .owner-product {
+      grid-template-columns: 1fr;
+      margin-top: 2rem;
+      gap: 1.5rem;
+    }
+    .owner-promise {
+      padding: 0;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.5rem 1.5rem;
+      align-items: center;
+    }
+    .owner-promise p {
+      grid-column: 2;
+      margin: 0;
+    }
+    .owner-promise > strong {
+      grid-row: 1/3;
+      font-size: 5.5rem;
+    }
+    .owner-promise h2 {
+      font-size: 1.1rem;
+      margin: 0;
+    }
+    .owner-platforms {
+      grid-column: 1/-1;
+      margin-top: 0.5rem;
+    }
+    .owner-screen {
+      max-height: 330px;
+    }
+    .owners-intro .eyebrow {
+      font-size: 0.75rem;
     }
   }
 </style>

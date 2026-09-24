@@ -1,28 +1,30 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import Hero from '../components/sections/Hero.astro';
-import FeeExample from '../components/sections/FeeExample.astro';
-import CalculatorSection from '../components/sections/CalculatorSection.astro';
-import TwoDoors from '../components/sections/TwoDoors.astro';
-import HowItWorks from '../components/sections/HowItWorks.astro';
-import ProductShowcase from '../components/sections/ProductShowcase.astro';
-import OwnWebsite from '../components/sections/OwnWebsite.astro';
-import ComparisonTable from '../components/sections/ComparisonTable.astro';
-import Faq from '../components/sections/Faq.astro';
-import FinalCta from '../components/sections/FinalCta.astro';
-import { FAQ_HOME } from '../content/faq';
-import { DEFAULT_OG_DESCRIPTION } from '../content/site';
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/sections/Hero.astro";
+import CommissionStory from "../components/sections/CommissionStory.astro";
+import TwoDoors from "../components/sections/TwoDoors.astro";
+import CalculatorSection from "../components/sections/CalculatorSection.astro";
+import ProductShowcase from "../components/sections/ProductShowcase.astro";
+import OwnWebsite from "../components/sections/OwnWebsite.astro";
+import ComparisonTable from "../components/sections/ComparisonTable.astro";
+import Faq from "../components/sections/Faq.astro";
+import FinalCta from "../components/sections/FinalCta.astro";
+import { FAQ_HOME } from "../content/faq";
+import { DEFAULT_OG_DESCRIPTION } from "../content/site";
 ---
 
-<BaseLayout title={`StayKeep — 0% commission on every booking`} description={DEFAULT_OG_DESCRIPTION} path="/">
+<BaseLayout
+  title="StayKeep — great stays, zero booking commission"
+  description={DEFAULT_OG_DESCRIPTION}
+  path="/"
+>
   <Hero />
-  <FeeExample />
-  <CalculatorSection />
+  <CommissionStory />
   <TwoDoors />
-  <HowItWorks />
   <ProductShowcase variant="home" />
   <OwnWebsite />
+  <CalculatorSection />
   <ComparisonTable />
   <Faq items={FAQ_HOME} />
-  <FinalCta variant="home" />
+  <FinalCta />
 </BaseLayout>

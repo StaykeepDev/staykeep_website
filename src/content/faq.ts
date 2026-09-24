@@ -3,15 +3,12 @@ import { PRICING_FAQ_QUESTION, PRICING_FAQ_ANSWER } from './pricing';
 export interface FaqItem {
   question: string;
   answer: string;
-  /** Set when the answer repeats the "up to 30%" claim — the footnote must travel with it. */
-  showFeeFootnote?: boolean;
 }
 
 const IS_ZERO_COMMISSION_REAL: FaqItem = {
   question: 'Is StayKeep really 0% commission?',
   answer:
-    'Yes, always. StayKeep charges property owners no commission on bookings, and guests pay no booking fee either. Other booking platforms can take up to 30% of a booking between the two — with StayKeep, that stays with the property.',
-  showFeeFootnote: true,
+    'Yes. StayKeep charges 0% commission on bookings, and guests pay no StayKeep booking fee. Property charges and taxes still apply. Any StayKeep plan cost is separate from booking commission.',
 };
 
 const PRICING_FAQ: FaqItem = {

@@ -1,167 +1,402 @@
 ---
-/**
- * Real Manage-web screenshots (seed property "Lakeview Homestay", seed
- * accounts only — never a live customer's data), captured locally against
- * the dev backend on :8092. The dashboard/"Home" screen was deliberately
- * left out: it currently renders an honest "isn't ready yet" placeholder,
- * not fit for marketing use.
- *
- * Each desktop shot has a separate, tighter MOBILE CROP (a different image,
- * not a resized one) — showing the full 1440px-wide screenshot shrunk into
- * a phone-width card made its text illegible (found in review). The crop
- * files are made by scripts/pil crops in this session; see BrowserFrame's
- * own comment for how the two are wired into one <picture>.
- */
-import BrowserFrame from '../BrowserFrame.astro';
-import bookingsImg from '../../assets/screenshots/bookings.png';
-import bookingsMobileImg from '../../assets/screenshots/bookings-mobile.png';
-import calendarImg from '../../assets/screenshots/calendar.png';
-import calendarMobileImg from '../../assets/screenshots/calendar-mobile.png';
-import bookingDetailImg from '../../assets/screenshots/booking-detail.png';
-import bookingDetailMobileImg from '../../assets/screenshots/booking-detail-mobile.png';
-import chatImg from '../../assets/screenshots/chat.png';
-import chatMobileImg from '../../assets/screenshots/chat-mobile.png';
-
+import ManageDemo from "../demos/ManageDemo.astro";
+import Icon from "../Icon.astro";
 interface Props {
-  variant?: 'home' | 'owners';
+  variant?: "home" | "owners";
 }
-
-const { variant = 'home' } = Astro.props;
-
-const bookingDetail = {
-  image: bookingDetailImg,
-  mobileImage: bookingDetailMobileImg,
-  title: 'Booking detail & bill',
-  description: 'The full stay, its room, and its bill — total, paid and balance due.',
-  alt: 'StayKeep Manage booking detail screen showing stay dates, room 202, and a bill with total ₹4,400, paid ₹0 and balance due ₹4,400',
-};
-
-const chat = {
-  image: chatImg,
-  mobileImage: chatMobileImg,
-  title: 'Chat',
-  description: 'One conversation per stay — chat and voice messages with guests.',
-  alt: 'StayKeep Manage chat inbox with a conversation open, showing guest messages about early check-in',
-};
-
-const bookings = {
-  image: bookingsImg,
-  mobileImage: bookingsMobileImg,
-  title: 'Bookings',
-  description: 'Every booking, with guests, stays and status, at a glance.',
-  alt: 'StayKeep Manage bookings list, showing guest names, stay dates, room and guest counts, totals and status for several bookings',
-};
-
-const calendar = {
-  image: calendarImg,
-  mobileImage: calendarMobileImg,
-  title: 'Calendar',
-  description: 'Live availability across every room, night by night.',
-  alt: 'StayKeep Manage calendar view of room availability',
-};
-
-const ownersItems = [bookings, calendar, bookingDetail, chat];
+const { variant = "home" } = Astro.props;
+const allScreens = [
+  {
+    view: "bookings" as const,
+    label: "Bookings",
+    title: "Less juggling.\nMore welcoming.",
+    text: "From the first enquiry to the last check-out. Keep arrivals, room details and booking status in one calm, clear view.",
+    detail: "Every reservation. One place.",
+    icon: "key" as const,
+  },
+  {
+    view: "availability" as const,
+    label: "Availability",
+    title: "Every room.\nEvery possibility.",
+    text: "See what’s booked and what’s free. Plan your days with a room calendar that keeps everyone on the same page.",
+    detail: "Know what’s next, at a glance.",
+    icon: "calendar" as const,
+  },
+  {
+    view: "billing" as const,
+    label: "Billing",
+    title: "A clearer picture.\nDown to the rupee.",
+    text: "Room charges, payments and the balance left to settle. Bring every part of a guest’s bill together.",
+    detail: "From booking to final invoice.",
+    icon: "receipt" as const,
+  },
+  {
+    view: "conversations" as const,
+    label: "Conversations",
+    title: "A warm welcome.\nBefore they arrive.",
+    text: "Keep guest conversations, requests and voice messages together in a dedicated thread for each stay.",
+    detail: "A direct connection to every guest.",
+    icon: "chat" as const,
+  },
+];
+const screens = variant === "home" ? allScreens.slice(0, 3) : allScreens;
 ---
 
-<section class="section" aria-labelledby="showcase-heading">
+<section
+  class="product-story"
+  data-product-story
+  aria-labelledby="showcase-heading"
+>
   <div class="container">
-    <div class="section-heading">
-      <p class="eyebrow">Manage app</p>
-      <h2 class="display-2" id="showcase-heading">See it in action</h2>
-      <p class="lede">Real screens from StayKeep Manage — on Android and on the web.</p>
-    </div>
-
-    {variant === 'home' ? (
-      <div class="showcase-featured">
-        <figure class="showcase-item showcase-item-large">
-          <BrowserFrame
-            src={bookingDetail.image}
-            mobileSrc={bookingDetail.mobileImage}
-            alt={bookingDetail.alt}
-            url="manage.staykeep.com"
-            widths={[640, 960, 1200]}
-            sizes="(min-width: 700px) 90vw, 100vw"
-          />
-          <figcaption>
-            <h3 class="display-4">{bookingDetail.title}</h3>
-            <p class="body-text">{bookingDetail.description}</p>
-          </figcaption>
-        </figure>
-
-        <figure class="showcase-item showcase-item-small">
-          <BrowserFrame
-            src={chat.image}
-            mobileSrc={chat.mobileImage}
-            alt={chat.alt}
-            url="manage.staykeep.com"
-            widths={[480, 768]}
-            sizes="(min-width: 700px) 40vw, 100vw"
-          />
-          <figcaption>
-            <h3 class="display-4">{chat.title}</h3>
-            <p class="body-text">{chat.description}</p>
-          </figcaption>
-        </figure>
+    <div class="product-heading" data-reveal>
+      <div>
+        <p class="eyebrow">Meet StayKeep Manage</p>
+        <h2 id="showcase-heading">Hosting, in harmony.</h2>
       </div>
-    ) : (
-      <div class="showcase-grid">
-        {ownersItems.map((item) => (
-          <figure class="showcase-item">
-            <BrowserFrame
-              src={item.image}
-              mobileSrc={item.mobileImage}
-              alt={item.alt}
-              url="manage.staykeep.com"
-              widths={[480, 768, 960]}
-              sizes="(min-width: 1024px) 480px, 90vw"
-            />
-            <figcaption>
-              <h3 class="display-4">{item.title}</h3>
-              <p class="body-text">{item.description}</p>
-            </figcaption>
-          </figure>
+      <p>
+        One place for the everyday.
+        <br />
+        More time for the extraordinary.
+      </p>
+    </div>
+    <div class="product-walkthrough">
+      <div class="product-chapters">
+        {screens.map((screen, index) => (
+          <article
+            class="product-chapter"
+            data-product-chapter={index}
+            id={`manage-${screen.label.toLowerCase()}`}
+          >
+            <div class="chapter-copy">
+              <span class="chapter-index">
+                0{index + 1} <span>/ {screen.label}</span>
+              </span>
+              <h3>
+                {screen.title.split("\n").map((line) => (
+                  <span>{line}</span>
+                ))}
+              </h3>
+              <p>{screen.text}</p>
+              <div class="chapter-detail">
+                <Icon name={screen.icon} />
+                <span>{screen.detail}</span>
+              </div>
+              {index === screens.length - 1 && (
+                <a
+                  href={
+                    variant === "home"
+                      ? "/owners"
+                      : "https://manage.staykeep.com"
+                  }
+                  class="text-link"
+                >
+                  {variant === "home"
+                    ? "Explore StayKeep Manage"
+                    : "List your property"}{" "}
+                  <Icon name="arrow-right" />
+                </a>
+              )}
+            </div>
+            <div class="chapter-mobile-screen">
+              <ManageDemo view={screen.view} />
+            </div>
+          </article>
         ))}
       </div>
-    )}
+      <div class="product-viewer">
+        <div class="product-device">
+          <div class="device-reflection"></div>
+          {screens.map((screen, index) => (
+            <div
+              class:list={["product-screen", { "is-active": index === 0 }]}
+              data-product-screen={index}
+            >
+              <ManageDemo view={screen.view} />
+            </div>
+          ))}
+        </div>
+        <div class="product-caption">
+          <span>StayKeep Manage · Example property</span>
+          <div class="product-dots">
+            {screens.map((_, index) => (
+              <span
+                class:list={[{ "is-active": index === 0 }]}
+                data-product-dot={index}
+              ></span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
-
 <style>
-  .showcase-grid {
+  .product-story {
+    padding: 6.5rem 0 4rem;
+    background: #fff;
+  }
+  .product-heading {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 3rem;
+    margin-bottom: 3rem;
+  }
+  .product-heading .eyebrow {
+    font-size: 0.65rem;
+    letter-spacing: 0.13em;
+    color: #677084;
+  }
+  .product-heading h2 {
+    font-size: clamp(2.6rem, 5.2vw, 5.2rem);
+    font-weight: 600;
+    line-height: 1.08;
+    letter-spacing: -0.055em;
+  }
+  .product-heading > p {
+    font-size: 0.875rem;
+    line-height: 1.75;
+    color: #687184;
+    padding-bottom: 0.4rem;
+  }
+  .product-walkthrough {
     display: grid;
-    gap: var(--space-xl);
-    grid-template-columns: 1fr;
+    grid-template-columns: 0.72fr 1.28fr;
+    gap: 4rem;
+    align-items: start;
   }
-
-  .showcase-item {
-    margin: 0;
+  .product-chapter {
+    padding-block: 3rem;
+  }
+  .chapter-index {
+    color: var(--color-primary);
+    font-size: 0.7rem;
+    letter-spacing: 0.04em;
+    display: inline-block;
+    margin-bottom: 1.4rem;
+  }
+  .chapter-index > span {
+    color: #798193;
+    margin-left: 0.75rem;
+  }
+  .chapter-copy h3 {
+    font-size: clamp(2rem, 3.2vw, 3.4rem);
+    line-height: 1.14;
+    letter-spacing: -0.05em;
+    font-weight: 600;
+  }
+  .chapter-copy h3 > span {
+    display: block;
+  }
+  .chapter-copy > p {
+    font-size: 0.9rem;
+    line-height: 1.8;
+    color: #697185;
+    margin-top: 1.3rem;
+    max-width: 26rem;
+  }
+  .chapter-detail {
     display: flex;
-    flex-direction: column;
-    gap: var(--space-sm);
+    gap: 0.75rem;
+    align-items: center;
+    margin-top: 1.8rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #667083;
   }
-
-  .showcase-item figcaption {
+  .chapter-detail :global(.icon) {
+    width: 1.1rem;
+    height: 1.1rem;
+    color: var(--color-primary);
+  }
+  .chapter-copy .text-link {
+    margin-top: 1.5rem;
+    font-size: 0.8rem;
+  }
+  .chapter-copy .text-link :global(.icon) {
+    width: 1rem;
+  }
+  .chapter-mobile-screen {
+    margin-top: 2rem;
+  }
+  .product-viewer {
+    display: none;
+  }
+  .product-device {
+    position: relative;
+    border-radius: 16px;
+    transform-style: preserve-3d;
+    background: #eef1f7;
+    border: 7px solid #e6e9ef;
+    box-shadow:
+      0 35px 70px #2a3c5618,
+      0 5px 10px #2a3c5610;
+  }
+  .device-reflection {
+    position: absolute;
+    inset: -40px;
+    z-index: -1;
+    background: radial-gradient(ellipse, #eaf0ff, transparent 68%);
+  }
+  .product-screen {
+    grid-area: 1/1;
+    min-width: 0;
+  }
+  .product-caption {
     display: flex;
-    flex-direction: column;
-    gap: 0.3rem;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.3rem 0.5rem 0;
+    font-size: 0.6rem;
+    color: #8790a1;
   }
-
-  @media (min-width: 700px) {
-    .showcase-grid {
-      grid-template-columns: repeat(2, 1fr);
+  .product-dots {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .product-dots span {
+    width: 5px;
+    height: 5px;
+    border-radius: 10px;
+    background: #d3dbea;
+    transition:
+      width 0.45s,
+      background 0.45s;
+  }
+  .product-dots span.is-active {
+    width: 23px;
+    background: var(--color-primary);
+  }
+  @media (min-width: 901px) and (min-height: 550px) {
+    :global(.motion-enabled) .product-chapter {
+      min-height: 78svh;
+      display: flex;
+      align-items: center;
+      padding-block: 4rem;
+    }
+    :global(.motion-enabled) .chapter-mobile-screen {
+      display: none;
+    }
+    :global(.motion-enabled) .product-viewer {
+      display: block;
+      position: sticky;
+      top: calc(var(--header-height) + 2rem);
+      padding-top: 0;
+      perspective: 1200px;
+    }
+    :global(.motion-enabled) .product-device {
+      display: grid;
+      transform: rotateY(calc(-9deg * (1 - var(--device-open, 0))))
+        rotateX(calc(5deg * (1 - var(--device-open, 0))))
+        scale(calc(0.95 + 0.05 * var(--device-open, 0)));
+    }
+    :global(.motion-enabled) .product-screen {
+      opacity: 0;
+      transform: translate3d(0, 24px, 0) scale(0.985);
+      transition:
+        opacity 0.55s ease,
+        transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
+      visibility: hidden;
+    }
+    :global(.motion-enabled) .product-screen.is-active {
+      opacity: 1;
+      transform: translate3d(0, 0, 0) scale(1);
+      z-index: 1;
+      pointer-events: auto;
+      visibility: visible;
+    }
+    :global(.motion-enabled) .chapter-copy {
+      opacity: 0.22;
+      transition: opacity 0.5s;
+    }
+    :global(.motion-enabled) .product-chapter.is-active .chapter-copy,
+    :global(.motion-enabled) .product-chapter:focus-within .chapter-copy {
+      opacity: 1;
     }
   }
-
-  /* Home: one large shot at full content width, the other smaller and
-     below it (not squeezed into an equal half-width column — that made
-     both too small to read on desktop, found in review). */
-  .showcase-featured {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-xl);
+  @media (max-width: 1100px) {
+    .product-walkthrough {
+      gap: 2rem;
+      grid-template-columns: 0.8fr 1.2fr;
+    }
   }
-
-  .showcase-item-small {
-    max-width: 30rem;
+  @media (min-width: 901px) and (max-height: 800px) {
+    :global(.motion-enabled) .product-viewer {
+      top: calc(var(--header-height) + 1rem);
+    }
+    .product-caption {
+      padding-top: 0.75rem;
+    }
+  }
+  @media (max-width: 900px) {
+    .product-story {
+      padding-block: 4rem;
+    }
+    .product-heading {
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    .product-heading > p {
+      margin-top: 1.3rem;
+    }
+    .product-walkthrough {
+      display: block;
+    }
+    .product-chapter {
+      padding-block: 3rem;
+      border-bottom: 1px solid #e6eaf1;
+    }
+    .product-chapter:last-child {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+    .chapter-copy h3 {
+      font-size: clamp(2rem, 6.5vw, 3rem);
+    }
+    .chapter-copy > p {
+      max-width: 35rem;
+    }
+    .chapter-mobile-screen {
+      padding: 0.6rem;
+      background: #f3f5fa;
+      border-radius: 18px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce), (max-height: 549px) {
+    .product-walkthrough {
+      display: block;
+    }
+    .product-chapters {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 2.5rem;
+    }
+    .product-chapter {
+      min-width: 0;
+    }
+    .product-viewer {
+      display: none;
+    }
+  }
+  @media (max-width: 700px) {
+    .product-chapters {
+      display: block;
+    }
+  }
+  :global(html:not(.motion-enabled)) .product-walkthrough {
+    display: block;
+  }
+  :global(html:not(.motion-enabled)) .product-chapters {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2.5rem;
+  }
+  @media (max-width: 700px) {
+    :global(html:not(.motion-enabled)) .product-chapters {
+      display: block;
+    }
   }
 </style>

@@ -1,0 +1,256 @@
+<div class="motion-preference container">
+  <span>Made for a more direct connection.</span>
+  <button type="button" data-motion-toggle aria-pressed="false" hidden>
+    <span class="motion-toggle-icon" aria-hidden="true">
+      ◉
+    </span>
+    <span data-motion-label>Reduce motion</span>
+  </button>
+</div>
+<script>
+  const root = document.documentElement;
+  const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const control = document.querySelector<HTMLButtonElement>(
+    "[data-motion-toggle]",
+  );
+  const controlLabel = document.querySelector<HTMLElement>(
+    "[data-motion-label]",
+  );
+  const scenes = [
+    ...document.querySelectorAll<HTMLElement>("[data-scroll-scene]"),
+  ];
+  const liftElements = [
+    ...document.querySelectorAll<HTMLElement>("[data-scroll-lift]"),
+  ];
+  const stories = [
+    ...document.querySelectorAll<HTMLElement>("[data-product-story]"),
+  ].map((element) => ({
+    element,
+    chapters: [
+      ...element.querySelectorAll<HTMLElement>("[data-product-chapter]"),
+    ],
+    screens: [
+      ...element.querySelectorAll<HTMLElement>("[data-product-screen]"),
+    ],
+    dots: [...element.querySelectorAll<HTMLElement>("[data-product-dot]")],
+    active: -1,
+  }));
+  const reveals = [
+    ...document.querySelectorAll<HTMLElement>(
+      "[data-reveal], .section-heading, .steps-heading, .feature-grid > li, .steps > li, .website-copy, .website-preview, .calculator-title, .final-cta, .door, .about-intro, .contact-heading, .chapter-mobile-screen",
+    ),
+  ];
+  let userReduced = false;
+  try {
+    userReduced = localStorage.getItem("staykeep-reduced-motion") === "true";
+  } catch {
+    /* Storage is optional. */
+  }
+  let enabled = false;
+  let frame = 0;
+  let observer: IntersectionObserver | undefined;
+  const clamp = (value: number) => Math.min(1, Math.max(0, value));
+  const ease = (value: number) => value * value * (3 - 2 * value);
+  const variable = (element: HTMLElement, name: string, value: number) =>
+    element.style.setProperty(name, value.toFixed(4));
+
+  // All layout reads happen before style writes. Only a scroll/resize requests a frame;
+  // there is no perpetual animation loop or wheel/touch interception.
+  function render() {
+    frame = 0;
+    if (!enabled) return;
+    const viewport = window.innerHeight;
+    const header =
+      document.querySelector<HTMLElement>(".site-header")?.offsetHeight ?? 72;
+    const sceneMeasurements = scenes.map((element) => ({
+      element,
+      rect: element.getBoundingClientRect(),
+      pinHeight: element.firstElementChild?.clientHeight ?? viewport - header,
+    }));
+    const liftMeasurements = liftElements.map((element) => ({
+      element,
+      rect: element.getBoundingClientRect(),
+    }));
+    const storyMeasurements = stories.map((story) => ({
+      story,
+      rect: story.element.getBoundingClientRect(),
+      chapters: story.chapters.map((chapter) =>
+        chapter.getBoundingClientRect(),
+      ),
+    }));
+    for (const { element, rect, pinHeight } of sceneMeasurements) {
+      if (rect.bottom < -viewport || rect.top > viewport * 2) continue;
+      const progress = clamp(
+        (header - rect.top) / Math.max(1, rect.height - pinHeight),
+      );
+      variable(element, "--scene-progress", progress);
+      if (element.dataset.scrollScene === "escape") {
+        variable(element, "--open", ease(clamp(progress / 0.6)));
+        variable(element, "--copy", ease(clamp((progress - 0.06) / 0.4)));
+      } else {
+        variable(element, "--keep", ease(clamp((progress - 0.16) / 0.58)));
+      }
+    }
+    for (const { element, rect } of liftMeasurements) {
+      if (rect.bottom < 0 || rect.top > viewport) continue;
+      variable(
+        element,
+        "--lift",
+        clamp((viewport - rect.top) / (viewport + rect.height)),
+      );
+    }
+    for (const { story, rect, chapters } of storyMeasurements) {
+      if (rect.bottom < 0 || rect.top > viewport) continue;
+      let active = 0;
+      let distance = Infinity;
+      chapters.forEach((chapter, index) => {
+        const delta = Math.abs(
+          chapter.top + chapter.height / 2 - (viewport + header) / 2,
+        );
+        if (delta < distance) {
+          distance = delta;
+          active = index;
+        }
+      });
+      variable(
+        story.element,
+        "--device-open",
+        ease(clamp((viewport * 0.5 - chapters[0].top) / (viewport * 0.5))),
+      );
+      if (story.active !== active) {
+        story.active = active;
+        story.chapters.forEach((chapter, index) =>
+          chapter.classList.toggle("is-active", index === active),
+        );
+        story.screens.forEach((screen, index) =>
+          screen.classList.toggle("is-active", index === active),
+        );
+        story.dots.forEach((dot, index) =>
+          dot.classList.toggle("is-active", index === active),
+        );
+      }
+    }
+  }
+  function schedule() {
+    if (enabled && !frame) frame = requestAnimationFrame(render);
+  }
+  function configure() {
+    enabled = !preference.matches && !userReduced;
+    root.classList.toggle("motion-enabled", enabled);
+    root.classList.toggle("motion-reduced", !enabled);
+    observer?.disconnect();
+    reveals.forEach((element) => {
+      element.classList.remove("reveal-ready");
+    });
+    if (enabled && "IntersectionObserver" in window) {
+      observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-revealed");
+              observer?.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.08, rootMargin: "0px 0px -24px 0px" },
+      );
+      reveals.forEach((element, index) => {
+        // Content already visible (including a restored deep scroll position) is never hidden.
+        if (element.getBoundingClientRect().top < window.innerHeight - 24)
+          element.classList.add("is-revealed");
+        element.style.setProperty("--reveal-delay", `${(index % 3) * 55}ms`);
+        element.classList.add("reveal-ready");
+        observer?.observe(element);
+      });
+    }
+    if (control && controlLabel) {
+      control.hidden = false;
+      control.disabled = preference.matches;
+      control.setAttribute("aria-pressed", String(!enabled));
+      controlLabel.textContent = preference.matches
+        ? "Reduced motion · device setting"
+        : userReduced
+          ? "Enable scroll effects"
+          : "Reduce motion";
+    }
+    schedule();
+  }
+  control?.addEventListener("click", () => {
+    userReduced = !userReduced;
+    try {
+      localStorage.setItem("staykeep-reduced-motion", String(userReduced));
+    } catch {
+      /* Storage is optional. */
+    }
+    configure();
+  });
+  preference.addEventListener("change", configure);
+  window.addEventListener("scroll", schedule, { passive: true });
+  window.addEventListener("resize", schedule, { passive: true });
+  window.addEventListener("pageshow", schedule);
+  document.fonts.ready.then(schedule);
+  document.addEventListener("focusin", (event) => {
+    if (event.target instanceof HTMLElement)
+      event.target.closest(".reveal-ready")?.classList.add("is-revealed");
+  });
+  configure();
+</script>
+<style is:global>
+  .motion-preference {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding-block: 1rem;
+    color: #788092;
+    font-size: 0.65rem;
+  }
+  .motion-preference button {
+    display: inline-flex;
+    gap: 0.5rem;
+    align-items: center;
+    border: 0;
+    background: transparent;
+    padding: 0.5rem 0 0.5rem 0.5rem;
+    font-size: 0.65rem;
+  }
+  .motion-preference button[hidden] {
+    display: none;
+  }
+  .motion-toggle-icon {
+    font-size: 0.8rem;
+    color: var(--color-primary);
+  }
+  .motion-enabled .reveal-ready {
+    transition:
+      opacity 0.85s var(--ease-standard) var(--reveal-delay, 0ms),
+      transform 0.95s var(--ease-standard) var(--reveal-delay, 0ms);
+  }
+  .motion-enabled .reveal-ready:not(.is-revealed) {
+    opacity: 0;
+    transform: translate3d(0, 32px, 0);
+  }
+  .motion-enabled .reveal-ready:focus-within {
+    opacity: 1;
+    transform: none;
+  }
+  .motion-enabled [data-scroll-lift] {
+    transform: perspective(1200px)
+      translate3d(0, calc(35px - 70px * var(--lift, 0.5)), 0)
+      rotateX(calc(3deg - 6deg * var(--lift, 0.5)));
+  }
+  .motion-reduced *,
+  .motion-reduced *::before,
+  .motion-reduced *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .motion-reduced {
+    scroll-behavior: auto !important;
+  }
+  @media (max-width: 600px) {
+    .motion-preference > span {
+      max-width: 140px;
+    }
+  }
+</style>

@@ -1,6 +1,6 @@
 ---
-import { getImage } from 'astro:assets';
-import type { ImageMetadata } from 'astro';
+import { getImage } from "astro:assets";
+import type { ImageMetadata } from "astro";
 
 interface Props {
   src: ImageMetadata;
@@ -16,13 +16,22 @@ interface Props {
   sizes?: string;
 }
 
-const { src, mobileSrc, alt, url = 'manage.staykeep.com', widths, sizes } = Astro.props;
+const {
+  src,
+  mobileSrc,
+  alt,
+  url = "manage.staykeep.com",
+  widths,
+  sizes,
+} = Astro.props;
 
-const desktopImg = await getImage({ src, widths, format: 'webp' });
-const mobileImg = mobileSrc ? await getImage({ src: mobileSrc, format: 'webp' }) : null;
+const desktopImg = await getImage({ src, widths, format: "webp" });
+const mobileImg = mobileSrc
+  ? await getImage({ src: mobileSrc, format: "webp" })
+  : null;
 ---
 
-<figure class={`browser-frame-shot ${mobileImg ? 'has-mobile-crop' : ''}`}>
+<figure class={`browser-frame-shot ${mobileImg ? "has-mobile-crop" : ""}`}>
   <div class="browser-frame-chrome">
     <span class="browser-dot"></span>
     <span class="browser-dot"></span>
@@ -79,10 +88,10 @@ const mobileImg = mobileSrc ? await getImage({ src: mobileSrc, format: 'webp' })
 
   .browser-frame-url {
     margin-left: 0.5rem;
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     color: var(--color-on-surface-variant);
     background: var(--color-surface-lowest);
-    border-radius: var(--radius-pill);
+    border-radius: 6px;
     padding: 0.15rem 0.6rem;
   }
 

@@ -1,0 +1,259 @@
+---
+interface Props {
+  name: string;
+  description: string;
+  kind: string;
+}
+const { name, description, kind } = Astro.props;
+---
+
+<figure class="interface-demo" data-interface-demo={kind} data-demo-name={name}>
+  <div class="demo-art" role="img" aria-label={description}>
+    <div aria-hidden="true">
+      <slot />
+    </div>
+  </div>
+  <figcaption class="demo-controls">
+    <span>
+      <i></i> Illustrative demo
+    </span>
+    <button
+      type="button"
+      data-demo-control
+      hidden
+      aria-label={`Play ${name} demo`}
+    >
+      <svg viewBox="0 0 16 16" aria-hidden="true" class="demo-play-icon">
+        <path d="m6 4 5 4-5 4Z" />
+      </svg>
+      <svg viewBox="0 0 16 16" aria-hidden="true" class="demo-pause-icon">
+        <path d="M6 4v8M10 4v8" />
+      </svg>
+      <svg viewBox="0 0 16 16" aria-hidden="true" class="demo-replay-icon">
+        <path d="M3 7a5 5 0 1 1 1 4M3 3v4h4" />
+      </svg>
+      <span data-demo-label>Play demo</span>
+    </button>
+  </figcaption>
+  <div class="demo-timeline" aria-hidden="true">
+    <span data-demo-progress></span>
+  </div>
+</figure>
+
+<script>
+  // Each preview plays once when visible, pauses offscreen, and can be replayed.
+  // It is a visual illustration: no fake controls can submit a real booking.
+  const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const demos = [
+    ...document.querySelectorAll<HTMLElement>("[data-interface-demo]"),
+  ].map((element) => ({
+    element,
+    button: element.querySelector<HTMLButtonElement>("[data-demo-control]"),
+    label: element.querySelector<HTMLElement>("[data-demo-label]"),
+    screen: element.closest<HTMLElement>("[data-product-screen]"),
+    visible: false,
+    started: false,
+    complete: false,
+    paused: false,
+  }));
+  type Demo = (typeof demos)[number];
+  const reduced = () =>
+    media.matches ||
+    document.documentElement.classList.contains("motion-reduced");
+  function sync(demo: Demo) {
+    const still = reduced();
+    const active = !demo.screen || demo.screen.classList.contains("is-active");
+    const visible = demo.visible && active;
+    if (still) {
+      demo.started = false;
+      demo.complete = false;
+      demo.element.classList.remove("is-started", "is-playing", "is-complete");
+    } else {
+      if (visible && !demo.started) {
+        demo.started = true;
+        demo.element.classList.add("is-started");
+      }
+      demo.element.classList.toggle(
+        "is-playing",
+        visible && demo.started && !demo.paused && !demo.complete,
+      );
+      demo.element.classList.toggle("is-complete", demo.complete);
+    }
+    const action = demo.complete ? "Replay" : demo.paused ? "Resume" : "Pause";
+    if (demo.button && demo.label) {
+      demo.button.hidden = still;
+      demo.label.textContent = `${action} demo`;
+      demo.button.setAttribute(
+        "aria-label",
+        `${action} ${demo.element.dataset.demoName} demo`,
+      );
+    }
+  }
+  const observer = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        const demo = demos.find((item) => item.element === entry.target);
+        if (!demo) continue;
+        demo.visible = entry.isIntersecting;
+        sync(demo);
+      }
+    },
+    { threshold: 0.3 },
+  );
+  for (const demo of demos) {
+    observer.observe(demo.element);
+    if (demo.screen)
+      new MutationObserver(() => sync(demo)).observe(demo.screen, {
+        attributes: true,
+        attributeFilter: ["class"],
+      });
+    demo.element
+      .querySelector("[data-demo-progress]")
+      ?.addEventListener("animationend", () => {
+        demo.complete = true;
+        sync(demo);
+      });
+    demo.button?.addEventListener("click", () => {
+      if (demo.complete) {
+        demo.started = false;
+        demo.complete = false;
+        demo.paused = false;
+        demo.element.classList.remove(
+          "is-started",
+          "is-playing",
+          "is-complete",
+        );
+        requestAnimationFrame(() => requestAnimationFrame(() => sync(demo)));
+      } else {
+        demo.paused = !demo.paused;
+        sync(demo);
+      }
+    });
+  }
+  new MutationObserver(() => demos.forEach(sync)).observe(
+    document.documentElement,
+    { attributes: true, attributeFilter: ["class"] },
+  );
+  media.addEventListener("change", () => demos.forEach(sync));
+</script>
+
+<style>
+  .interface-demo {
+    container-type: inline-size;
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid #e1e5ed;
+    border-radius: 17px;
+    color: #202735;
+    box-shadow: 0 22px 60px #2836530b;
+  }
+  .demo-art {
+    overflow: hidden;
+  }
+  .demo-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 44px;
+    padding: 8px 16px;
+    font-size: 10px;
+    border-top: 1px solid #e9ecf2;
+    background: #fff;
+    gap: 10px;
+  }
+  .demo-controls > span {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    color: #737d8e;
+  }
+  .demo-controls i {
+    width: 5px;
+    height: 5px;
+    background: #d0a957;
+    border-radius: 50%;
+  }
+  .demo-controls button {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 10px;
+    font-weight: 600;
+    border: 0;
+    background: #f2f4f8;
+    border-radius: 20px;
+    padding: 5px 10px;
+    min-height: 28px;
+  }
+  .demo-controls button[hidden] {
+    display: none;
+  }
+  .demo-controls svg {
+    width: 14px;
+    height: 14px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .demo-play-icon {
+    fill: currentColor !important;
+  }
+  .demo-pause-icon,
+  .demo-replay-icon {
+    display: none;
+  }
+  .is-playing .demo-play-icon,
+  .is-complete .demo-play-icon {
+    display: none;
+  }
+  .is-playing .demo-pause-icon,
+  .is-complete .demo-replay-icon {
+    display: block;
+  }
+  .demo-timeline {
+    height: 2px;
+    overflow: hidden;
+    background: #eef1f6;
+  }
+  .demo-timeline span {
+    display: block;
+    height: 100%;
+    background: #b0bbd4;
+    transform-origin: left;
+  }
+  .is-started .demo-timeline span {
+    animation: demo-timeline 10s linear both;
+    animation-play-state: paused;
+  }
+  .is-playing .demo-timeline span {
+    animation-play-state: running;
+  }
+  @keyframes demo-timeline {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
+</style>
+<style is:global>
+  [data-interface-demo].is-started [data-demo-animate] {
+    animation-duration: 10s;
+    animation-timing-function: cubic-bezier(0.22, 0.68, 0.24, 1);
+    animation-fill-mode: both;
+    animation-play-state: paused;
+  }
+  [data-interface-demo].is-playing [data-demo-animate] {
+    animation-play-state: running;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    [data-interface-demo] *,
+    [data-interface-demo] *::before,
+    [data-interface-demo] *::after {
+      animation: none !important;
+    }
+  }
+</style>

@@ -1,79 +1,137 @@
 ---
-import Icon from '../Icon.astro';
-import PhoneShot from '../PhoneShot.astro';
-import websitePreviewPhoneImg from '../../assets/screenshots/website-preview-phone.png';
-
-const points = [
-  'Drag-and-drop sections, your own photos and videos',
-  'Rooms with full details, and places to visit nearby',
-  'A blog, and your own colours',
-  'A booking widget — bookings come straight to you, at 0% commission',
-];
+import Icon from "../Icon.astro";
+import PropertyWebsiteDemo from "../demos/PropertyWebsiteDemo.astro";
+import { MANAGE_URL } from "../../content/site";
+interface Props {
+  detailed?: boolean;
+}
+const { detailed = false } = Astro.props;
 ---
 
-<section class="section" aria-labelledby="own-website-heading">
+<section class="section website-section" aria-labelledby="own-website-heading">
   <div class="container">
-    <div class="own-website card card-pad-lg">
-      <div class="own-website-copy">
-        <p class="eyebrow">Free to set up</p>
-        <h2 class="display-2" id="own-website-heading">Your own website</h2>
+    <div class="website-grid">
+      <div class="website-preview" data-scroll-lift>
+        <PropertyWebsiteDemo />
+        <p>Your photos. Your story. Your booking link.</p>
+      </div>
+      <div class="website-copy">
+        <span class="pill">Free to set up</span>
+        <h2 class="display-2" id="own-website-heading">
+          Your place deserves
+          <br />
+          its own space online.
+        </h2>
         <p class="lede">
-          Every StayKeep owner can set up a website at <strong>yourname.staykeep.com</strong> —
-          no separate developer, no separate fee.
+          Make a website that feels like your property. Share it with guests and
+          take bookings directly.
         </p>
-        <ul class="own-website-list">
-          {points.map((point) => (
-            <li>
-              <Icon name="check" size={18} class="check-yes" />
-              <span class="body-text">{point}</span>
-            </li>
-          ))}
+        <p class="website-address">
+          <Icon name="globe" />
+          <span>
+            yourname<strong>.staykeep.com</strong>
+          </span>
+        </p>
+        <ul>
+          <li>
+            <Icon name="check" />
+            Drag-and-drop sections, photos and videos
+          </li>
+          <li>
+            <Icon name="check" />
+            Room details, nearby places and your own blog
+          </li>
+          <li>
+            <Icon name="check" />
+            Your colours and a direct booking widget
+          </li>
         </ul>
-        <a href="/owners" class="btn btn-primary">
-          See it for owners
-          <Icon name="arrow-right" size={18} />
+        <a href={detailed ? MANAGE_URL : "/owners"} class="text-link">
+          {detailed ? "Create your property website" : "See what’s included"}{" "}
+          <Icon name="arrow-right" />
         </a>
       </div>
-
-      <PhoneShot
-        src={websitePreviewPhoneImg}
-        alt="Lakeview Homestay's real StayKeep website, shown on a phone: a teal hero with the property name, Alappuzha Kerala, and a Check availability button"
-        widths={[280, 420]}
-        sizes="(min-width: 900px) 280px, 60vw"
-      />
     </div>
   </div>
 </section>
-
 <style>
-  .own-website {
+  .website-section {
+    background: #fffaf0;
+  }
+  .website-grid {
     display: grid;
-    gap: var(--space-xl);
-    grid-template-columns: 1fr;
+    grid-template-columns: 1.1fr 1fr;
     align-items: center;
+    gap: 4rem;
   }
-
-  .own-website-list {
-    list-style: none;
+  .website-copy > .pill {
+    background: #f9e9c4;
+    border: 0;
+    color: #775111;
+    margin-bottom: 1.5rem;
+    font-size: 0.8125rem;
+  }
+  .website-copy > .lede {
+    margin-top: 1.5rem;
+  }
+  .website-address {
     display: flex;
-    flex-direction: column;
-    gap: 0.6rem;
-    margin-top: var(--space-md);
+    gap: 0.7rem;
+    align-items: center;
+    background: white;
+    border: 1px solid #e9dfc9;
+    border-radius: 10px;
+    padding: 1rem;
+    margin: 1.5rem 0;
+    color: #606b80;
+    font-size: 1rem;
+    overflow-wrap: anywhere;
   }
-
-  .own-website-list li {
+  .website-address strong {
+    color: #18233e;
+    font-weight: 600;
+  }
+  .website-address > .icon {
+    width: 1.2rem;
+  }
+  .website-copy ul {
+    list-style: none;
+    display: grid;
+    gap: 0.85rem;
+    font-size: 0.875rem;
+    margin-bottom: 1.5rem;
+  }
+  .website-copy li {
     display: flex;
     align-items: flex-start;
     gap: 0.6rem;
   }
-
-  .own-website-copy .btn {
-    margin-top: var(--space-lg);
+  .website-copy li .icon {
+    width: 1rem;
+    color: #93712f;
   }
-
-  @media (min-width: 900px) {
-    .own-website {
-      grid-template-columns: 1.1fr 1fr;
+  .website-preview {
+    min-width: 0;
+  }
+  .website-preview > p {
+    margin-top: 1rem;
+    color: #756954;
+    font-size: 0.8125rem;
+    text-align: center;
+  }
+  @media (max-width: 900px) {
+    .website-grid {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+    .website-copy {
+      grid-row: 1;
+    }
+    .website-preview {
+      max-width: 100%;
+    }
+    .website-address {
+      font-size: 0.875rem;
     }
   }
 </style>

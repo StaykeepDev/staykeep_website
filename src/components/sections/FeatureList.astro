@@ -1,7 +1,6 @@
 ---
-import Icon from '../Icon.astro';
-import type { FeatureItem } from '../../content/features';
-
+import Icon from "../Icon.astro";
+import type { FeatureItem } from "../../content/features";
 interface Props {
   eyebrow: string;
   heading: string;
@@ -9,23 +8,28 @@ interface Props {
   items: FeatureItem[];
   id?: string;
 }
-
-const { eyebrow, heading, lede, items, id } = Astro.props;
-const headingId = id ?? 'feature-list-heading';
+const {
+  eyebrow,
+  heading,
+  lede,
+  items,
+  id = "feature-list-heading",
+} = Astro.props;
 ---
 
-<section class="section" aria-labelledby={headingId}>
+<section class="section features-section" aria-labelledby={id}>
   <div class="container">
     <div class="section-heading">
       <p class="eyebrow">{eyebrow}</p>
-      <h2 class="display-2" id={headingId}>{heading}</h2>
+      <h2 class="display-2" id={id}>
+        {heading}
+      </h2>
       {lede && <p class="lede">{lede}</p>}
     </div>
-
     <ul class="feature-grid">
       {items.map((item) => (
-        <li class="card feature-item">
-          <div class="icon-circle"><Icon name={item.icon} /></div>
+        <li>
+          <Icon name={item.icon} />
           <h3 class="display-4">{item.title}</h3>
           <p class="body-text">{item.description}</p>
         </li>
@@ -33,31 +37,44 @@ const headingId = id ?? 'feature-list-heading';
     </ul>
   </div>
 </section>
-
 <style>
+  .features-section {
+    background: #f6f8fc;
+  }
   .feature-grid {
     list-style: none;
     display: grid;
-    gap: var(--space-md);
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem 3rem;
   }
-
-  .feature-item {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    align-items: flex-start;
+  .feature-grid li {
+    border-top: 1px solid #dce3ef;
+    padding-top: 1.5rem;
   }
-
-  @media (min-width: 640px) {
+  .feature-grid li > .icon {
+    width: 1.6rem;
+    height: 1.6rem;
+    color: var(--color-primary);
+    margin-bottom: 1.25rem;
+  }
+  .feature-grid h3 {
+    font-size: 1.1rem;
+    line-height: 1.4;
+  }
+  .feature-grid p {
+    margin-top: 0.75rem;
+    font-size: 0.875rem;
+  }
+  @media (max-width: 950px) {
     .feature-grid {
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
     }
   }
-
-  @media (min-width: 1024px) {
+  @media (max-width: 580px) {
     .feature-grid {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
     }
   }
 </style>

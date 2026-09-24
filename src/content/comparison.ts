@@ -1,38 +1,35 @@
 export type CompareCell =
-  | { kind: 'text'; value: string }
-  | { kind: 'bool'; value: boolean; label?: string };
-
+  | { kind: "text"; value: string }
+  | { kind: "bool"; value: boolean; label?: string };
 export interface CompareRow {
   label: string;
   typical: CompareCell;
   staykeep: CompareCell;
 }
-
-/** Worded generically and with "typically" — no competitor is named. */
 export const COMPARISON_ROWS: CompareRow[] = [
   {
-    label: 'Commission on bookings',
-    typical: { kind: 'text', value: 'Typically 15–25%' },
-    staykeep: { kind: 'text', value: '0%' },
+    label: "Commission on bookings",
+    typical: { kind: "text", value: "Varies by platform" },
+    staykeep: { kind: "text", value: "0% — always" },
   },
   {
-    label: 'Guest booking fee',
-    typical: { kind: 'text', value: 'Often added on top' },
-    staykeep: { kind: 'text', value: 'None' },
+    label: "Guest booking fee",
+    typical: { kind: "text", value: "May apply" },
+    staykeep: { kind: "text", value: "No booking fee" },
   },
   {
-    label: 'You own the guest relationship',
-    typical: { kind: 'bool', value: false },
-    staykeep: { kind: 'bool', value: true },
+    label: "Guest communication",
+    typical: { kind: "text", value: "Platform rules apply" },
+    staykeep: { kind: "text", value: "Direct with your guest" },
   },
   {
-    label: 'Your own website',
-    typical: { kind: 'bool', value: false },
-    staykeep: { kind: 'bool', value: true, label: 'Free to set up' },
+    label: "Your own booking website",
+    typical: { kind: "text", value: "Varies by provider" },
+    staykeep: { kind: "text", value: "Free to set up" },
   },
   {
-    label: 'Direct payment to you',
-    typical: { kind: 'bool', value: false },
-    staykeep: { kind: 'bool', value: true },
+    label: "Property management",
+    typical: { kind: "text", value: "Varies by provider" },
+    staykeep: { kind: "text", value: "Bookings, staff & billing" },
   },
 ];

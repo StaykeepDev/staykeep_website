@@ -1,20 +1,66 @@
 ---
-import SavingsCalculator from '../islands/SavingsCalculator';
-import { FEE_FOOTNOTE } from '../../content/site';
+import SavingsCalculator from "../islands/SavingsCalculator";
 ---
 
-<section class="section" id="calculator" aria-labelledby="calculator-heading">
+<section
+  class="section calculator-section"
+  id="calculator"
+  aria-labelledby="calculator-heading"
+>
   <div class="container">
-    <div class="section-heading">
-      <p class="eyebrow">See your own numbers</p>
-      <h2 class="display-2" id="calculator-heading">What could you save?</h2>
-      <p class="lede">Move the slider or type your own numbers. No sign-up needed.</p>
+    <div class="calculator-title">
+      <div class="section-heading">
+        <p class="eyebrow">The difference adds up</p>
+        <h2 class="display-2" id="calculator-heading">
+          Your bookings.
+          <br />
+          More of your earnings.
+        </h2>
+      </div>
+      <p class="lede">
+        What could you keep by booking directly? Use your own numbers to compare
+        commission costs.
+      </p>
     </div>
-
-    <div class="card card-pad-lg calc-card">
-      <SavingsCalculator client:visible defaultAmount={5000} defaultBookingsPerMonth={20} />
+    <div class="card card-pad-lg">
+      <SavingsCalculator client:visible />
     </div>
-
-    <p class="fee-footnote">{FEE_FOOTNOTE}</p>
+    <p class="fee-footnote">
+      An illustration, not a quote. Enter your platform’s commission rate for a
+      relevant comparison. Estimates show commission avoided, before taxes,
+      payment charges and any StayKeep plan cost. Actual platform fees vary.
+    </p>
   </div>
 </section>
+<style>
+  .calculator-section {
+    background: #f3f6fc;
+  }
+  .calculator-title {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+    margin-bottom: 2.5rem;
+  }
+  .calculator-title .section-heading {
+    margin: 0;
+  }
+  .calculator-title > .lede {
+    max-width: 29rem;
+    justify-self: end;
+  }
+  .calculator-section .card {
+    border-color: #dbe3f0;
+    box-shadow: 0 12px 30px #172b5606;
+  }
+  @media (max-width: 760px) {
+    .calculator-title {
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+    .calculator-title > .lede {
+      justify-self: start;
+    }
+  }
+</style>

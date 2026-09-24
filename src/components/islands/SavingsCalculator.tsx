@@ -1,136 +1,112 @@
-import { useId, useMemo, useState } from 'react';
-
-/**
- * The savings calculator — the one place on the site that needs real
- * interactivity, so it is the one React island (hydrated with
- * `client:visible` from `CalculatorSection.astro`).
- *
- * Astro pre-renders this to static HTML at build time using the default
- * props below, so the ₹5,000 x 20-bookings figures are already correct in
- * the page's initial HTML before any JavaScript runs — only the ability to
- * change the numbers depends on hydration.
- */
-
-const AMOUNT_MIN = 1000;
-const AMOUNT_MAX = 50000;
-const AMOUNT_STEP = 500;
-const FEE_RATE = 0.3; // "up to 30%" — the ceiling the copy quotes throughout.
-
-const inrFormatter = new Intl.NumberFormat('en-IN', {
-  style: 'currency',
-  currency: 'INR',
+import { useId, useState } from "react";
+const money = new Intl.NumberFormat("en-IN", {
+  style: "currency",
+  currency: "INR",
   maximumFractionDigits: 0,
 });
-
-function formatInr(value: number): string {
-  return inrFormatter.format(Math.round(value));
-}
-
-function clamp(value: number, min: number, max: number): number {
-  if (Number.isNaN(value)) return min;
-  return Math.min(max, Math.max(min, value));
-}
-
+const clamp = (value: number, min: number, max: number) =>
+  Number.isFinite(value) ? Math.min(max, Math.max(min, value)) : min;
 export interface SavingsCalculatorProps {
   defaultAmount?: number;
   defaultBookingsPerMonth?: number;
 }
-
 export default function SavingsCalculator({
   defaultAmount = 5000,
   defaultBookingsPerMonth = 20,
 }: SavingsCalculatorProps) {
-  const [amount, setAmount] = useState(defaultAmount);
-  const [bookingsPerMonth, setBookingsPerMonth] = useState(defaultBookingsPerMonth);
-
-  const amountRangeId = useId();
-  const amountNumberId = useId();
-  const bookingsId = useId();
-
-  const { feePerBooking, monthlySavings, yearlySavings } = useMemo(() => {
-    const fee = amount * FEE_RATE;
-    const monthly = fee * bookingsPerMonth;
-    return {
-      feePerBooking: fee,
-      monthlySavings: monthly,
-      yearlySavings: monthly * 12,
-    };
-  }, [amount, bookingsPerMonth]);
-
+  const id = useId();
+  const [amountText, setAmountText] = useState(String(defaultAmount));
+  const [bookingsText, setBookingsText] = useState(
+    String(defaultBookingsPerMonth),
+  );
+  const [rateText, setRateText] = useState("15");
+  const amount = clamp(Number(amountText), 0, 50000);
+  const bookings = Math.round(clamp(Number(bookingsText), 0, 300));
+  const rate = clamp(Number(rateText), 0, 40);
+  const monthly = (amount * bookings * rate) / 100;
   return (
     <div className="calc-grid">
       <div className="calc-inputs">
         <div className="field">
-          <label className="field-label" htmlFor={amountRangeId}>
-            Booking amount
+          <label className="field-label" htmlFor={`${id}-amount`}>
+            Average booking value (₹)
           </label>
           <input
-            id={amountRangeId}
-            type="range"
-            className="range-input"
-            min={AMOUNT_MIN}
-            max={AMOUNT_MAX}
-            step={AMOUNT_STEP}
-            value={amount}
-            onChange={(event) => setAmount(Number(event.target.value))}
-            aria-describedby={amountNumberId}
-          />
-          <div className="calc-amount-row">
-            <span aria-hidden="true" className="text-muted">
-              {formatInr(AMOUNT_MIN)}
-            </span>
-            <label className="visually-hidden" htmlFor={amountNumberId}>
-              Booking amount in rupees
-            </label>
-            <input
-              id={amountNumberId}
-              type="number"
-              className="number-input calc-amount-number"
-              min={AMOUNT_MIN}
-              max={AMOUNT_MAX}
-              step={100}
-              value={amount}
-              onChange={(event) =>
-                setAmount(clamp(Number(event.target.value), AMOUNT_MIN, AMOUNT_MAX))
-              }
-            />
-            <span aria-hidden="true" className="text-muted">
-              {formatInr(AMOUNT_MAX)}
-            </span>
-          </div>
-        </div>
-
-        <div className="field">
-          <label className="field-label" htmlFor={bookingsId}>
-            Bookings per month
-          </label>
-          <input
-            id={bookingsId}
+            id={`${id}-amount`}
             type="number"
             className="number-input"
-            min={1}
-            max={300}
-            step={1}
-            value={bookingsPerMonth}
-            onChange={(event) => setBookingsPerMonth(clamp(Number(event.target.value), 1, 300))}
+            min="1000"
+            max="50000"
+            step="100"
+            value={amountText}
+            onChange={(e) => setAmountText(e.target.value)}
+            onBlur={() => setAmountText(String(clamp(amount, 1000, 50000)))}
+          />
+          <label className="visually-hidden" htmlFor={`${id}-range`}>
+            Adjust booking value
+          </label>
+          <input
+            id={`${id}-range`}
+            type="range"
+            className="range-input"
+            min="1000"
+            max="50000"
+            step="100"
+            value={clamp(amount, 1000, 50000)}
+            onChange={(e) => setAmountText(e.target.value)}
           />
         </div>
+        <div className="calc-fields">
+          <div className="field">
+            <label className="field-label" htmlFor={`${id}-bookings`}>
+              Bookings per month
+            </label>
+            <input
+              id={`${id}-bookings`}
+              type="number"
+              className="number-input"
+              min="1"
+              max="300"
+              step="1"
+              value={bookingsText}
+              onChange={(e) => setBookingsText(e.target.value)}
+              onBlur={() => setBookingsText(String(clamp(bookings, 1, 300)))}
+            />
+          </div>
+          <div className="field">
+            <label className="field-label" htmlFor={`${id}-rate`}>
+              Platform commission (%)
+            </label>
+            <input
+              id={`${id}-rate`}
+              type="number"
+              className="number-input"
+              min="0"
+              max="40"
+              step="0.5"
+              value={rateText}
+              onChange={(e) => setRateText(e.target.value)}
+              onBlur={() => setRateText(String(rate))}
+            />
+          </div>
+        </div>
       </div>
-
-      <div className="calc-results" aria-live="polite">
+      <div className="calc-results" aria-live="polite" aria-atomic="true">
         <div className="calc-result-row">
-          <span className="body-text">Fee at up to 30%, per booking</span>
-          <span className="calc-result-value sk-tabular">{formatInr(feePerBooking)}</span>
+          <span className="body-text">Other platform / month</span>
+          <span className="calc-result-value sk-tabular">
+            {money.format(monthly)}
+          </span>
         </div>
         <div className="calc-result-row">
-          <span className="body-text">Your savings, per month</span>
-          <span className="calc-result-value sk-tabular">{formatInr(monthlySavings)}</span>
+          <span className="body-text">StayKeep commission</span>
+          <span className="calc-result-value sk-tabular">₹0</span>
         </div>
         <div className="calc-result-row calc-result-highlight">
-          <span className="body-text">Your savings, per year</span>
-          <span className="calc-result-value calc-result-value-lg sk-tabular">
-            {formatInr(yearlySavings)}
-          </span>
+          <span className="body-text">Commission you could keep / year</span>
+          <strong className="calc-result-value-lg sk-tabular">
+            {money.format(monthly * 12)}
+          </strong>
         </div>
       </div>
     </div>

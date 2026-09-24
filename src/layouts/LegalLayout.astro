@@ -1,11 +1,9 @@
 ---
-import BaseLayout from './BaseLayout.astro';
-
+import BaseLayout from "./BaseLayout.astro";
 interface Section {
   title: string;
   content: string;
 }
-
 interface Props {
   title: string;
   description: string;
@@ -13,49 +11,190 @@ interface Props {
   lastUpdated: string;
   sections: Section[];
 }
-
 const { title, description, path, lastUpdated, sections } = Astro.props;
+const slug = (value: string) =>
+  value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+const policies = [
+  { title: "Privacy policy", path: "/privacy" },
+  { title: "Terms of service", path: "/terms" },
+  { title: "Refund policy", path: "/refund" },
+];
 ---
 
 <BaseLayout title={`${title} | StayKeep`} description={description} path={path}>
-  <article class="section legal-page">
-    <div class="container container-narrow">
-      <h1 class="display-1 legal-title">{title}</h1>
-      <p class="body-text legal-updated">Last updated: {lastUpdated}</p>
-
+  <article>
+    <header class="legal-header">
+      <div class="container">
+        <p class="eyebrow">The details that matter</p>
+        <h1 class="display-1">{title}</h1>
+        <p class="body-text">Last updated: {lastUpdated}</p>
+        <nav aria-label="Policies">
+          {policies.map((policy) => (
+            <a
+              href={policy.path}
+              aria-current={path === policy.path ? "page" : undefined}
+            >
+              {policy.title}
+            </a>
+          ))}
+        </nav>
+      </div>
+    </header>
+    <div class="container legal-grid">
+      <aside>
+        <nav aria-label="On this page">
+          <p class="label">On this page</p>
+          <ol>
+            {sections.map((section) => (
+              <li>
+                <a href={`#${slug(section.title)}`}>{section.title}</a>
+              </li>
+            ))}
+          </ol>
+        </nav>
+      </aside>
       <div class="legal-sections">
-        {sections.map((section) => (
-          <section class="legal-section">
-            <h2 class="display-4">{section.title}</h2>
-            <p class="body-text">{section.content}</p>
+        {sections.map((section, i) => (
+          <section id={slug(section.title)}>
+            <span class="section-count">{String(i + 1).padStart(2, "0")}</span>
+            <div>
+              <h2 class="display-4">{section.title}</h2>
+              <p class="body-text">{section.content}</p>
+            </div>
           </section>
         ))}
+        <div class="legal-contact">
+          <h2 class="display-4">Need a hand?</h2>
+          <p class="body-text">
+            If you have a question about these policies,{" "}
+            <a href="/contact">contact our team</a>.
+          </p>
+        </div>
       </div>
     </div>
   </article>
 </BaseLayout>
-
 <style>
-  .legal-title {
-    font-size: clamp(2.25rem, 1.9rem + 1.6vw, 3.25rem);
+  .legal-header {
+    padding: 4rem 0 0;
+    background: #f5f7fc;
+    border-bottom: 1px solid var(--color-outline-variant);
   }
-
-  .legal-updated {
-    margin-top: var(--space-2xs);
+  .legal-header h1 {
+    font-size: clamp(2.5rem, 4.5vw, 4rem);
   }
-
-  .container-narrow {
-    max-width: 720px;
+  .legal-header > .container > .body-text {
+    margin-top: 1rem;
+    font-size: 0.875rem;
   }
-
-  .legal-sections {
-    margin-top: var(--space-2xl);
+  .legal-header nav {
     display: flex;
-    flex-direction: column;
-    gap: var(--space-xl);
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin-top: 2.5rem;
   }
-
-  .legal-section h2 {
-    margin-bottom: 0.75rem;
+  .legal-header nav a {
+    padding: 1rem 0;
+    font-size: 0.875rem;
+    border-bottom: 2px solid transparent;
+  }
+  .legal-header nav a[aria-current] {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+    font-weight: 600;
+  }
+  .legal-grid {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 5rem;
+    padding-block: 4rem 6rem;
+  }
+  .legal-grid aside nav {
+    position: sticky;
+    top: 120px;
+  }
+  .legal-grid aside .label {
+    font-size: 0.75rem;
+  }
+  .legal-grid ol {
+    list-style: none;
+    margin-top: 1.5rem;
+    display: grid;
+    gap: 1rem;
+  }
+  .legal-grid li a {
+    font-size: 0.8125rem;
+    color: var(--color-on-surface-variant);
+  }
+  .legal-grid li a:hover {
+    color: var(--color-primary);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+  .legal-sections {
+    max-width: 760px;
+    min-width: 0;
+  }
+  .legal-sections > section {
+    display: grid;
+    grid-template-columns: 2rem 1fr;
+    gap: 1rem;
+    padding: 0 0 2.5rem;
+    margin-bottom: 2.5rem;
+    border-bottom: 1px solid var(--color-outline-variant);
+    scroll-margin-top: 120px;
+  }
+  .section-count {
+    font-size: 0.8125rem;
+    color: var(--color-primary);
+    padding-top: 0.2rem;
+  }
+  .legal-sections h2 {
+    margin-bottom: 1rem;
+  }
+  .legal-sections p {
+    overflow-wrap: anywhere;
+  }
+  .legal-contact {
+    background: #f3f6fc;
+    border-radius: 16px;
+    padding: 1.5rem;
+  }
+  .legal-contact h2 {
+    margin-bottom: 0.5rem;
+  }
+  .legal-contact a {
+    color: var(--color-primary);
+    text-decoration: underline;
+  }
+  @media (max-width: 850px) {
+    .legal-grid {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+    .legal-grid aside nav {
+      position: static;
+    }
+    .legal-grid ol {
+      display: flex;
+      gap: 0.75rem 1.5rem;
+      flex-wrap: wrap;
+    }
+    .legal-header {
+      padding-top: 3rem;
+    }
+    .legal-header nav {
+      gap: 1.25rem;
+    }
+    .legal-grid {
+      padding-top: 2.5rem;
+    }
+    .legal-sections > section {
+      grid-template-columns: 1.5rem 1fr;
+      gap: 0.75rem;
+    }
   }
 </style>

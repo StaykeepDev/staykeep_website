@@ -1,0 +1,1352 @@
+---
+import Icon from "../Icon.astro";
+import DemoPlayer from "./DemoPlayer.astro";
+interface Props {
+  view: "bookings" | "availability" | "billing" | "conversations";
+}
+const { view } = Astro.props;
+const titles = {
+  bookings: "Bookings",
+  availability: "Room calendar",
+  billing: "Guest bill",
+  conversations: "Guest messages",
+};
+const descriptions = {
+  bookings:
+    "An illustrative StayKeep dashboard: a new direct booking from Maya arrives for the Lake suite, 12–14 October, worth ₹5,000, with zero booking commission.",
+  availability:
+    "An illustrative room calendar: Maya's new booking fills the Lake suite for 12–14 October and availability updates automatically.",
+  billing:
+    "An illustrative guest bill: two nights at ₹2,500, zero booking commission, ₹5,000 paid and no balance due.",
+  conversations:
+    "An illustrative guest conversation: Maya asks about check-in and receives a welcome message from her host.",
+};
+const guests = [
+  {
+    initials: "AM",
+    name: "Arjun M.",
+    room: "Garden room",
+    dates: "11–13 Oct",
+    total: "₹4,200",
+    status: "Checked in",
+  },
+  {
+    initials: "SR",
+    name: "Sara R.",
+    room: "Courtyard room",
+    dates: "12–14 Oct",
+    total: "₹4,600",
+    status: "Confirmed",
+  },
+  {
+    initials: "JL",
+    name: "James L.",
+    room: "Lake suite",
+    dates: "15–17 Oct",
+    total: "₹5,000",
+    status: "Confirmed",
+  },
+  {
+    initials: "NP",
+    name: "Neha P.",
+    room: "Garden room",
+    dates: "16–18 Oct",
+    total: "₹4,200",
+    status: "Confirmed",
+  },
+];
+---
+
+<DemoPlayer
+  name={titles[view].toLowerCase()}
+  description={descriptions[view]}
+  kind={view}
+>
+  <div class={`manage-demo manage-${view}`}>
+    <div class="manage-topbar">
+      <span class="manage-brand">
+        <span class="brand-mark">
+          <Icon name="key" />
+        </span>
+        StayKeep <small>Manage</small>
+      </span>
+      <span class="property-name">
+        Lakeview Homestay <span class="owner-avatar">L</span>
+      </span>
+    </div>
+    <div class="manage-workspace">
+      <div class="manage-sidebar">
+        <span class:list={[{ selected: view === "bookings" }]}>
+          <Icon name="list" />
+          <span>Bookings</span>
+        </span>
+        <span class:list={[{ selected: view === "availability" }]}>
+          <Icon name="calendar" />
+          <span>Calendar</span>
+        </span>
+        <span class:list={[{ selected: view === "billing" }]}>
+          <Icon name="receipt" />
+          <span>Billing</span>
+        </span>
+        <span class:list={[{ selected: view === "conversations" }]}>
+          <Icon name="chat" />
+          <span>Messages</span>
+        </span>
+        <div class="sidebar-bottom">
+          <Icon name="globe" />
+          <span>Your website</span>
+        </div>
+      </div>
+      <div class="manage-main">
+        <div class="manage-title">
+          <div>
+            <span class="overline">YOUR PROPERTY, AT A GLANCE</span>
+            <strong>{titles[view]}</strong>
+          </div>
+          <span class="today-badge">12 October</span>
+        </div>
+
+        {view === "bookings" && (
+          <>
+            <div class="booking-stats">
+              <div>
+                <span>Upcoming stays</span>
+                <strong class="changing-number">
+                  <span class="before-value" data-demo-animate>
+                    08
+                  </span>
+                  <span class="after-value" data-demo-animate>
+                    09
+                  </span>
+                </strong>
+              </div>
+              <div>
+                <span>Booking value</span>
+                <strong class="changing-number">
+                  <span class="before-value" data-demo-animate>
+                    ₹38,000
+                  </span>
+                  <span class="after-value" data-demo-animate>
+                    ₹43,000
+                  </span>
+                </strong>
+              </div>
+              <div class="commission-stat">
+                <span>Commission</span>
+                <strong>
+                  0<span>%</span>
+                </strong>
+              </div>
+            </div>
+            <div class="list-toolbar">
+              <span>
+                All bookings <b>09</b>
+              </span>
+              <Icon name="search" />
+            </div>
+            <div class="booking-list-window">
+              <div class="booking-list" data-demo-animate>
+                <div class="booking-row incoming-row" data-demo-animate>
+                  <span class="guest-avatar new-avatar">MK</span>
+                  <div class="guest-name">
+                    <strong>Maya K.</strong>
+                    <span>Lake suite · 12–14 Oct</span>
+                  </div>
+                  <div class="booking-amount">
+                    <strong>₹5,000</strong>
+                    <span class="direct-label">Booked direct</span>
+                  </div>
+                  <span class="row-check">
+                    <Icon name="check" />
+                  </span>
+                </div>
+                {guests.map((guest) => (
+                  <div class="booking-row">
+                    <span class="guest-avatar">{guest.initials}</span>
+                    <div class="guest-name">
+                      <strong>{guest.name}</strong>
+                      <span>
+                        {guest.room} · {guest.dates}
+                      </span>
+                    </div>
+                    <div class="booking-amount">
+                      <strong>{guest.total}</strong>
+                      <span>{guest.status}</span>
+                    </div>
+                    <span class="row-check muted">
+                      <Icon name="check" />
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div class="event-toast" data-demo-animate>
+              <span class="event-icon">
+                <Icon name="bell" />
+              </span>
+              <div>
+                <strong>A new stay. A new story.</strong>
+                <span>Maya booked 2 nights · ₹5,000 is yours*</span>
+              </div>
+              <span class="toast-badge">NEW</span>
+            </div>
+          </>
+        )}
+
+        {view === "availability" && (
+          <>
+            <div class="calendar-toolbar">
+              <span>
+                <Icon name="calendar" /> October 2026
+              </span>
+              <span class="calendar-arrows">
+                ‹ <b>Today</b> ›
+              </span>
+            </div>
+            <div class="room-calendar">
+              <div class="calendar-head">
+                <span>Room</span>
+                {["Mon|12", "Tue|13", "Wed|14", "Thu|15", "Fri|16"].map(
+                  (day) => (
+                    <span>
+                      <small>{day.split("|")[0]}</small>
+                      <b>{day.split("|")[1]}</b>
+                    </span>
+                  ),
+                )}
+              </div>
+              <div class="calendar-room">
+                <span class="room-name">
+                  Lake suite<small>Room 01</small>
+                </span>
+                <div class="day-grid">
+                  <i></i>
+                  <i></i>
+                  <i></i>
+                  <i></i>
+                  <i></i>
+                  <span class="reservation reservation-new" data-demo-animate>
+                    <b>Maya K.</b>
+                    <small>2 nights · Direct</small>
+                    <Icon name="check" />
+                  </span>
+                  <span class="reservation reservation-end">
+                    <b>James L.</b>
+                    <small>2 nights</small>
+                  </span>
+                </div>
+              </div>
+              <div class="calendar-room">
+                <span class="room-name">
+                  Garden<small>Room 02</small>
+                </span>
+                <div class="day-grid">
+                  <i></i>
+                  <i></i>
+                  <i></i>
+                  <i></i>
+                  <i></i>
+                  <span class="reservation reservation-gold">
+                    <b>Arjun</b>
+                    <small>Checked in</small>
+                  </span>
+                  <span class="open-room">Available</span>
+                </div>
+              </div>
+              <div class="calendar-room">
+                <span class="room-name">
+                  Courtyard<small>Room 03</small>
+                </span>
+                <div class="day-grid">
+                  <i></i>
+                  <i></i>
+                  <i></i>
+                  <i></i>
+                  <i></i>
+                  <span class="reservation reservation-lilac">
+                    <b>Sara R.</b>
+                    <small>2 nights</small>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="calendar-key">
+              <span>
+                <i></i> Direct booking
+              </span>
+              <span>
+                <i></i> Checked in
+              </span>
+              <span>
+                <i></i> Available
+              </span>
+            </div>
+            <div class="event-toast calendar-event" data-demo-animate>
+              <span class="event-icon">
+                <Icon name="check" />
+              </span>
+              <div>
+                <strong>Booked. Calendar updated.</strong>
+                <span>Lake suite · 12–14 Oct · Availability updated</span>
+              </div>
+            </div>
+          </>
+        )}
+
+        {view === "billing" && (
+          <>
+            <div class="bill-card">
+              <div class="bill-header">
+                <span class="guest-avatar new-avatar">MK</span>
+                <div>
+                  <strong>Maya’s stay</strong>
+                  <span>Lake suite · 12–14 October</span>
+                </div>
+                <span class="bill-status" data-demo-animate>
+                  Paid
+                </span>
+              </div>
+              <div class="bill-lines">
+                <div>
+                  <span>Room · 2 nights × ₹2,500</span>
+                  <strong>₹5,000</strong>
+                </div>
+                <div class="zero-line">
+                  <span>StayKeep booking commission</span>
+                  <strong>₹0</strong>
+                </div>
+              </div>
+              <div class="bill-total">
+                <span>Stay total</span>
+                <strong>₹5,000</strong>
+              </div>
+              <div class="payment-line" data-demo-animate>
+                <Icon name="shield-check" />
+                <span>Payment recorded</span>
+                <strong>₹5,000</strong>
+              </div>
+              <div class="balance-line">
+                <span>Balance due</span>
+                <strong class="changing-number">
+                  <span class="before-value" data-demo-animate>
+                    ₹5,000
+                  </span>
+                  <span class="after-value" data-demo-animate>
+                    ₹0
+                  </span>
+                </strong>
+              </div>
+            </div>
+            <div class="bill-note">
+              <Icon name="receipt" /> Every detail. One clear bill.
+            </div>
+          </>
+        )}
+
+        {view === "conversations" && (
+          <>
+            <div class="chat-header">
+              <span class="guest-avatar new-avatar">MK</span>
+              <div>
+                <strong>Maya K.</strong>
+                <span>Lake suite · Arriving 12 October</span>
+              </div>
+              <span class="chat-direct">Direct chat</span>
+            </div>
+            <div class="chat-messages">
+              <div class="chat-bubble guest-bubble" data-demo-animate>
+                Hi! We’ll arrive around 2 pm. Is that a good time to check in?
+                <small>Maya · 10:42</small>
+              </div>
+              <div class="chat-bubble host-bubble" data-demo-animate>
+                Perfect. Your room will be ready. We can’t wait to welcome you!
+                <small>
+                  You · 10:43 <Icon name="check" />
+                </small>
+              </div>
+              <div class="chat-bubble guest-thanks" data-demo-animate>
+                Thank you! See you soon ☀<small>Maya · 10:43</small>
+              </div>
+            </div>
+            <div class="chat-compose">
+              <span>Message your guest</span>
+              <Icon name="arrow-right" />
+            </div>
+          </>
+        )}
+      </div>
+    </div>
+    <div class="manage-footnote">
+      {view === "bookings" || view === "billing"
+        ? "*Example amounts exclude taxes, payment charges and any plan cost."
+        : "Example property and guest details."}
+    </div>
+  </div>
+</DemoPlayer>
+
+<style>
+  .manage-demo {
+    font-size: 12px;
+    font-size: clamp(12px, 2.1cqw, 15px);
+    line-height: 1.5;
+    letter-spacing: -0.015em;
+  }
+  .manage-demo :global(.icon) {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+  .manage-topbar {
+    height: 58px;
+    height: clamp(48px, 8cqw, 62px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 3.4%;
+    border-bottom: 1px solid #e9ecf3;
+  }
+  .manage-brand {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-weight: 750;
+    font-size: 1.14em;
+    letter-spacing: -0.04em;
+  }
+  .brand-mark {
+    display: grid;
+    place-items: center;
+    background: #edf2ff;
+    color: #315ed2;
+    width: 25px;
+    height: 25px;
+    border-radius: 8px;
+  }
+  .manage-brand small {
+    font-size: 0.7em;
+    font-weight: 450;
+    letter-spacing: 0;
+    color: #8590a5;
+    padding-left: 2px;
+  }
+  .property-name {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.85em;
+    color: #758095;
+  }
+  .owner-avatar {
+    width: 25px;
+    height: 25px;
+    display: grid;
+    place-items: center;
+    background: #f5e9cd;
+    color: #8a6a2c;
+    border-radius: 50%;
+  }
+  .manage-workspace {
+    display: grid;
+    grid-template-columns: 21% 1fr;
+    min-height: 335px;
+    min-height: clamp(325px, 53cqw, 395px);
+  }
+  .manage-sidebar {
+    background: #fafbfe;
+    border-right: 1px solid #e9ecf3;
+    padding: 22px 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 0.84em;
+    color: #7b8595;
+  }
+  .manage-sidebar > span,
+  .sidebar-bottom {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 8px;
+    border-radius: 7px;
+  }
+  .manage-sidebar :global(.icon) {
+    width: 14px;
+    height: 14px;
+  }
+  .manage-sidebar .selected {
+    color: #315ed2;
+    background: #edf2ff;
+    font-weight: 600;
+  }
+  .sidebar-bottom {
+    margin-top: auto;
+  }
+  .manage-main {
+    min-width: 0;
+    position: relative;
+    padding: 22px 5%;
+    background: #fff;
+    overflow: hidden;
+  }
+  .manage-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+    gap: 8px;
+  }
+  .overline {
+    font-size: 0.55em;
+    letter-spacing: 0.13em;
+    color: #8490a3;
+    display: block;
+    margin-bottom: 5px;
+  }
+  .manage-title strong {
+    font-size: 1.7em;
+    font-weight: 650;
+    letter-spacing: -0.05em;
+  }
+  .today-badge {
+    padding: 5px 9px;
+    border: 1px solid #e7eaf0;
+    border-radius: 6px;
+    font-size: 0.75em;
+    color: #788396;
+  }
+  .booking-stats {
+    display: grid;
+    grid-template-columns: 1fr 1.35fr 0.85fr;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+  .booking-stats > div {
+    border: 1px solid #e8edf4;
+    border-radius: 9px;
+    padding: 10px;
+    min-width: 0;
+  }
+  .booking-stats > div > span {
+    display: block;
+    font-size: 0.7em;
+    color: #7f8b9f;
+    margin-bottom: 6px;
+    white-space: nowrap;
+  }
+  .booking-stats strong {
+    font-size: 1.65em;
+    font-weight: 600;
+    letter-spacing: -0.04em;
+  }
+  .booking-stats .commission-stat {
+    background: #fff7e5;
+    border-color: #f4e9cc;
+  }
+  .commission-stat strong {
+    color: #8e6721;
+  }
+  .commission-stat strong > span {
+    font-size: 0.6em;
+    margin-left: 2px;
+  }
+  .changing-number {
+    display: grid;
+  }
+  .changing-number > span {
+    grid-area: 1/1;
+  }
+  .before-value {
+    opacity: 0;
+  }
+  .list-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-size: 0.9em;
+  }
+  .list-toolbar b {
+    font-size: 0.8em;
+    padding: 2px 5px;
+    margin-left: 6px;
+    background: #f0f3f8;
+    border-radius: 4px;
+    color: #778499;
+  }
+  .list-toolbar :global(.icon) {
+    width: 13px;
+    height: 13px;
+    color: #9aa4b4;
+  }
+  .booking-list-window {
+    height: 182px;
+    overflow: hidden;
+    mask-image: linear-gradient(#000 83%, transparent);
+  }
+  .booking-row {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    min-height: 53px;
+    border-bottom: 1px solid #edf0f5;
+    padding: 8px 2px;
+  }
+  .guest-avatar {
+    display: grid;
+    place-items: center;
+    width: 29px;
+    height: 29px;
+    flex-shrink: 0;
+    background: #eff2f7;
+    color: #748198;
+    font-size: 0.74em;
+    border-radius: 50%;
+  }
+  .new-avatar {
+    background: #e9efff;
+    color: #315ed2;
+  }
+  .guest-name {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+  .guest-name strong,
+  .booking-amount strong {
+    font-weight: 600;
+    font-size: 0.88em;
+  }
+  .guest-name > span,
+  .booking-amount > span {
+    color: #8792a4;
+    font-size: 0.65em;
+    white-space: nowrap;
+  }
+  .booking-amount {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    margin-left: auto;
+  }
+  .booking-amount .direct-label {
+    color: #315ed2;
+  }
+  .row-check {
+    background: #eaf0ff;
+    border-radius: 50%;
+    padding: 4px;
+    color: #315ed2;
+  }
+  .row-check :global(.icon) {
+    width: 10px;
+    height: 10px;
+  }
+  .row-check.muted {
+    color: #9da9ba;
+    background: #f5f7fa;
+  }
+  .incoming-row {
+    background: #f6f8ff;
+    border-radius: 6px;
+  }
+  .event-toast {
+    position: absolute;
+    bottom: 15px;
+    left: 5%;
+    right: 5%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 12px;
+    background: #202c46;
+    color: #fff;
+    border-radius: 11px;
+    box-shadow: 0 10px 24px #1d2a4724;
+    z-index: 2;
+  }
+  .event-icon {
+    width: 29px;
+    height: 29px;
+    border-radius: 50%;
+    background: #ffffff14;
+    display: grid;
+    place-items: center;
+    color: #f4d68d;
+    flex-shrink: 0;
+  }
+  .event-toast strong {
+    display: block;
+    font-size: 0.88em;
+    font-weight: 500;
+  }
+  .event-toast div > span {
+    display: block;
+    font-size: 0.65em;
+    color: #c5cddd;
+    margin-top: 3px;
+  }
+  .toast-badge {
+    margin-left: auto;
+    font-size: 0.6em;
+    color: #f4d68d;
+    letter-spacing: 0.08em;
+  }
+  .manage-footnote {
+    padding: 8px 14px;
+    font-size: 0.62em;
+    color: #828d9f;
+    background: #fafbfe;
+    text-align: right;
+  }
+  .calendar-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+    margin: 20px 0 15px;
+    font-size: 0.85em;
+  }
+  .calendar-toolbar > span:first-child {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    font-weight: 600;
+  }
+  .calendar-toolbar :global(.icon) {
+    width: 13px;
+    height: 13px;
+    color: #8693aa;
+  }
+  .calendar-arrows {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #94a0b2;
+    font-size: 1.1em;
+  }
+  .calendar-arrows b {
+    font-size: 0.75em;
+    font-weight: 500;
+    color: #66758d;
+  }
+  .room-calendar {
+    border: 1px solid #e8edf4;
+    border-radius: 9px;
+    overflow: hidden;
+  }
+  .calendar-head {
+    display: grid;
+    grid-template-columns: 24% repeat(5, 1fr);
+    background: #f8faff;
+    align-items: center;
+    min-height: 48px;
+  }
+  .calendar-head > span {
+    text-align: center;
+    font-size: 0.7em;
+  }
+  .calendar-head > span:first-child {
+    text-align: left;
+    padding-left: 10px;
+    color: #7f8da2;
+  }
+  .calendar-head small,
+  .calendar-head b {
+    display: block;
+  }
+  .calendar-head small {
+    color: #93a0b5;
+    font-size: 0.85em;
+  }
+  .calendar-head b {
+    font-weight: 500;
+    font-size: 1.2em;
+  }
+  .calendar-room {
+    display: grid;
+    grid-template-columns: 24% 1fr;
+    border-top: 1px solid #edf0f6;
+    min-height: 62px;
+  }
+  .room-name {
+    align-self: center;
+    padding-left: 10px;
+    font-size: 0.72em;
+    font-weight: 600;
+  }
+  .room-name small {
+    display: block;
+    font-weight: 400;
+    color: #96a0b0;
+    font-size: 0.86em;
+    margin-top: 4px;
+  }
+  .day-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    position: relative;
+    min-width: 0;
+  }
+  .day-grid > i {
+    border-left: 1px solid #edf0f6;
+    grid-row: 1;
+  }
+  .reservation {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    top: 9px;
+    bottom: 9px;
+    left: 2%;
+    width: 37%;
+    padding: 5px 7px;
+    border-radius: 5px;
+    background: #e5edff;
+    color: #476bc2;
+    border-left: 2px solid #779aea;
+    overflow: hidden;
+  }
+  .reservation b {
+    font-size: 0.7em;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .reservation small {
+    font-size: 0.55em;
+    opacity: 0.75;
+    white-space: nowrap;
+  }
+  .reservation :global(.icon) {
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    right: 6px;
+    top: 9px;
+  }
+  .reservation-end {
+    left: 62%;
+    background: #edf1f8;
+    border-color: #bdc8dd;
+    color: #7b8ba6;
+  }
+  .reservation-gold {
+    background: #fff2d4;
+    border-color: #e2b962;
+    color: #9a762d;
+    width: 18%;
+  }
+  .reservation-gold small {
+    display: none;
+  }
+  .reservation-lilac {
+    background: #eeeafa;
+    border-color: #bba7e5;
+    color: #8c75b3;
+  }
+  .open-room {
+    position: absolute;
+    left: 48%;
+    top: 24px;
+    color: #a2acbd;
+    font-size: 0.65em;
+  }
+  .calendar-key {
+    display: flex;
+    gap: 14px;
+    margin-top: 13px;
+    font-size: 0.65em;
+    color: #7e8ba1;
+  }
+  .calendar-key > span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap;
+  }
+  .calendar-key i {
+    width: 5px;
+    height: 5px;
+    background: #779aea;
+    border-radius: 50%;
+  }
+  .calendar-key > span:nth-child(2) i {
+    background: #e2b962;
+  }
+  .calendar-key > span:nth-child(3) i {
+    background: #e2e8f2;
+  }
+  .calendar-event {
+    bottom: 10px;
+  }
+  .manage-availability .manage-main {
+    padding-bottom: 78px;
+  }
+  .bill-card {
+    border: 1px solid #e5eaf2;
+    border-radius: 10px;
+    padding: 18px;
+  }
+  .bill-header {
+    display: flex;
+    gap: 9px;
+    align-items: center;
+    padding-bottom: 18px;
+    border-bottom: 1px dashed #e1e6ef;
+  }
+  .bill-header strong,
+  .chat-header strong {
+    display: block;
+    font-size: 0.95em;
+    font-weight: 600;
+  }
+  .bill-header div > span,
+  .chat-header div > span {
+    font-size: 0.7em;
+    color: #8995a8;
+  }
+  .bill-status {
+    margin-left: auto;
+    background: #edf2ff;
+    color: #4167c0;
+    font-size: 0.7em;
+    padding: 3px 8px;
+    border-radius: 5px;
+  }
+  .bill-lines {
+    padding-block: 12px;
+  }
+  .bill-lines > div,
+  .bill-total,
+  .balance-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8em;
+    padding-block: 7px;
+    color: #7b899c;
+  }
+  .bill-lines strong {
+    color: #35445e;
+    font-weight: 600;
+  }
+  .bill-lines .zero-line,
+  .zero-line strong {
+    color: #4269cb;
+  }
+  .bill-total {
+    border-top: 1px dashed #e1e6ef;
+    padding-block: 12px;
+    color: #29354b;
+  }
+  .bill-total strong {
+    font-size: 2em;
+    font-weight: 550;
+    letter-spacing: -0.05em;
+  }
+  .payment-line {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    background: #eef3ff;
+    color: #496dc0;
+    padding: 9px;
+    font-size: 0.72em;
+    border-radius: 5px;
+  }
+  .payment-line :global(.icon) {
+    width: 13px;
+    height: 13px;
+  }
+  .payment-line strong {
+    margin-left: auto;
+    font-weight: 600;
+  }
+  .balance-line {
+    font-size: 0.75em;
+    margin-top: 7px;
+  }
+  .balance-line strong {
+    font-size: 1.3em;
+    color: #283c5a;
+  }
+  .bill-note {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    justify-content: center;
+    margin-top: 15px;
+    color: #8290a5;
+    font-size: 0.75em;
+  }
+  .bill-note :global(.icon) {
+    width: 13px;
+    height: 13px;
+  }
+  .chat-header {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    border-bottom: 1px solid #e9edf5;
+    padding-bottom: 15px;
+  }
+  .chat-direct {
+    margin-left: auto;
+    font-size: 0.65em;
+    color: #647caa;
+  }
+  .chat-messages {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding-block: 20px;
+  }
+  .chat-bubble {
+    padding: 12px;
+    font-size: 0.8em;
+    line-height: 1.6;
+    max-width: 84%;
+    border-radius: 10px 10px 10px 2px;
+    background: #f1f4f9;
+    color: #536179;
+  }
+  .chat-bubble small {
+    display: flex;
+    gap: 3px;
+    align-items: center;
+    font-size: 0.7em;
+    margin-top: 6px;
+    color: #96a1b2;
+  }
+  .host-bubble {
+    align-self: end;
+    background: #edf2ff;
+    color: #4b68a3;
+    border-radius: 10px 10px 2px 10px;
+  }
+  .chat-bubble :global(.icon) {
+    width: 10px;
+    height: 10px;
+  }
+  .guest-thanks {
+    max-width: 65%;
+  }
+  .chat-compose {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    font-size: 0.75em;
+    color: #a2acba;
+    border: 1px solid #e7ecf3;
+    border-radius: 6px;
+  }
+  @container (max-width: 480px) {
+    .manage-workspace {
+      grid-template-columns: 1fr;
+      min-height: 340px;
+    }
+    .manage-sidebar {
+      display: none;
+    }
+    .manage-main {
+      padding: 18px 5%;
+    }
+    .manage-topbar {
+      padding-inline: 5%;
+    }
+    .property-name {
+      font-size: 0.7em;
+      gap: 6px;
+    }
+    .owner-avatar {
+      display: none;
+    }
+    .manage-title strong {
+      font-size: 1.9em;
+    }
+    .booking-stats {
+      gap: 6px;
+    }
+    .booking-stats > div {
+      padding: 10px 8px;
+    }
+    .booking-stats > div > span {
+      font-size: 0.8em;
+    }
+    .booking-stats strong {
+      font-size: 1.9em;
+    }
+    .guest-name strong,
+    .booking-amount strong {
+      font-size: 1em;
+    }
+    .guest-name > span,
+    .booking-amount > span {
+      font-size: 0.76em;
+    }
+    .event-toast strong {
+      font-size: 1em;
+    }
+    .event-toast div > span {
+      font-size: 0.76em;
+    }
+    .manage-footnote {
+      font-size: 7px;
+      text-align: center;
+    }
+    .calendar-toolbar {
+      font-size: 1em;
+    }
+    .calendar-head > span,
+    .room-name {
+      font-size: 0.82em;
+    }
+    .reservation b {
+      font-size: 0.8em;
+    }
+    .reservation small {
+      font-size: 0.62em;
+    }
+    .calendar-key {
+      font-size: 0.75em;
+      gap: 10px;
+    }
+    .bill-card {
+      padding: 14px;
+    }
+    .bill-lines > div,
+    .bill-total,
+    .balance-line,
+    .chat-bubble {
+      font-size: 1em;
+    }
+    .bill-header strong,
+    .chat-header strong {
+      font-size: 1.1em;
+    }
+    .bill-header div > span,
+    .chat-header div > span,
+    .payment-line {
+      font-size: 0.85em;
+    }
+  }
+  @container (max-width: 310px) {
+    .manage-brand small {
+      display: none;
+    }
+    .row-check {
+      display: none;
+    }
+    .reservation :global(.icon) {
+      display: none;
+    }
+  }
+  @media (min-width: 901px) and (max-height: 800px) {
+    .manage-demo {
+      font-size: 13px;
+    }
+    .manage-topbar {
+      height: 46px;
+    }
+    .manage-workspace {
+      min-height: 305px;
+    }
+    .manage-main {
+      padding-block: 16px;
+    }
+    .manage-title {
+      margin-bottom: 12px;
+    }
+    .calendar-toolbar {
+      margin-block: 12px;
+    }
+    .calendar-head {
+      min-height: 40px;
+    }
+    .calendar-room {
+      min-height: 53px;
+    }
+    .manage-availability .manage-main {
+      padding-bottom: 70px;
+    }
+    .bill-card {
+      padding: 14px;
+    }
+    .bill-header {
+      padding-bottom: 12px;
+    }
+    .bill-lines {
+      padding-block: 8px;
+    }
+    .chat-messages {
+      gap: 10px;
+      padding-block: 15px;
+    }
+    .chat-bubble {
+      padding: 10px;
+    }
+  }
+  :global(.is-started) .before-value {
+    animation-name: old-number;
+  }
+  :global(.is-started) .after-value {
+    animation-name: new-number;
+  }
+  :global(.is-started) .incoming-row {
+    animation-name: booking-arrives;
+  }
+  :global(.is-started) .booking-list {
+    animation-name: browse-bookings;
+  }
+  :global(.is-started) .event-toast {
+    animation-name: booking-toast;
+  }
+  :global(.is-started) .reservation-new {
+    animation-name: fill-calendar;
+    transform-origin: left;
+  }
+  :global(.is-started) .payment-line,
+  :global(.is-started) .bill-status {
+    animation-name: payment-received;
+  }
+  :global(.is-started) .guest-bubble {
+    animation-name: guest-message;
+  }
+  :global(.is-started) .host-bubble {
+    animation-name: host-message;
+  }
+  :global(.is-started) .guest-thanks {
+    animation-name: guest-thanks;
+  }
+  @keyframes old-number {
+    0%,
+    41% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    51%,
+    100% {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+  }
+  @keyframes new-number {
+    0%,
+    41% {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    51%,
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes booking-arrives {
+    0%,
+    32% {
+      max-height: 0;
+      min-height: 0;
+      padding-block: 0;
+      opacity: 0;
+      transform: translateY(-12px);
+      overflow: hidden;
+    }
+    48%,
+    100% {
+      max-height: 60px;
+      min-height: 53px;
+      padding-block: 8px;
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes browse-bookings {
+    0%,
+    8% {
+      transform: translateY(0);
+    }
+    20%,
+    28% {
+      transform: translateY(-34px);
+    }
+    40%,
+    100% {
+      transform: translateY(0);
+    }
+  }
+  @keyframes booking-toast {
+    0%,
+    44% {
+      opacity: 0;
+      transform: translateY(20px) scale(0.96);
+    }
+    56%,
+    100% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+  @keyframes fill-calendar {
+    0%,
+    27% {
+      opacity: 0;
+      transform: scaleX(0.1);
+    }
+    45%,
+    100% {
+      opacity: 1;
+      transform: scaleX(1);
+    }
+  }
+  @keyframes payment-received {
+    0%,
+    33% {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    48%,
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes guest-message {
+    0%,
+    8% {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    20%,
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes host-message {
+    0%,
+    35% {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    48%,
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes guest-thanks {
+    0%,
+    60% {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    73%,
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>

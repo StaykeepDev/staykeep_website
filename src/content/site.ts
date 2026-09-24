@@ -9,7 +9,7 @@ export const SITE_TITLE_SUFFIX = ' | StayKeep';
 
 /** The guest web app. Search page takes `q`, `checkIn`, `checkOut`, `guests` — verified against staykeep_booking_web/src/core/search/search-filters.ts. */
 export const APP_URL = 'https://app.staykeep.com';
-export const APP_STAYS_URL = `${APP_URL}/stays`;
+export const APP_STAYS_URL = APP_URL;
 
 /** The owner app: OTP login, then property setup. */
 export const MANAGE_URL = 'https://manage.staykeep.com';
@@ -21,12 +21,12 @@ export const CONTACT_PHONE_TEL = 'tel:+919980783609';
 /** Meta Business (WhatsApp) domain verification — must appear on every page. */
 export const FB_DOMAIN_VERIFICATION = 'fuh2r4qjmoh1x6e0x04ophie21p16g';
 
-/** The one line that must travel with every "up to 30%" / "up to ₹1,500" claim. */
+/** Disclosure for the illustrative 15% booking-commission example. */
 export const FEE_FOOTNOTE =
-  'Illustrative. Online travel platforms typically charge properties 15–25% commission, and many add a guest service fee on top — together up to about 30% of the booking value. Fees vary by platform, region and plan. StayKeep charges no commission on bookings.';
+  'Illustrative comparison using a 15% platform commission. Actual fees vary by platform, location and plan. StayKeep booking commission is 0%. Figures exclude taxes, payment charges and any StayKeep plan cost.';
 
 export const DEFAULT_OG_DESCRIPTION =
-  'StayKeep is 100% commission-free. Other booking platforms can take up to 30% of a booking; with StayKeep that money stays with the homestay or hotel owner, and guests pay no booking fee.';
+  'Book homestays and hotels directly, with no guest booking fee. Run your property with StayKeep Manage and keep more from every booking. Zero commission, always.';
 
 export interface NavLink {
   label: string;

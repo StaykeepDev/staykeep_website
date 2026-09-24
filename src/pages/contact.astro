@@ -1,87 +1,208 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import Icon from '../components/Icon.astro';
-import { CONTACT_EMAIL, CONTACT_PHONE_DISPLAY, CONTACT_PHONE_TEL } from '../content/site';
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Icon from "../components/Icon.astro";
+import {
+  CONTACT_EMAIL,
+  CONTACT_PHONE_DISPLAY,
+  CONTACT_PHONE_TEL,
+  APP_STAYS_URL,
+  MANAGE_URL,
+} from "../content/site";
 ---
 
 <BaseLayout
-  title="Contact us | StayKeep"
-  description="Get in touch with StayKeep — questions about booking a stay, listing your property, or anything else."
+  title="Contact — let’s talk | StayKeep"
+  description="Questions about a stay, your property or StayKeep? Get in touch with the StayKeep team by email or phone."
   path="/contact"
 >
-  <section class="section">
-    <div class="container container-narrow">
-      <div class="section-heading">
-        <p class="eyebrow">Get in touch</p>
-        <h1 class="display-1">Contact us</h1>
-        <p class="lede">Questions about booking a stay, listing your property, or anything else — we're happy to help.</p>
+  <section class="section contact-page">
+    <div class="container">
+      <div class="contact-grid">
+        <div>
+          <p class="eyebrow">A real conversation starts here</p>
+          <h1 class="display-1">
+            Let’s talk
+            <br />
+            <span>about your stay.</span>
+          </h1>
+          <p class="lede">
+            Booking somewhere new? Getting your property set up? We’re here to
+            help.
+          </p>
+          <div class="contact-note">
+            <Icon name="chat" />
+            <p>
+              For a question about a specific reservation, you can also reach
+              your host through “My stay”.
+            </p>
+          </div>
+        </div>
+        <div class="contact-options">
+          <a href={`mailto:${CONTACT_EMAIL}`} class="contact-card">
+            <div class="contact-card-top">
+              <span class="icon-circle">
+                <Icon name="mail" />
+              </span>
+              <Icon name="arrow-right" />
+            </div>
+            <p class="label">Drop us a line</p>
+            <h2>{CONTACT_EMAIL}</h2>
+            <p>For questions, ideas and getting started.</p>
+          </a>
+          <a href={CONTACT_PHONE_TEL} class="contact-card phone-card">
+            <div class="contact-card-top">
+              <span class="icon-circle">
+                <Icon name="phone" />
+              </span>
+              <Icon name="arrow-right" />
+            </div>
+            <p class="label">Give us a call</p>
+            <h2 class="sk-tabular">{CONTACT_PHONE_DISPLAY}</h2>
+            <p>Let’s find the right next step together.</p>
+          </a>
+        </div>
       </div>
-
-      <div class="contact-cards">
-        <a class="card contact-card" href={`mailto:${CONTACT_EMAIL}`}>
-          <div class="icon-circle"><Icon name="mail" /></div>
-          <div>
-            <p class="label">Email</p>
-            <p class="display-4">{CONTACT_EMAIL}</p>
-          </div>
+      <div class="contact-shortcuts">
+        <div>
+          <h2 class="display-4">Already know where you’re headed?</h2>
+          <p class="body-text">
+            Get straight to your next stay or your property.
+          </p>
+        </div>
+        <a href={APP_STAYS_URL} class="btn btn-outline">
+          Find a stay <Icon name="arrow-right" />
         </a>
-
-        <a class="card contact-card" href={CONTACT_PHONE_TEL}>
-          <div class="icon-circle"><Icon name="phone" /></div>
-          <div>
-            <p class="label">Phone</p>
-            <p class="contact-phone-value sk-tabular">{CONTACT_PHONE_DISPLAY}</p>
-          </div>
+        <a href={MANAGE_URL} class="btn btn-primary">
+          Open Manage <Icon name="arrow-right" />
         </a>
       </div>
     </div>
   </section>
 </BaseLayout>
-
 <style>
-  .container-narrow {
-    max-width: 720px;
+  .contact-page {
+    background: linear-gradient(#f5f7ff, #fff);
+    padding-top: 5rem;
   }
-
-  .contact-cards {
+  .contact-grid {
     display: grid;
-    gap: var(--space-md);
-    grid-template-columns: 1fr;
-    margin-top: var(--space-2xl);
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: start;
   }
-
-  .contact-card {
+  .contact-grid h1 {
+    font-size: clamp(2.8rem, 4.5vw, 4.2rem);
+  }
+  .contact-grid h1 span {
+    color: var(--color-primary);
+  }
+  .contact-grid .lede {
+    max-width: 27rem;
+    margin-top: 1.5rem;
+  }
+  .contact-note {
     display: flex;
-    align-items: center;
-    gap: var(--space-md);
-    transition: transform var(--duration-fast) var(--ease-standard);
+    gap: 1rem;
+    align-items: flex-start;
+    max-width: 26rem;
+    margin-top: 3rem;
+    color: var(--color-on-surface-variant);
+    font-size: 0.875rem;
   }
-
+  .contact-note > .icon {
+    margin-top: 0.2rem;
+    color: var(--color-primary);
+  }
+  .contact-options {
+    display: grid;
+    gap: 1rem;
+  }
+  .contact-card {
+    display: block;
+    padding: 2rem;
+    background: white;
+    border: 1px solid #dbe3f0;
+    border-radius: 20px;
+    transition:
+      transform 0.2s,
+      border-color 0.2s;
+  }
   .contact-card:hover {
-    transform: translateY(-2px);
+    transform: translateY(-3px);
+    border-color: var(--color-primary);
   }
-
-  @media (prefers-reduced-motion: reduce) {
-    .contact-card:hover {
-      transform: none;
-    }
+  .contact-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
   }
-
-  @media (min-width: 560px) {
-    .contact-cards {
-      grid-template-columns: 1fr 1fr;
-    }
+  .contact-card-top > .icon {
+    width: 1.2rem;
   }
-
-  /* The phone number wrapped mid-digit at display-4/Cormorant size inside
-     a two-column card (found in review) — sans, tabular and slightly
-     smaller keeps "+91 99807 83609" on one line at every width this grid
-     uses. */
-  .contact-phone-value {
-    font-family: var(--font-body);
+  .contact-card .label {
+    font-size: 0.75rem;
+  }
+  .contact-card h2 {
+    font-size: clamp(1.2rem, 2.2vw, 1.75rem);
     font-weight: 600;
-    font-size: 1.25rem;
-    color: var(--color-on-surface);
-    white-space: nowrap;
+    letter-spacing: -0.035em;
+    overflow-wrap: anywhere;
+    margin: 0.5rem 0;
+  }
+  .contact-card > p:last-child {
+    font-size: 0.875rem;
+    color: var(--color-on-surface-variant);
+  }
+  .phone-card {
+    background: #edf2ff;
+  }
+  .contact-shortcuts {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    border-top: 1px solid var(--color-outline-variant);
+    padding-top: 2rem;
+    margin-top: 4rem;
+  }
+  .contact-shortcuts > div {
+    margin-right: auto;
+  }
+  .contact-shortcuts .body-text {
+    font-size: 0.875rem;
+    margin-top: 0.3rem;
+  }
+  @media (max-width: 850px) {
+    .contact-grid {
+      gap: 2.5rem;
+    }
+    .contact-shortcuts {
+      flex-wrap: wrap;
+    }
+    .contact-shortcuts > div {
+      width: 100%;
+      margin-bottom: 0.5rem;
+    }
+  }
+  @media (max-width: 760px) {
+    .contact-grid {
+      grid-template-columns: 1fr;
+    }
+    .contact-page {
+      padding-top: 3rem;
+    }
+    .contact-note {
+      margin-top: 1.5rem;
+    }
+    .contact-card {
+      padding: 1.5rem;
+    }
+    .contact-card h2 {
+      font-size: 1.5rem;
+    }
+    .contact-shortcuts .btn {
+      font-size: 0.875rem;
+      padding: 0.8rem 1rem;
+    }
   }
 </style>

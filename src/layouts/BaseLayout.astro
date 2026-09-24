@@ -1,19 +1,20 @@
 ---
-import '../styles/global.css';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import Motion from "../components/Motion.astro";
 import {
   SITE_URL,
   SITE_NAME,
   FB_DOMAIN_VERIFICATION,
   DEFAULT_OG_DESCRIPTION,
-} from '../content/site';
+} from "../content/site";
 
 // The two fonts we preload — Plus Jakarta Sans 400 (body, used everywhere)
-// and Cormorant Garamond 600 (every heading) — resolved to their hashed
+// and Plus Jakarta Sans 700 (headings) — resolved to their hashed
 // build URLs so the preload href matches what fonts.css actually fetches.
-import jakartaRegularUrl from '@fontsource/plus-jakarta-sans/files/plus-jakarta-sans-latin-400-normal.woff2?url';
-import cormorantSemiboldUrl from '@fontsource/cormorant-garamond/files/cormorant-garamond-latin-600-normal.woff2?url';
+import jakartaRegularUrl from "@fontsource/plus-jakarta-sans/files/plus-jakarta-sans-latin-400-normal.woff2?url";
+import jakartaBoldUrl from "@fontsource/plus-jakarta-sans/files/plus-jakarta-sans-latin-700-normal.woff2?url";
 
 interface Props {
   title: string;
@@ -23,31 +24,37 @@ interface Props {
   structuredData?: Record<string, unknown>[];
 }
 
-const { title, description, path, ogImage = '/og.png', structuredData = [] } = Astro.props;
+const {
+  title,
+  description,
+  path,
+  ogImage = "/og.png",
+  structuredData = [],
+} = Astro.props;
 
 const canonicalUrl = new URL(path, SITE_URL).toString();
 const ogImageUrl = new URL(ogImage, SITE_URL).toString();
 
 const organizationSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'Organization',
+  "@context": "https://schema.org",
+  "@type": "Organization",
   name: SITE_NAME,
   url: SITE_URL,
-  logo: new URL('/icon-512.png', SITE_URL).toString(),
+  logo: new URL("/icon-512.png", SITE_URL).toString(),
   contactPoint: [
     {
-      '@type': 'ContactPoint',
-      telephone: '+91-99807-83609',
-      email: 'hello@staykeep.com',
-      contactType: 'customer service',
-      areaServed: 'IN',
+      "@type": "ContactPoint",
+      telephone: "+91-99807-83609",
+      email: "hello@staykeep.com",
+      contactType: "customer service",
+      areaServed: "IN",
     },
   ],
 };
 
 const websiteSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'WebSite',
+  "@context": "https://schema.org",
+  "@type": "WebSite",
   name: SITE_NAME,
   url: SITE_URL,
 };
@@ -65,22 +72,40 @@ const schemas = [organizationSchema, websiteSchema, ...structuredData];
     <link rel="canonical" href={canonicalUrl} />
 
     <!-- Meta Business (WhatsApp) domain verification — required on every page. -->
-    <meta name="facebook-domain-verification" content={FB_DOMAIN_VERIFICATION} />
+    <meta
+      name="facebook-domain-verification"
+      content={FB_DOMAIN_VERIFICATION}
+    />
 
     <!-- Favicons -->
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/icon-192.png" type="image/png" sizes="192x192" />
     <link rel="icon" href="/icon-32.png" type="image/png" sizes="32x32" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
 
     <!-- Self-hosted font preloads — the two most-used weights. -->
-    <link rel="preload" as="font" type="font/woff2" href={jakartaRegularUrl} crossorigin="anonymous" />
-    <link rel="preload" as="font" type="font/woff2" href={cormorantSemiboldUrl} crossorigin="anonymous" />
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href={jakartaRegularUrl}
+      crossorigin="anonymous"
+    />
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href={jakartaBoldUrl}
+      crossorigin="anonymous"
+    />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={SITE_NAME} />
     <meta property="og:title" content={title} />
-    <meta property="og:description" content={description || DEFAULT_OG_DESCRIPTION} />
+    <meta
+      property="og:description"
+      content={description || DEFAULT_OG_DESCRIPTION}
+    />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:image" content={ogImageUrl} />
     <meta property="og:image:width" content="1200" />
@@ -90,21 +115,30 @@ const schemas = [organizationSchema, websiteSchema, ...structuredData];
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description || DEFAULT_OG_DESCRIPTION} />
+    <meta
+      name="twitter:description"
+      content={description || DEFAULT_OG_DESCRIPTION}
+    />
     <meta name="twitter:image" content={ogImageUrl} />
 
     {schemas.map((schema) => (
-      <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+      <script
+        type="application/ld+json"
+        set:html={JSON.stringify(schema)}
+      ></script>
     ))}
 
     <slot name="head" />
   </head>
   <body>
-    <a href="#main" class="skip-link">Skip to content</a>
+    <a href="#main" class="skip-link">
+      Skip to content
+    </a>
     <Header />
     <main id="main">
       <slot />
     </main>
     <Footer />
+    <Motion />
   </body>
 </html>

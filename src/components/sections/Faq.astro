@@ -1,47 +1,62 @@
 ---
-import { FEE_FOOTNOTE } from '../../content/site';
-import type { FaqItem } from '../../content/faq';
-
+import type { FaqItem } from "../../content/faq";
 interface Props {
   items: FaqItem[];
 }
-
 const { items } = Astro.props;
-const needsFootnote = items.some((item) => item.showFeeFootnote);
 ---
 
-<section class="section" aria-labelledby="faq-heading">
-  <div class="container container-narrow">
-    <div class="section-heading">
-      <p class="eyebrow">Questions</p>
-      <h2 class="display-2" id="faq-heading">Frequently asked questions</h2>
+<section class="section faq-section" aria-labelledby="faq-heading">
+  <div class="container faq-layout">
+    <div>
+      <p class="eyebrow">Good questions</p>
+      <h2 class="display-2" id="faq-heading">
+        Let’s clear
+        <br />a few things up.
+      </h2>
+      <p class="body-text">Something else on your mind?</p>
+      <a href="/contact" class="text-link">
+        Talk to the StayKeep team →
+      </a>
     </div>
-
     <div class="faq-list">
       {items.map((item, index) => (
         <details class="faq-item" open={index === 0}>
           <summary>
             <span>{item.question}</span>
             <svg class="icon faq-icon" viewBox="0 0 24 24" aria-hidden="true">
-              <line x1="12" y1="5" x2="12" y2="19"></line>
-              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <path d="M12 5v14M5 12h14" />
             </svg>
           </summary>
           <p class="faq-answer">{item.answer}</p>
         </details>
       ))}
     </div>
-
-    {needsFootnote && <p class="fee-footnote">{FEE_FOOTNOTE}</p>}
   </div>
 </section>
-
 <style>
-  .container-narrow {
-    max-width: 780px;
+  .faq-section {
+    border-top: 1px solid var(--color-outline-variant);
   }
-
+  .faq-layout {
+    display: grid;
+    grid-template-columns: 0.7fr 1.3fr;
+    gap: 4rem;
+  }
+  .faq-layout .body-text {
+    margin-top: 1.5rem;
+    font-size: 0.9375rem;
+  }
+  .faq-layout .text-link {
+    font-size: 0.875rem;
+  }
   .faq-list {
     border-top: 1px solid var(--color-outline-variant);
+  }
+  @media (max-width: 800px) {
+    .faq-layout {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
   }
 </style>

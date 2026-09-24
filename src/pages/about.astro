@@ -1,54 +1,216 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import FinalCta from '../components/sections/FinalCta.astro';
+import { Image } from "astro:assets";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import FinalCta from "../components/sections/FinalCta.astro";
+import stayImage from "../assets/photos/tropical-stay.jpg";
 ---
 
 <BaseLayout
-  title="About | StayKeep"
-  description="StayKeep exists so homestays and hotels can take direct, commission-free bookings, and guests pay no booking fee."
+  title="About — a closer connection to every stay | StayKeep"
+  description="StayKeep connects guests and property owners directly, with zero booking commission and tools for the everyday work of hosting."
   path="/about"
 >
-  <section class="section">
-    <div class="container container-narrow">
-      <div class="section-heading">
-        <p class="eyebrow">Our mission</p>
-        <h1 class="display-1">Booking, without the middleman's cut</h1>
-      </div>
-
-      <div class="about-copy">
+  <section class="section about-hero">
+    <div class="container">
+      <p class="eyebrow">Why StayKeep exists</p>
+      <h1 class="display-1">
+        Hospitality is personal.
+        <br />
+        <span>Booking should be, too.</span>
+      </h1>
+      <div class="about-intro">
         <p class="lede">
-          Booking platforms have made it easy to find a place to stay. They've also made it
-          normal to hand over up to 30% of every booking in fees — split between the property
-          and the guest.
+          Behind every good stay is someone who cares about the welcome. We
+          think more of the booking should stay with them.
         </p>
         <p class="body-text">
-          StayKeep exists to change that. We built a straightforward way for homestays and
-          hotels to take bookings directly — no commission on any booking, ever — so guests pay
-          less and owners keep what they earn.
+          StayKeep brings guests and property owners closer together. Direct
+          bookings. No booking commission. And practical tools that give hosts
+          more time for the people at their door.
+        </p>
+      </div>
+      <div class="about-image">
+        <Image
+          src={stayImage}
+          alt="An inviting open-air lounge beside a tropical pool"
+          widths={[640, 960, 1440]}
+          sizes="92vw"
+          format="webp"
+        />
+        <div>
+          <span>Our starting point</span>
+          <strong>
+            A good stay works
+            <br />
+            for everyone.
+          </strong>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="section story-section">
+    <div class="container story-grid">
+      <div>
+        <p class="eyebrow">A simple idea</p>
+        <h2 class="display-2">
+          More connection.
+          <br />
+          Less in between.
+        </h2>
+      </div>
+      <div class="story-copy">
+        <p class="lede">
+          Finding a place to stay should bring you closer to the people who run
+          it.
         </p>
         <p class="body-text">
-          For guests, that means searching and booking a stay without a booking fee, and having
-          everything for the trip — the host's number, the address, the bill — in one place. For
-          owners, it means the tools to run a property day to day: bookings and check-in, staff
-          and service requests, billing, and a website of their own — without giving away a share
-          of every booking to get there.
+          For guests, StayKeep means booking directly without a StayKeep booking
+          fee. The host’s number, directions, messages and the bill live
+          together in “My stay”, so the details are there when you need them.
+        </p>
+        <p class="body-text">
+          For owners, it means a better handle on the day: bookings, check-in,
+          housekeeping, staff, requests and billing. A website of your own helps
+          guests find you and book directly, without giving up a share of each
+          booking.
+        </p>
+        <p class="body-text">
+          Our promise is straightforward: 0% commission on bookings. You do the
+          hosting. You keep more of what you earn.
         </p>
       </div>
     </div>
   </section>
-
-  <FinalCta variant="home" />
+  <section class="section principles">
+    <div class="container grid-3">
+      {[
+        {
+          n: "01",
+          title: "Direct by design.",
+          text: "A real connection between guests and the people welcoming them.",
+        },
+        {
+          n: "02",
+          title: "Clear about the cost.",
+          text: "Zero booking commission and no StayKeep guest booking fee. Plans are separate.",
+        },
+        {
+          n: "03",
+          title: "Useful every day.",
+          text: "Tools that help with real work, from a new booking to a room ready for the next guest.",
+        },
+      ].map((item) => (
+        <article>
+          <span>{item.n}</span>
+          <h2 class="display-4">{item.title}</h2>
+          <p class="body-text">{item.text}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+  <FinalCta />
 </BaseLayout>
-
 <style>
-  .container-narrow {
-    max-width: 720px;
+  .about-hero {
+    padding-bottom: 0;
+    background: linear-gradient(#f5f7ff, #fff);
   }
-
-  .about-copy {
-    margin-top: var(--space-xl);
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-md);
+  .about-hero h1 {
+    font-size: clamp(2.8rem, 5vw, 4.6rem);
+  }
+  .about-hero h1 span {
+    color: var(--color-primary);
+  }
+  .about-intro {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    margin: 2.5rem 0 3rem;
+    max-width: 68rem;
+  }
+  .about-image {
+    position: relative;
+    border-radius: 24px;
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .about-image img {
+    width: 100%;
+    height: 420px;
+    object-fit: cover;
+    object-position: center 63%;
+  }
+  .about-image::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, #081d2877, transparent);
+    z-index: 0;
+  }
+  .about-image > div {
+    position: absolute;
+    z-index: 1;
+    bottom: 2.5rem;
+    left: 2.5rem;
+    color: white;
+  }
+  .about-image span {
+    font-size: 0.875rem;
+  }
+  .about-image strong {
+    display: block;
+    font-size: 2.5rem;
+    line-height: 1.2;
+    letter-spacing: -0.04em;
+    margin-top: 0.75rem;
+  }
+  .story-grid {
+    display: grid;
+    grid-template-columns: 0.85fr 1.15fr;
+    gap: 6rem;
+  }
+  .story-copy {
+    display: grid;
+    gap: 1.5rem;
+  }
+  .principles {
+    padding-top: 0;
+  }
+  .principles article {
+    border-top: 1px solid var(--color-outline-variant);
+    padding-top: 1.5rem;
+  }
+  .principles article > span {
+    font-size: 0.875rem;
+    color: var(--color-primary);
+  }
+  .principles h2 {
+    margin: 1rem 0;
+  }
+  .principles p {
+    font-size: 0.9375rem;
+  }
+  @media (max-width: 760px) {
+    .about-intro,
+    .story-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    .about-intro {
+      margin: 2rem 0;
+    }
+    .about-image img {
+      height: 330px;
+    }
+    .about-image > div {
+      left: 1.5rem;
+      bottom: 1.5rem;
+    }
+    .about-image strong {
+      font-size: 2rem;
+    }
+    .principles .grid-3 {
+      gap: 2rem;
+    }
   }
 </style>

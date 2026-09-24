@@ -1,76 +1,106 @@
 ---
-import Icon from '../Icon.astro';
-import { APP_STAYS_URL, MANAGE_URL } from '../../content/site';
-
+import Icon from "../Icon.astro";
+import { APP_STAYS_URL, MANAGE_URL } from "../../content/site";
 interface Props {
-  variant?: 'home' | 'owners';
+  variant?: "home" | "owners";
 }
-
-const { variant = 'home' } = Astro.props;
+const { variant = "home" } = Astro.props;
 ---
 
-<section class="section">
+<section class="final-section">
   <div class="container">
     <div class="final-cta">
-      <h2 class="display-2">
-        {variant === 'home' ? 'Ready when you are.' : 'Keep 100% of every booking.'}
-      </h2>
-      <p class="lede final-cta-lede">
-        {variant === 'home'
-          ? "Whether you're booking a stay or running one, StayKeep takes no commission — ever."
-          : 'Set up your property on Manage and start taking direct bookings, at 0% commission.'}
-      </p>
-
-      <div class="hero-actions">
-        {variant === 'home' ? (
+      <div>
+        <p class="eyebrow">Stay a little closer.</p>
+        <h2 class="display-2">
+          {variant === "home"
+            ? "Good stays start with a direct connection."
+            : "Your property. Your guests. Your next chapter."}
+        </h2>
+        <p class="lede">
+          {variant === "home"
+            ? "Find your next stay, or open your doors to more guests."
+            : "Bring your bookings, team and guest experience together with StayKeep."}
+        </p>
+      </div>
+      <div class="final-actions">
+        {variant === "home" ? (
           <>
-            <a href={APP_STAYS_URL} class="btn btn-primary" rel="noopener">
-              Find a stay
-              <Icon name="arrow-right" size={18} />
+            <a href={APP_STAYS_URL} class="btn btn-primary">
+              Find a stay <Icon name="arrow-right" />
             </a>
-            <a href="/owners" class="btn btn-outline">List your property</a>
+            <a href="/owners" class="btn btn-outline">
+              List your property
+            </a>
           </>
         ) : (
           <>
-            <a href={MANAGE_URL} class="btn btn-primary" rel="noopener">
-              Get started on Manage
-              <Icon name="arrow-right" size={18} />
+            <a href={MANAGE_URL} class="btn btn-primary">
+              Get started on Manage <Icon name="arrow-right" />
             </a>
-            <a href="/contact" class="btn btn-outline">Talk to us</a>
+            <a href="/contact" class="btn btn-outline">
+              Talk to our team
+            </a>
           </>
         )}
       </div>
     </div>
   </div>
 </section>
-
 <style>
+  .final-section {
+    padding: 0 0 5rem;
+  }
   .final-cta {
-    background: linear-gradient(155deg, var(--color-primary-container) 0%, var(--color-surface-container-high) 100%);
-    border-radius: var(--radius-curve);
-    padding: var(--space-3xl) var(--space-lg);
-    text-align: center;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr auto;
     align-items: center;
+    gap: 3rem;
+    padding: 3.5rem;
+    background: #edf2ff;
+    border-radius: 24px;
   }
-
-  .final-cta-lede {
-    max-width: 34rem;
-    margin-top: var(--space-sm);
+  .final-cta h2 {
+    font-size: clamp(1.8rem, 3vw, 2.7rem);
+    max-width: 20em;
   }
-
-  .final-cta .hero-actions {
-    justify-content: center;
-    margin-top: var(--space-xl);
+  .final-cta .lede {
+    margin-top: 1.2rem;
+    font-size: 1rem;
   }
-
-  @media (max-width: 479px) {
-    .final-cta .hero-actions {
-      flex-direction: column;
+  .final-actions {
+    display: grid;
+    gap: 0.85rem;
+  }
+  .final-actions .btn-outline {
+    background: white;
+  }
+  .final-cta .eyebrow {
+    font-size: 0.8125rem;
+  }
+  @media (max-width: 760px) {
+    .final-cta {
+      grid-template-columns: 1fr;
+      padding: 2rem 1.5rem;
+      gap: 1.75rem;
     }
-    .final-cta .hero-actions .btn {
-      width: 100%;
+    .final-section {
+      padding-bottom: 3.5rem;
+    }
+    .final-actions {
+      grid-template-columns: 1fr 1fr;
+    }
+    .final-actions .btn {
+      font-size: 0.8125rem;
+      padding: 0.8rem;
+    }
+    .final-actions .icon {
+      width: 1rem;
+    }
+  }
+  @media (max-width: 400px) {
+    .final-actions {
+      grid-template-columns: 1fr;
     }
   }
 </style>

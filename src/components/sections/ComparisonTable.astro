@@ -1,37 +1,133 @@
 ---
-import CompareCell from '../CompareCell.astro';
-import { COMPARISON_ROWS } from '../../content/comparison';
+import CompareCell from "../CompareCell.astro";
+import { COMPARISON_ROWS } from "../../content/comparison";
 ---
 
-<section class="section" aria-labelledby="comparison-heading">
+<section class="section" id="compare" aria-labelledby="comparison-heading">
   <div class="container">
-    <div class="section-heading">
-      <p class="eyebrow">The difference</p>
-      <h2 class="display-2" id="comparison-heading">StayKeep vs. typical booking platforms</h2>
-      <p class="lede">How StayKeep compares with typical booking platforms.</p>
+    <div class="comparison-layout">
+      <div>
+        <p class="eyebrow">Clear from the start</p>
+        <h2 class="display-2" id="comparison-heading">
+          The difference
+          <br />
+          is direct.
+        </h2>
+        <p class="lede">
+          Keep the booking and the guest relationship closer to your property.
+        </p>
+        <p class="comparison-note">
+          Platform terms differ. For example, Airbnb’s single fee is generally
+          15.5%, with exceptions.
+          <br />
+          <a
+            href="https://www.airbnb.com/help/article/1857"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            Read Airbnb’s fee policy ↗
+          </a>
+        </p>
+      </div>
+      <div class="table-wrap">
+        <table class="compare-table">
+          <caption class="visually-hidden">
+            Booking platform features compared with StayKeep
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">What matters</th>
+              <th scope="col">Other platforms</th>
+              <th scope="col" class="col-highlight">
+                StayKeep
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {COMPARISON_ROWS.map((row) => (
+              <tr>
+                <th scope="row">{row.label}</th>
+                <td>
+                  <CompareCell cell={row.typical} />
+                </td>
+                <td class="col-highlight">
+                  <CompareCell cell={row.staykeep} />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <p class="table-note">
+          0% refers to booking commission. StayKeep plans, property charges,
+          taxes and payment charges are separate.
+        </p>
+      </div>
     </div>
-
-    <table class="compare-table">
-      <thead>
-        <tr>
-          <th scope="col"><span class="visually-hidden">Comparison</span></th>
-          <th scope="col">Typical booking platform</th>
-          <th scope="col" class="col-highlight">StayKeep</th>
-        </tr>
-      </thead>
-      <tbody>
-        {COMPARISON_ROWS.map((row) => (
-          <tr>
-            <td>{row.label}</td>
-            <td data-label={row.label}>
-              <CompareCell cell={row.typical} />
-            </td>
-            <td data-label={row.label} class="col-highlight">
-              <CompareCell cell={row.staykeep} />
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
   </div>
 </section>
+<style>
+  .comparison-layout {
+    display: grid;
+    grid-template-columns: 0.7fr 1.3fr;
+    gap: 4rem;
+    align-items: start;
+  }
+  .comparison-layout .lede {
+    margin-top: 1.5rem;
+  }
+  .comparison-note,
+  .table-note {
+    font-size: 0.8125rem;
+    color: var(--color-on-surface-variant);
+    line-height: 1.75;
+    margin-top: 1.5rem;
+  }
+  .comparison-note a {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    color: var(--color-primary);
+    display: inline-block;
+    margin-top: 0.5rem;
+  }
+  .table-wrap {
+    min-width: 0;
+  }
+  .compare-table th[scope="row"] {
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+  .compare-table td {
+    font-size: 0.875rem;
+  }
+  .compare-table td:last-child {
+    width: 31%;
+  }
+  .table-note {
+    margin-top: 1rem;
+  }
+  @media (max-width: 1000px) {
+    .comparison-layout {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    .comparison-layout > div:first-child {
+      max-width: 36rem;
+    }
+  }
+  @media (max-width: 480px) {
+    .compare-table th[scope="row"],
+    .compare-table td {
+      font-size: 0.75rem;
+    }
+    .compare-table th,
+    .compare-table td {
+      padding: 0.95rem 0.55rem;
+    }
+    .compare-table thead th {
+      font-size: 0.75rem;
+    }
+    .compare-table th:first-child {
+      width: 33%;
+    }
+  }
+</style>

@@ -52,7 +52,7 @@ export const OWNER_FEATURES: FeatureItem[] = [
   },
   {
     icon: 'sparkle',
-    title: 'Check-out that cleans up after itself',
+    title: 'Housekeeping after check-out',
     description: 'Checking a guest out creates a cleaning task for that room automatically.',
   },
   {
@@ -83,7 +83,7 @@ export const OWNER_FEATURES: FeatureItem[] = [
   {
     icon: 'palette',
     title: 'Your own website',
-    description: 'A free-to-set-up website at yourname.staykeep.com — drag-and-drop sections, your photos and videos, room details, places to visit, a blog, your own colours, and a booking widget that sends bookings straight to you at 0% commission.',
+    description: 'Create your own booking website with photos, room details, nearby places and a blog. Free to set up at yourname.staykeep.com.',
   },
   {
     icon: 'globe',

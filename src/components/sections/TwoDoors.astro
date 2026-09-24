@@ -1,62 +1,155 @@
 ---
-import Icon from '../Icon.astro';
-import { APP_STAYS_URL } from '../../content/site';
-
-interface Props {
-  showHeading?: boolean;
-}
-
-const { showHeading = true } = Astro.props;
+import Icon from "../Icon.astro";
+import { APP_STAYS_URL } from "../../content/site";
 ---
 
-<section class="section" aria-labelledby={showHeading ? 'two-doors-heading' : undefined}>
+<section class="section" aria-labelledby="two-doors-heading">
   <div class="container">
-    {showHeading && (
-      <div class="section-heading">
-        <h2 class="display-2" id="two-doors-heading">Two doors. One promise.</h2>
-        <p class="lede">No commission, no booking fee — whichever side of the stay you're on.</p>
-      </div>
-    )}
-
-    <div class="grid-2">
-      <div class="card card-pad-lg door-card">
-        <div class="icon-circle"><Icon name="search" /></div>
-        <h3 class="display-3">Booking a stay</h3>
+    <div class="section-heading">
+      <p class="eyebrow">For the stay. And the people behind it.</p>
+      <h2 class="display-2" id="two-doors-heading">
+        A better experience,
+        <br />
+        whichever side you’re on.
+      </h2>
+    </div>
+    <div class="doors">
+      <article class="door guest-door">
+        <div class="door-top">
+          <span class="icon-circle">
+            <Icon name="key" />
+          </span>
+          <span class="label">For guests</span>
+        </div>
+        <h3 class="display-3">Find your kind of stay.</h3>
         <p class="body-text">
-          Search homestays and hotels near you or by place, and book directly with the owner —
-          there's never a booking fee.
+          Discover homestays and hotels, connect with your host, and book
+          directly. Your trip starts with a place, not a platform fee.
         </p>
-        <a href={APP_STAYS_URL} class="btn btn-primary" rel="noopener">
-          Find a stay
-          <Icon name="arrow-right" size={18} />
+        <ul>
+          <li>
+            <Icon name="check" />
+            No StayKeep booking fee
+          </li>
+          <li>
+            <Icon name="check" />
+            Chat, directions and requests in one place
+          </li>
+          <li>
+            <Icon name="check" />
+            Your bill and invoice, always handy
+          </li>
+        </ul>
+        <a href={APP_STAYS_URL} class="text-link">
+          Explore stays <Icon name="arrow-right" />
         </a>
-      </div>
-
-      <div class="card card-pad-lg door-card">
-        <div class="icon-circle"><Icon name="building" /></div>
-        <h3 class="display-3">Running a property</h3>
+      </article>
+      <article class="door owner-door">
+        <div class="door-top">
+          <span class="icon-circle">
+            <Icon name="building" />
+          </span>
+          <span class="label">For property owners</span>
+        </div>
+        <h3 class="display-3">Make more of your place.</h3>
         <p class="body-text">
-          Bookings, check-in and check-out, staff, billing and your own website — with 0%
-          commission on every booking, always.
+          You put the work into every welcome. Keep more from each booking, with
+          the tools to run your property from one place.
         </p>
-        <a href="/owners" class="btn btn-primary">
-          For property owners
-          <Icon name="arrow-right" size={18} />
+        <ul>
+          <li>
+            <Icon name="check" />
+            0% commission on every booking
+          </li>
+          <li>
+            <Icon name="check" />
+            Bookings, staff, check-in and billing
+          </li>
+          <li>
+            <Icon name="check" />
+            Your own website, free to set up
+          </li>
+        </ul>
+        <a href="/owners" class="text-link">
+          List your property <Icon name="arrow-right" />
         </a>
-      </div>
+      </article>
     </div>
   </div>
 </section>
-
 <style>
-  .door-card {
+  .doors {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+  .door {
+    border-radius: 20px;
+    padding: 2.5rem;
+    border: 1px solid var(--color-outline-variant);
+  }
+  .guest-door {
+    background: #f4f7ff;
+  }
+  .owner-door {
+    background: #fffbf2;
+    border-color: #ede5d7;
+  }
+  .door-top {
     display: flex;
-    flex-direction: column;
-    gap: var(--space-sm);
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+  }
+  .owner-door .icon-circle {
+    border-color: #dfd4bb;
+    color: #8c631b;
+  }
+  .door-top .label {
+    font-size: 0.75rem;
+  }
+  .door h3 {
+    font-size: 2rem;
+  }
+  .door > .body-text {
+    margin-top: 1rem;
+    max-width: 33rem;
+  }
+  .door ul {
+    list-style: none;
+    display: grid;
+    gap: 0.85rem;
+    margin: 1.5rem 0;
+    font-size: 0.875rem;
+  }
+  .door li {
+    display: flex;
+    gap: 0.65rem;
     align-items: flex-start;
   }
-
-  .door-card .btn {
-    margin-top: var(--space-sm);
+  .door li .icon {
+    width: 1.05rem;
+    margin-top: 2px;
+    color: var(--color-primary);
+  }
+  .door .text-link {
+    margin-top: 0.5rem;
+  }
+  .door .text-link .icon {
+    width: 1.1rem;
+  }
+  @media (max-width: 760px) {
+    .doors {
+      grid-template-columns: 1fr;
+    }
+    .door {
+      padding: 1.5rem;
+    }
+    .door h3 {
+      font-size: 1.75rem;
+    }
+    .door-top {
+      margin-bottom: 1.5rem;
+    }
   }
 </style>

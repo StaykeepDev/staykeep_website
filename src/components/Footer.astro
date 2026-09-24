@@ -1,140 +1,126 @@
 ---
-import Logo from './Logo.astro';
-import { FOOTER_LINKS, CONTACT_EMAIL, CONTACT_PHONE_DISPLAY, CONTACT_PHONE_TEL } from '../content/site';
-
+import Logo from "./Logo.astro";
+import {
+  FOOTER_LINKS,
+  CONTACT_EMAIL,
+  CONTACT_PHONE_DISPLAY,
+  CONTACT_PHONE_TEL,
+} from "../content/site";
 const year = new Date().getFullYear();
+const columns = [
+  { title: "Explore", links: FOOTER_LINKS.guests },
+  { title: "For owners", links: FOOTER_LINKS.owners },
+  { title: "StayKeep", links: FOOTER_LINKS.company },
+];
 ---
 
 <footer class="site-footer">
-  <div class="container footer-inner">
+  <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
-        <Logo size={28} />
-        <p class="body-text footer-tagline">
-          Direct, commission-free booking for homestays and hotels.
+        <Logo />
+        <p>
+          Good stays. Direct connections.
+          <br />
+          More for the people behind them.
         </p>
-        <p class="body-text footer-contact">
-          <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a><br />
-          <a href={CONTACT_PHONE_TEL}>{CONTACT_PHONE_DISPLAY}</a>
-        </p>
+        <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+        <a href={CONTACT_PHONE_TEL}>{CONTACT_PHONE_DISPLAY}</a>
       </div>
-
-      <nav class="footer-col" aria-label="For guests">
-        <h2 class="label">Guests</h2>
-        <ul>
-          {FOOTER_LINKS.guests.map((l) => (
-            <li><a href={l.href} {...(l.external ? { rel: 'noopener' } : {})}>{l.label}</a></li>
-          ))}
-        </ul>
-      </nav>
-
-      <nav class="footer-col" aria-label="For property owners">
-        <h2 class="label">Owners</h2>
-        <ul>
-          {FOOTER_LINKS.owners.map((l) => (
-            <li><a href={l.href} {...(l.external ? { rel: 'noopener' } : {})}>{l.label}</a></li>
-          ))}
-        </ul>
-      </nav>
-
-      <nav class="footer-col" aria-label="Company">
-        <h2 class="label">Company</h2>
-        <ul>
-          {FOOTER_LINKS.company.map((l) => (
-            <li><a href={l.href}>{l.label}</a></li>
-          ))}
-        </ul>
-      </nav>
-
-      <nav class="footer-col" aria-label="Legal">
-        <h2 class="label">Legal</h2>
-        <ul>
-          {FOOTER_LINKS.legal.map((l) => (
-            <li><a href={l.href}>{l.label}</a></li>
-          ))}
-        </ul>
-      </nav>
+      {columns.map((col) => (
+        <nav aria-label={col.title}>
+          <h2>{col.title}</h2>
+          <ul>
+            {col.links.map((link) => (
+              <li>
+                <a href={link.href}>{link.label}</a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      ))}
     </div>
-
-    <hr class="hairline footer-hairline" />
-
     <div class="footer-bottom">
-      <p class="body-text">© {year} StayKeep. All rights reserved.</p>
+      <p>© {year} StayKeep. All rights reserved.</p>
+      <nav aria-label="Legal">
+        {FOOTER_LINKS.legal.map((link) => (
+          <a href={link.href}>{link.label}</a>
+        ))}
+      </nav>
     </div>
   </div>
 </footer>
-
 <style>
   .site-footer {
-    background: var(--color-surface-container-high);
-    margin-top: var(--space-3xl);
+    background: #14213d;
+    color: #f4f6fc;
+    --logo-key: #14213d;
+    padding: 4.5rem 0 1.75rem;
   }
-
-  .footer-inner {
-    padding-block: var(--space-2xl) var(--space-lg);
-  }
-
   .footer-grid {
     display: grid;
-    gap: var(--space-xl);
-    grid-template-columns: 1fr;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 2rem;
+    padding-bottom: 4rem;
   }
-
-  .footer-brand {
-    max-width: 22rem;
-  }
-
-  .footer-tagline {
-    margin-top: var(--space-sm);
-  }
-
-  .footer-contact {
-    margin-top: var(--space-md);
-    line-height: 1.9;
-  }
-
-  .footer-contact a:hover {
-    color: var(--color-primary);
-  }
-
-  .footer-col ul {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 0.65rem;
-    margin-top: var(--space-sm);
-  }
-
-  .footer-col a {
-    color: var(--color-on-surface-variant);
+  .footer-brand p {
+    color: #b5c0d5;
     font-size: 0.9375rem;
+    margin: 1.5rem 0;
   }
-
-  .footer-col a:hover {
-    color: var(--color-on-surface);
+  .footer-brand > a {
+    display: block;
+    font-size: 0.875rem;
+    margin-top: 0.4rem;
   }
-
-  .footer-hairline {
-    margin-top: var(--space-2xl);
+  .footer-grid nav h2 {
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-bottom: 1.25rem;
+    color: #b5c0d5;
   }
-
+  .footer-grid ul {
+    list-style: none;
+  }
+  .footer-grid li {
+    margin-bottom: 0.7rem;
+    font-size: 0.875rem;
+  }
+  .site-footer a:hover {
+    text-decoration: underline;
+    text-underline-offset: 5px;
+  }
   .footer-bottom {
-    padding-top: var(--space-md);
+    border-top: 1px solid #ffffff25;
+    padding-top: 1.5rem;
     display: flex;
     justify-content: space-between;
+    gap: 1.5rem;
     flex-wrap: wrap;
-    gap: var(--space-sm);
+    font-size: 0.8125rem;
+    color: #b5c0d5;
   }
-
-  @media (min-width: 640px) {
+  .footer-bottom nav {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  @media (max-width: 760px) {
     .footer-grid {
-      grid-template-columns: 1.4fr 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem 1rem;
     }
-  }
-
-  @media (min-width: 1024px) {
+    .footer-brand {
+      grid-column: 1/-1;
+    }
+    .footer-bottom nav {
+      gap: 1rem;
+    }
+    .site-footer {
+      padding-top: 3rem;
+    }
     .footer-grid {
-      grid-template-columns: 1.6fr 1fr 1fr 1fr 1fr;
+      padding-bottom: 2rem;
     }
   }
 </style>
