@@ -64,4 +64,13 @@ const { variant = 'home' } = Astro.props;
     justify-content: center;
     margin-top: var(--space-xl);
   }
+
+  @media (max-width: 479px) {
+    .final-cta .hero-actions {
+      flex-direction: column;
+    }
+    .final-cta .hero-actions .btn {
+      width: 100%;
+    }
+  }
 </style>

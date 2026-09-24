@@ -1,5 +1,7 @@
 ---
 import Icon from '../Icon.astro';
+import PhoneShot from '../PhoneShot.astro';
+import websitePreviewPhoneImg from '../../assets/screenshots/website-preview-phone.png';
 
 const points = [
   'Drag-and-drop sections, your own photos and videos',
@@ -33,26 +35,12 @@ const points = [
         </a>
       </div>
 
-      <div class="own-website-visual" aria-hidden="true">
-        <div class="browser-frame">
-          <div class="browser-chrome">
-            <span class="browser-dot"></span>
-            <span class="browser-dot"></span>
-            <span class="browser-dot"></span>
-            <span class="browser-url">yourname.staykeep.com</span>
-          </div>
-          <div class="browser-body">
-            <div class="browser-hero"></div>
-            <div class="browser-line browser-line-wide"></div>
-            <div class="browser-line browser-line-mid"></div>
-            <div class="browser-cards">
-              <div class="browser-card"></div>
-              <div class="browser-card"></div>
-              <div class="browser-card"></div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <PhoneShot
+        src={websitePreviewPhoneImg}
+        alt="Lakeview Homestay's real StayKeep website, shown on a phone: a teal hero with the property name, Alappuzha Kerala, and a Check availability button"
+        widths={[280, 420]}
+        sizes="(min-width: 900px) 280px, 60vw"
+      />
     </div>
   </div>
 </section>
@@ -81,77 +69,6 @@ const points = [
 
   .own-website-copy .btn {
     margin-top: var(--space-lg);
-  }
-
-  .browser-frame {
-    border-radius: var(--radius-card-sm);
-    overflow: hidden;
-    background: var(--color-surface-lowest);
-    box-shadow: var(--shadow-soft);
-    border: 1px solid var(--color-outline-variant);
-  }
-
-  .browser-chrome {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    padding: 0.7rem 0.9rem;
-    background: var(--color-surface-container);
-  }
-
-  .browser-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--color-outline-variant);
-  }
-
-  .browser-url {
-    margin-left: 0.6rem;
-    font-size: 0.75rem;
-    color: var(--color-on-surface-variant);
-    background: var(--color-surface-lowest);
-    border-radius: var(--radius-pill);
-    padding: 0.2rem 0.7rem;
-  }
-
-  .browser-body {
-    padding: 1.1rem;
-  }
-
-  .browser-hero {
-    height: 5rem;
-    border-radius: var(--radius-card-sm);
-    background: linear-gradient(135deg, var(--color-primary-container), var(--color-surface-container-high));
-    margin-bottom: 0.9rem;
-  }
-
-  .browser-line {
-    height: 10px;
-    border-radius: var(--radius-pill);
-    background: var(--color-outline-variant);
-    margin-bottom: 0.55rem;
-  }
-
-  .browser-line-wide {
-    width: 80%;
-  }
-
-  .browser-line-mid {
-    width: 55%;
-  }
-
-  .browser-cards {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0.6rem;
-    margin-top: 0.9rem;
-  }
-
-  .browser-card {
-    aspect-ratio: 1;
-    border-radius: 12px;
-    background: var(--color-surface-container);
   }
 
   @media (min-width: 900px) {

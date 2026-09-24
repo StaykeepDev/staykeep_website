@@ -2,16 +2,25 @@
 /**
  * Real Manage-web screenshots (seed property "Lakeview Homestay", seed
  * accounts only — never a live customer's data), captured locally against
- * the dev backend on :8092 and cropped to the meaningful part of each
- * screen. The dashboard/"Home" screen was deliberately left out: it
- * currently renders an honest "isn't ready yet" placeholder, which isn't
- * fit for marketing use.
+ * the dev backend on :8092. The dashboard/"Home" screen was deliberately
+ * left out: it currently renders an honest "isn't ready yet" placeholder,
+ * not fit for marketing use.
+ *
+ * Each desktop shot has a separate, tighter MOBILE CROP (a different image,
+ * not a resized one) — showing the full 1440px-wide screenshot shrunk into
+ * a phone-width card made its text illegible (found in review). The crop
+ * files are made by scripts/pil crops in this session; see BrowserFrame's
+ * own comment for how the two are wired into one <picture>.
  */
 import BrowserFrame from '../BrowserFrame.astro';
 import bookingsImg from '../../assets/screenshots/bookings.png';
+import bookingsMobileImg from '../../assets/screenshots/bookings-mobile.png';
 import calendarImg from '../../assets/screenshots/calendar.png';
+import calendarMobileImg from '../../assets/screenshots/calendar-mobile.png';
 import bookingDetailImg from '../../assets/screenshots/booking-detail.png';
+import bookingDetailMobileImg from '../../assets/screenshots/booking-detail-mobile.png';
 import chatImg from '../../assets/screenshots/chat.png';
+import chatMobileImg from '../../assets/screenshots/chat-mobile.png';
 
 interface Props {
   variant?: 'home' | 'owners';
@@ -19,42 +28,39 @@ interface Props {
 
 const { variant = 'home' } = Astro.props;
 
-const allItems = [
-  {
-    key: 'bookings',
-    image: bookingsImg,
-    title: 'Bookings',
-    description: 'Every booking, with guests, stays and status, at a glance.',
-    alt: 'StayKeep Manage bookings list, showing guest names, stay dates, room and guest counts, totals and status for several bookings',
-  },
-  {
-    key: 'calendar',
-    image: calendarImg,
-    title: 'Calendar',
-    description: 'Live availability across every room, night by night.',
-    alt: 'StayKeep Manage calendar view of room availability',
-  },
-  {
-    key: 'booking-detail',
-    image: bookingDetailImg,
-    title: 'Booking detail & bill',
-    description: 'The full stay, its room, and its bill — total, paid and balance due.',
-    alt: 'StayKeep Manage booking detail screen showing stay dates, room 202, and a bill with total ₹4,400, paid ₹0 and balance due ₹4,400',
-  },
-  {
-    key: 'chat',
-    image: chatImg,
-    title: 'Chat',
-    description: 'One conversation per stay — chat and voice messages with guests.',
-    alt: 'StayKeep Manage chat inbox with a conversation open, showing guest messages about early check-in',
-  },
-] as const;
+const bookingDetail = {
+  image: bookingDetailImg,
+  mobileImage: bookingDetailMobileImg,
+  title: 'Booking detail & bill',
+  description: 'The full stay, its room, and its bill — total, paid and balance due.',
+  alt: 'StayKeep Manage booking detail screen showing stay dates, room 202, and a bill with total ₹4,400, paid ₹0 and balance due ₹4,400',
+};
 
-// Home shows exactly 2 (a clean 2-column grid with no orphaned card and
-// dead space beside it, found in visual review — 3 items wrapped a lone
-// card onto its own half-empty row). The full 4 lives on /owners.
-const HOME_KEYS = ['bookings', 'chat'];
-const items = variant === 'home' ? allItems.filter((i) => HOME_KEYS.includes(i.key)) : allItems;
+const chat = {
+  image: chatImg,
+  mobileImage: chatMobileImg,
+  title: 'Chat',
+  description: 'One conversation per stay — chat and voice messages with guests.',
+  alt: 'StayKeep Manage chat inbox with a conversation open, showing guest messages about early check-in',
+};
+
+const bookings = {
+  image: bookingsImg,
+  mobileImage: bookingsMobileImg,
+  title: 'Bookings',
+  description: 'Every booking, with guests, stays and status, at a glance.',
+  alt: 'StayKeep Manage bookings list, showing guest names, stay dates, room and guest counts, totals and status for several bookings',
+};
+
+const calendar = {
+  image: calendarImg,
+  mobileImage: calendarMobileImg,
+  title: 'Calendar',
+  description: 'Live availability across every room, night by night.',
+  alt: 'StayKeep Manage calendar view of room availability',
+};
+
+const ownersItems = [bookings, calendar, bookingDetail, chat];
 ---
 
 <section class="section" aria-labelledby="showcase-heading">
@@ -65,17 +71,58 @@ const items = variant === 'home' ? allItems.filter((i) => HOME_KEYS.includes(i.k
       <p class="lede">Real screens from StayKeep Manage — on Android and on the web.</p>
     </div>
 
-    <div class="showcase-grid">
-      {items.map((item) => (
-        <figure class="showcase-item">
-          <BrowserFrame src={item.image} alt={item.alt} url="manage.staykeep.com" widths={[480, 768, 960]} sizes="(min-width: 1024px) 480px, 90vw" />
+    {variant === 'home' ? (
+      <div class="showcase-featured">
+        <figure class="showcase-item showcase-item-large">
+          <BrowserFrame
+            src={bookingDetail.image}
+            mobileSrc={bookingDetail.mobileImage}
+            alt={bookingDetail.alt}
+            url="manage.staykeep.com"
+            widths={[640, 960, 1200]}
+            sizes="(min-width: 700px) 90vw, 100vw"
+          />
           <figcaption>
-            <h3 class="display-4">{item.title}</h3>
-            <p class="body-text">{item.description}</p>
+            <h3 class="display-4">{bookingDetail.title}</h3>
+            <p class="body-text">{bookingDetail.description}</p>
           </figcaption>
         </figure>
-      ))}
-    </div>
+
+        <figure class="showcase-item showcase-item-small">
+          <BrowserFrame
+            src={chat.image}
+            mobileSrc={chat.mobileImage}
+            alt={chat.alt}
+            url="manage.staykeep.com"
+            widths={[480, 768]}
+            sizes="(min-width: 700px) 40vw, 100vw"
+          />
+          <figcaption>
+            <h3 class="display-4">{chat.title}</h3>
+            <p class="body-text">{chat.description}</p>
+          </figcaption>
+        </figure>
+      </div>
+    ) : (
+      <div class="showcase-grid">
+        {ownersItems.map((item) => (
+          <figure class="showcase-item">
+            <BrowserFrame
+              src={item.image}
+              mobileSrc={item.mobileImage}
+              alt={item.alt}
+              url="manage.staykeep.com"
+              widths={[480, 768, 960]}
+              sizes="(min-width: 1024px) 480px, 90vw"
+            />
+            <figcaption>
+              <h3 class="display-4">{item.title}</h3>
+              <p class="body-text">{item.description}</p>
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+    )}
   </div>
 </section>
 
@@ -103,5 +150,18 @@ const items = variant === 'home' ? allItems.filter((i) => HOME_KEYS.includes(i.k
     .showcase-grid {
       grid-template-columns: repeat(2, 1fr);
     }
+  }
+
+  /* Home: one large shot at full content width, the other smaller and
+     below it (not squeezed into an equal half-width column — that made
+     both too small to read on desktop, found in review). */
+  .showcase-featured {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
+  }
+
+  .showcase-item-small {
+    max-width: 30rem;
   }
 </style>

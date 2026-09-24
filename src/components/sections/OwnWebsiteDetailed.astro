@@ -2,7 +2,9 @@
 import Icon from '../Icon.astro';
 import BrowserFrame from '../BrowserFrame.astro';
 import websitePreviewImg from '../../assets/screenshots/website-preview.png';
+import websitePreviewPhoneImg from '../../assets/screenshots/website-preview-phone.png';
 import websiteBuilderImg from '../../assets/screenshots/website-builder.png';
+import websiteBuilderMobileImg from '../../assets/screenshots/website-builder-mobile.png';
 
 const points = [
   'Drag-and-drop sections, your own photos and videos',
@@ -27,6 +29,7 @@ const points = [
       <figure class="own-website-shot own-website-shot-primary">
         <BrowserFrame
           src={websitePreviewImg}
+          mobileSrc={websitePreviewPhoneImg}
           alt="The StayKeep website builder's drag-and-drop editor, with a live phone preview of Lakeview Homestay's site: a teal hero section, the property name and location, and a Check availability button"
           url="yourname.staykeep.com/edit"
           widths={[480, 768, 1024]}
@@ -37,6 +40,7 @@ const points = [
       <figure class="own-website-shot">
         <BrowserFrame
           src={websiteBuilderImg}
+          mobileSrc={websiteBuilderMobileImg}
           alt="StayKeep Manage showing a published website for Lakeview Homestay at lakeview-homestay.staykeep.com, marked LIVE"
           url="manage.staykeep.com"
           widths={[480, 768]}

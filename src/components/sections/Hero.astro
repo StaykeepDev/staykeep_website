@@ -1,37 +1,53 @@
 ---
 import { APP_STAYS_URL } from '../../content/site';
 import Icon from '../Icon.astro';
+import PhoneShot from '../PhoneShot.astro';
+import websitePreviewPhoneImg from '../../assets/screenshots/website-preview-phone.png';
 ---
 
 <section class="hero">
   <div class="container hero-inner">
-    <h1 class="display-1">0% commission.<br />On every booking.</h1>
-    <p class="lede hero-lede">
-      Booking platforms can take up to 30% of every booking — from the owner and the guest.
-      StayKeep takes nothing. Guests pay less. Owners keep more.
-    </p>
+    <div class="hero-text">
+      <h1 class="display-1">0% commission.<br />On every booking.</h1>
+      <p class="lede hero-lede">
+        Booking platforms can take up to 30% of every booking — from the owner and the guest.
+        StayKeep takes nothing. Guests pay less. Owners keep more.
+      </p>
 
-    <div class="hero-actions">
-      <a href={APP_STAYS_URL} class="btn btn-primary" rel="noopener">
-        Find a stay
-        <Icon name="arrow-right" size={18} />
-      </a>
-      <a href="/owners" class="btn btn-outline">List your property</a>
+      <div class="hero-actions">
+        <a href={APP_STAYS_URL} class="btn btn-primary" rel="noopener">
+          Find a stay
+          <Icon name="arrow-right" size={18} />
+        </a>
+        <a href="/owners" class="btn btn-outline">List your property</a>
+      </div>
+
+      <form action={APP_STAYS_URL} method="get" class="hero-search" role="search">
+        <label for="hero-search-q" class="visually-hidden">Where do you want to stay?</label>
+        <Icon name="search" size={20} class="hero-search-icon" />
+        <input
+          id="hero-search-q"
+          name="q"
+          type="text"
+          placeholder="Where do you want to stay?"
+          class="hero-search-input"
+          autocomplete="off"
+        />
+        <button type="submit" class="btn btn-primary btn-sm hero-search-submit">Search</button>
+      </form>
     </div>
 
-    <form action={APP_STAYS_URL} method="get" class="hero-search" role="search">
-      <label for="hero-search-q" class="visually-hidden">Where do you want to stay?</label>
-      <Icon name="search" size={20} class="hero-search-icon" />
-      <input
-        id="hero-search-q"
-        name="q"
-        type="text"
-        placeholder="Where do you want to stay?"
-        class="hero-search-input"
-        autocomplete="off"
+    <!-- Desktop only (≥1024px) — see PhoneShot/loading="lazy" comment below
+         for why this doesn't cost mobile a download. Omitted on mobile
+         rather than shown below the search, per the brief. -->
+    <div class="hero-visual" aria-hidden="true">
+      <PhoneShot
+        src={websitePreviewPhoneImg}
+        alt=""
+        widths={[280, 420]}
+        sizes="320px"
       />
-      <button type="submit" class="btn btn-primary btn-sm hero-search-submit">Search</button>
-    </form>
+    </div>
   </div>
 </section>
 
@@ -49,6 +65,9 @@ import Icon from '../Icon.astro';
 
   .hero-inner {
     padding-bottom: var(--space-3xl);
+  }
+
+  .hero-text {
     max-width: 46rem;
   }
 
@@ -62,6 +81,18 @@ import Icon from '../Icon.astro';
     flex-wrap: wrap;
     gap: var(--space-sm);
     margin-top: var(--space-xl);
+  }
+
+  /* Both buttons full-width and the same height below 480px — they used to
+     stack at their own (different) intrinsic widths, which read as
+     misaligned (found in review). */
+  @media (max-width: 479px) {
+    .hero-actions {
+      flex-direction: column;
+    }
+    .hero-actions .btn {
+      width: 100%;
+    }
   }
 
   .hero-search {
@@ -114,6 +145,34 @@ import Icon from '../Icon.astro';
       width: 100%;
       order: 3;
       margin-top: 0.4rem;
+    }
+  }
+
+  /* Below 1024px: hidden via display:none, which — combined with the
+     image's own loading="lazy" — means Chromium (what Lighthouse mobile
+     runs) never fetches it either, not just hides it after the fact.
+     Found in review: the text column left the whole right half of a wide
+     hero empty, so ≥1024px becomes two columns with one real product shot
+     on the right. */
+  .hero-visual {
+    display: none;
+  }
+
+  @media (min-width: 1024px) {
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+      gap: var(--space-2xl);
+      align-items: center;
+    }
+
+    .hero-text {
+      max-width: none;
+    }
+
+    .hero-visual {
+      display: flex;
+      justify-content: center;
     }
   }
 </style>

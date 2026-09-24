@@ -50,4 +50,13 @@ import { MANAGE_URL } from '../../content/site';
     gap: var(--space-sm);
     margin-top: var(--space-xl);
   }
+
+  @media (max-width: 479px) {
+    .hero-actions {
+      flex-direction: column;
+    }
+    .hero-actions .btn {
+      width: 100%;
+    }
+  }
 </style>

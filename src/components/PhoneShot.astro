@@ -1,0 +1,53 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  src: ImageMetadata;
+  alt: string;
+  widths?: number[];
+  sizes?: string;
+  class?: string;
+}
+
+const { src, alt, widths, sizes, class: className = '' } = Astro.props;
+---
+
+<div class={`phone-shot ${className}`}>
+  <Image
+    src={src}
+    alt={alt}
+    widths={widths}
+    sizes={sizes}
+    loading="lazy"
+    decoding="async"
+    class="phone-shot-img"
+  />
+</div>
+
+<style>
+  /* The screenshot itself already draws the phone's own rounded bezel and
+     notch — this wrapper is just a soft "spotlight" card around it, not an
+     attempt to mask the image to the phone's exact corner radius. */
+  .phone-shot {
+    background: var(--color-surface-lowest);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-soft);
+    padding: var(--space-md);
+    display: flex;
+    justify-content: center;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .phone-shot {
+      border: 1px solid var(--color-outline-variant);
+    }
+  }
+
+  .phone-shot-img {
+    display: block;
+    width: 100%;
+    max-width: 17rem;
+    height: auto;
+  }
+</style>
