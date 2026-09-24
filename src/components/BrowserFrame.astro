@@ -1,0 +1,73 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  src: ImageMetadata;
+  alt: string;
+  url?: string;
+  widths?: number[];
+  sizes?: string;
+}
+
+const { src, alt, url = 'manage.staykeep.com', widths, sizes } = Astro.props;
+---
+
+<figure class="browser-frame-shot">
+  <div class="browser-frame-chrome">
+    <span class="browser-dot"></span>
+    <span class="browser-dot"></span>
+    <span class="browser-dot"></span>
+    <span class="browser-frame-url">{url}</span>
+  </div>
+  <Image
+    src={src}
+    alt={alt}
+    widths={widths}
+    sizes={sizes}
+    loading="lazy"
+    decoding="async"
+    class="browser-frame-img"
+  />
+</figure>
+
+<style>
+  .browser-frame-shot {
+    margin: 0;
+    border-radius: var(--radius-card-sm);
+    overflow: hidden;
+    background: var(--color-surface-lowest);
+    box-shadow: var(--shadow-soft);
+    border: 1px solid var(--color-outline-variant);
+  }
+
+  .browser-frame-chrome {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.65rem 0.85rem;
+    background: var(--color-surface-container);
+  }
+
+  .browser-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-outline-variant);
+  }
+
+  .browser-frame-url {
+    margin-left: 0.5rem;
+    font-size: 0.7rem;
+    color: var(--color-on-surface-variant);
+    background: var(--color-surface-lowest);
+    border-radius: var(--radius-pill);
+    padding: 0.15rem 0.6rem;
+  }
+
+  .browser-frame-img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+</style>

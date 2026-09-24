@@ -1,0 +1,140 @@
+---
+import Logo from './Logo.astro';
+import { FOOTER_LINKS, CONTACT_EMAIL, CONTACT_PHONE_DISPLAY, CONTACT_PHONE_TEL } from '../content/site';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <Logo size={28} />
+        <p class="body-text footer-tagline">
+          Direct, commission-free booking for homestays and hotels.
+        </p>
+        <p class="body-text footer-contact">
+          <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a><br />
+          <a href={CONTACT_PHONE_TEL}>{CONTACT_PHONE_DISPLAY}</a>
+        </p>
+      </div>
+
+      <nav class="footer-col" aria-label="For guests">
+        <h2 class="label">Guests</h2>
+        <ul>
+          {FOOTER_LINKS.guests.map((l) => (
+            <li><a href={l.href} {...(l.external ? { rel: 'noopener' } : {})}>{l.label}</a></li>
+          ))}
+        </ul>
+      </nav>
+
+      <nav class="footer-col" aria-label="For property owners">
+        <h2 class="label">Owners</h2>
+        <ul>
+          {FOOTER_LINKS.owners.map((l) => (
+            <li><a href={l.href} {...(l.external ? { rel: 'noopener' } : {})}>{l.label}</a></li>
+          ))}
+        </ul>
+      </nav>
+
+      <nav class="footer-col" aria-label="Company">
+        <h2 class="label">Company</h2>
+        <ul>
+          {FOOTER_LINKS.company.map((l) => (
+            <li><a href={l.href}>{l.label}</a></li>
+          ))}
+        </ul>
+      </nav>
+
+      <nav class="footer-col" aria-label="Legal">
+        <h2 class="label">Legal</h2>
+        <ul>
+          {FOOTER_LINKS.legal.map((l) => (
+            <li><a href={l.href}>{l.label}</a></li>
+          ))}
+        </ul>
+      </nav>
+    </div>
+
+    <hr class="hairline footer-hairline" />
+
+    <div class="footer-bottom">
+      <p class="body-text">© {year} StayKeep. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--color-surface-container-high);
+    margin-top: var(--space-3xl);
+  }
+
+  .footer-inner {
+    padding-block: var(--space-2xl) var(--space-lg);
+  }
+
+  .footer-grid {
+    display: grid;
+    gap: var(--space-xl);
+    grid-template-columns: 1fr;
+  }
+
+  .footer-brand {
+    max-width: 22rem;
+  }
+
+  .footer-tagline {
+    margin-top: var(--space-sm);
+  }
+
+  .footer-contact {
+    margin-top: var(--space-md);
+    line-height: 1.9;
+  }
+
+  .footer-contact a:hover {
+    color: var(--color-primary);
+  }
+
+  .footer-col ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    margin-top: var(--space-sm);
+  }
+
+  .footer-col a {
+    color: var(--color-on-surface-variant);
+    font-size: 0.9375rem;
+  }
+
+  .footer-col a:hover {
+    color: var(--color-on-surface);
+  }
+
+  .footer-hairline {
+    margin-top: var(--space-2xl);
+  }
+
+  .footer-bottom {
+    padding-top: var(--space-md);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+  }
+
+  @media (min-width: 640px) {
+    .footer-grid {
+      grid-template-columns: 1.4fr 1fr 1fr;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .footer-grid {
+      grid-template-columns: 1.6fr 1fr 1fr 1fr 1fr;
+    }
+  }
+</style>

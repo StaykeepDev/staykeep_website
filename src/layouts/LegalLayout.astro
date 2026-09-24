@@ -1,0 +1,61 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Section {
+  title: string;
+  content: string;
+}
+
+interface Props {
+  title: string;
+  description: string;
+  path: string;
+  lastUpdated: string;
+  sections: Section[];
+}
+
+const { title, description, path, lastUpdated, sections } = Astro.props;
+---
+
+<BaseLayout title={`${title} | StayKeep`} description={description} path={path}>
+  <article class="section legal-page">
+    <div class="container container-narrow">
+      <h1 class="display-1 legal-title">{title}</h1>
+      <p class="body-text legal-updated">Last updated: {lastUpdated}</p>
+
+      <div class="legal-sections">
+        {sections.map((section) => (
+          <section class="legal-section">
+            <h2 class="display-4">{section.title}</h2>
+            <p class="body-text">{section.content}</p>
+          </section>
+        ))}
+      </div>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .legal-title {
+    font-size: clamp(2.25rem, 1.9rem + 1.6vw, 3.25rem);
+  }
+
+  .legal-updated {
+    margin-top: var(--space-2xs);
+  }
+
+  .container-narrow {
+    max-width: 720px;
+  }
+
+  .legal-sections {
+    margin-top: var(--space-2xl);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
+  }
+
+  .legal-section h2 {
+    margin-bottom: 0.75rem;
+  }
+</style>

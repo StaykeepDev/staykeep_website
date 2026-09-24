@@ -1,0 +1,17 @@
+/**
+ * Self-hosted fonts — StayKeep "Soft Resort" type system.
+ *
+ * Cormorant Garamond 600 for display/headline roles, Plus Jakarta Sans 400/600
+ * for everything else (docs/phase-1/design-direction.md §2). Latin subset
+ * only, served from our own origin (no Google Fonts request at runtime), each
+ * family's own OFL licence ships alongside it in node_modules and is not
+ * redistributed separately here since nothing is copied out of the package.
+ */
+@import '@fontsource/plus-jakarta-sans/latin-400.css';
+@import '@fontsource/plus-jakarta-sans/latin-600.css';
+@import '@fontsource/cormorant-garamond/latin-600.css';
+
+:root {
+  --font-display: 'Cormorant Garamond', 'Iowan Old Style', 'Georgia', serif;
+  --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}

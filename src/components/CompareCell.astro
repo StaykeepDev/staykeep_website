@@ -1,0 +1,27 @@
+---
+import Icon from './Icon.astro';
+import type { CompareCell } from '../content/comparison';
+
+interface Props {
+  cell: CompareCell;
+}
+
+const { cell } = Astro.props;
+---
+
+{cell.kind === 'text' && <span>{cell.value}</span>}
+{cell.kind === 'bool' && (
+  <span class="compare-cell-bool">
+    <Icon name={cell.value ? 'check' : 'x'} size={18} class={cell.value ? 'check-yes' : 'check-no'} />
+    {cell.label && <span>{cell.label}</span>}
+    {!cell.label && <span class="visually-hidden">{cell.value ? 'Yes' : 'No'}</span>}
+  </span>
+)}
+
+<style>
+  .compare-cell-bool {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+</style>
