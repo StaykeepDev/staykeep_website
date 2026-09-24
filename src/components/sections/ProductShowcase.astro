@@ -1,0 +1,107 @@
+---
+/**
+ * Real Manage-web screenshots (seed property "Lakeview Homestay", seed
+ * accounts only — never a live customer's data), captured locally against
+ * the dev backend on :8092 and cropped to the meaningful part of each
+ * screen. The dashboard/"Home" screen was deliberately left out: it
+ * currently renders an honest "isn't ready yet" placeholder, which isn't
+ * fit for marketing use.
+ */
+import BrowserFrame from '../BrowserFrame.astro';
+import bookingsImg from '../../assets/screenshots/bookings.png';
+import calendarImg from '../../assets/screenshots/calendar.png';
+import bookingDetailImg from '../../assets/screenshots/booking-detail.png';
+import chatImg from '../../assets/screenshots/chat.png';
+
+interface Props {
+  variant?: 'home' | 'owners';
+}
+
+const { variant = 'home' } = Astro.props;
+
+const allItems = [
+  {
+    key: 'bookings',
+    image: bookingsImg,
+    title: 'Bookings',
+    description: 'Every booking, with guests, stays and status, at a glance.',
+    alt: 'StayKeep Manage bookings list, showing guest names, stay dates, room and guest counts, totals and status for several bookings',
+  },
+  {
+    key: 'calendar',
+    image: calendarImg,
+    title: 'Calendar',
+    description: 'Live availability across every room, night by night.',
+    alt: 'StayKeep Manage calendar view of room availability',
+  },
+  {
+    key: 'booking-detail',
+    image: bookingDetailImg,
+    title: 'Booking detail & bill',
+    description: 'The full stay, its room, and its bill — total, paid and balance due.',
+    alt: 'StayKeep Manage booking detail screen showing stay dates, room 202, and a bill with total ₹4,400, paid ₹0 and balance due ₹4,400',
+  },
+  {
+    key: 'chat',
+    image: chatImg,
+    title: 'Chat',
+    description: 'One conversation per stay — chat and voice messages with guests.',
+    alt: 'StayKeep Manage chat inbox with a conversation open, showing guest messages about early check-in',
+  },
+] as const;
+
+// Home shows exactly 2 (a clean 2-column grid with no orphaned card and
+// dead space beside it, found in visual review — 3 items wrapped a lone
+// card onto its own half-empty row). The full 4 lives on /owners.
+const HOME_KEYS = ['bookings', 'chat'];
+const items = variant === 'home' ? allItems.filter((i) => HOME_KEYS.includes(i.key)) : allItems;
+---
+
+<section class="section" aria-labelledby="showcase-heading">
+  <div class="container">
+    <div class="section-heading">
+      <p class="eyebrow">Manage app</p>
+      <h2 class="display-2" id="showcase-heading">See it in action</h2>
+      <p class="lede">Real screens from StayKeep Manage — on Android and on the web.</p>
+    </div>
+
+    <div class="showcase-grid">
+      {items.map((item) => (
+        <figure class="showcase-item">
+          <BrowserFrame src={item.image} alt={item.alt} url="manage.staykeep.com" widths={[480, 768, 960]} sizes="(min-width: 1024px) 480px, 90vw" />
+          <figcaption>
+            <h3 class="display-4">{item.title}</h3>
+            <p class="body-text">{item.description}</p>
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .showcase-grid {
+    display: grid;
+    gap: var(--space-xl);
+    grid-template-columns: 1fr;
+  }
+
+  .showcase-item {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .showcase-item figcaption {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  @media (min-width: 700px) {
+    .showcase-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>

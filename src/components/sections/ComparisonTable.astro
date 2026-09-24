@@ -1,0 +1,37 @@
+---
+import CompareCell from '../CompareCell.astro';
+import { COMPARISON_ROWS } from '../../content/comparison';
+---
+
+<section class="section" aria-labelledby="comparison-heading">
+  <div class="container">
+    <div class="section-heading">
+      <p class="eyebrow">The difference</p>
+      <h2 class="display-2" id="comparison-heading">StayKeep vs. typical booking platforms</h2>
+      <p class="lede">Worded plainly, and true of booking platforms generally — not any one of them.</p>
+    </div>
+
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th scope="col"><span class="visually-hidden">Comparison</span></th>
+          <th scope="col">Typical booking platform</th>
+          <th scope="col" class="col-highlight">StayKeep</th>
+        </tr>
+      </thead>
+      <tbody>
+        {COMPARISON_ROWS.map((row) => (
+          <tr>
+            <td>{row.label}</td>
+            <td data-label={row.label}>
+              <CompareCell cell={row.typical} />
+            </td>
+            <td data-label={row.label} class="col-highlight">
+              <CompareCell cell={row.staykeep} />
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</section>

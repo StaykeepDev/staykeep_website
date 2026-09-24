@@ -1,0 +1,102 @@
+---
+import Icon from '../Icon.astro';
+
+interface Props {
+  /** /owners already opens with its own "For property owners" eyebrow in
+   * the hero right above this section — repeating it immediately below
+   * read as redundant in review, so that page passes false. */
+  showEyebrow?: boolean;
+}
+
+const { showEyebrow = true } = Astro.props;
+
+const steps = [
+  {
+    icon: 'building' as const,
+    title: 'Set up your property',
+    description: 'Add your rooms, rates and photos in the Manage app — on Android or on the web.',
+  },
+  {
+    icon: 'palette' as const,
+    title: 'Share your own website or link',
+    description: 'Set up your free yourname.staykeep.com website, or just share your booking link directly.',
+  },
+  {
+    icon: 'check' as const,
+    title: 'Guests book you directly',
+    description: 'Bookings come straight to you — no commission, no middleman, ever.',
+  },
+];
+---
+
+<section class="section" aria-labelledby="how-it-works-heading">
+  <div class="container">
+    <div class="section-heading">
+      {showEyebrow && <p class="eyebrow">For property owners</p>}
+      <h2 class="display-2" id="how-it-works-heading">How it works</h2>
+    </div>
+
+    <ol class="steps">
+      {steps.map((step, index) => (
+        <li class="step">
+          <div class="step-number-row">
+            <span class="step-number">{index + 1}</span>
+            <div class="icon-circle"><Icon name={step.icon} /></div>
+          </div>
+          <h3 class="display-4">{step.title}</h3>
+          <p class="body-text">{step.description}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .steps {
+    list-style: none;
+    display: grid;
+    gap: var(--space-lg);
+    grid-template-columns: 1fr;
+    counter-reset: step;
+  }
+
+  .step {
+    background: var(--color-surface-lowest);
+    border-radius: var(--radius-card);
+    padding: var(--space-lg);
+    box-shadow: var(--shadow-soft);
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    position: relative;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .step {
+      border: 1px solid var(--color-outline-variant);
+    }
+  }
+
+  .step-number-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-bottom: 0.4rem;
+  }
+
+  .step-number {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.5rem;
+    /* --color-outline is for hairlines/chevrons only, never text (design
+       direction doc §1) — this uses onSurfaceVariant, same as other
+       secondary text. */
+    color: var(--color-on-surface-variant);
+  }
+
+  @media (min-width: 780px) {
+    .steps {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

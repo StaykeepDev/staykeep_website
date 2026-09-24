@@ -1,0 +1,63 @@
+---
+import Icon from '../Icon.astro';
+import type { FeatureItem } from '../../content/features';
+
+interface Props {
+  eyebrow: string;
+  heading: string;
+  lede?: string;
+  items: FeatureItem[];
+  id?: string;
+}
+
+const { eyebrow, heading, lede, items, id } = Astro.props;
+const headingId = id ?? 'feature-list-heading';
+---
+
+<section class="section" aria-labelledby={headingId}>
+  <div class="container">
+    <div class="section-heading">
+      <p class="eyebrow">{eyebrow}</p>
+      <h2 class="display-2" id={headingId}>{heading}</h2>
+      {lede && <p class="lede">{lede}</p>}
+    </div>
+
+    <ul class="feature-grid">
+      {items.map((item) => (
+        <li class="card feature-item">
+          <div class="icon-circle"><Icon name={item.icon} /></div>
+          <h3 class="display-4">{item.title}</h3>
+          <p class="body-text">{item.description}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .feature-grid {
+    list-style: none;
+    display: grid;
+    gap: var(--space-md);
+    grid-template-columns: 1fr;
+  }
+
+  .feature-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-start;
+  }
+
+  @media (min-width: 640px) {
+    .feature-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .feature-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

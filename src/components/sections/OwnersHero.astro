@@ -1,0 +1,53 @@
+---
+import Icon from '../Icon.astro';
+import { MANAGE_URL } from '../../content/site';
+---
+
+<section class="hero">
+  <div class="container hero-inner">
+    <p class="eyebrow">For property owners</p>
+    <h1 class="display-1">Keep 100% of every booking.</h1>
+    <p class="lede hero-lede">
+      Run bookings, check-in, staff and billing from one app — and take direct bookings at 0%
+      commission, always. No booking-fee cut for the guest either.
+    </p>
+
+    <div class="hero-actions">
+      <a href={MANAGE_URL} class="btn btn-primary" rel="noopener">
+        Get started on Manage
+        <Icon name="arrow-right" size={18} />
+      </a>
+      <a href="#how-it-works-heading" class="btn btn-outline">See how it works</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    background: linear-gradient(
+      165deg,
+      var(--color-primary-container) 0%,
+      var(--color-surface-container-high) 45%,
+      var(--color-surface) 100%
+    );
+    border-radius: 0 0 var(--radius-curve) var(--radius-curve);
+    padding-top: var(--space-2xl);
+  }
+
+  .hero-inner {
+    padding-bottom: var(--space-3xl);
+    max-width: 46rem;
+  }
+
+  .hero-lede {
+    margin-top: var(--space-md);
+    max-width: 38rem;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    margin-top: var(--space-xl);
+  }
+</style>

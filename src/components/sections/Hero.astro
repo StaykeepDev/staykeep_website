@@ -1,0 +1,119 @@
+---
+import { APP_STAYS_URL } from '../../content/site';
+import Icon from '../Icon.astro';
+---
+
+<section class="hero">
+  <div class="container hero-inner">
+    <h1 class="display-1">0% commission.<br />On every booking.</h1>
+    <p class="lede hero-lede">
+      Booking platforms can take up to 30% of every booking — from the owner and the guest.
+      StayKeep takes nothing. Guests pay less. Owners keep more.
+    </p>
+
+    <div class="hero-actions">
+      <a href={APP_STAYS_URL} class="btn btn-primary" rel="noopener">
+        Find a stay
+        <Icon name="arrow-right" size={18} />
+      </a>
+      <a href="/owners" class="btn btn-outline">List your property</a>
+    </div>
+
+    <form action={APP_STAYS_URL} method="get" class="hero-search" role="search">
+      <label for="hero-search-q" class="visually-hidden">Where do you want to stay?</label>
+      <Icon name="search" size={20} class="hero-search-icon" />
+      <input
+        id="hero-search-q"
+        name="q"
+        type="text"
+        placeholder="Where do you want to stay?"
+        class="hero-search-input"
+        autocomplete="off"
+      />
+      <button type="submit" class="btn btn-primary btn-sm hero-search-submit">Search</button>
+    </form>
+  </div>
+</section>
+
+<style>
+  .hero {
+    background: linear-gradient(
+      165deg,
+      var(--color-primary-container) 0%,
+      var(--color-surface-container-high) 45%,
+      var(--color-surface) 100%
+    );
+    border-radius: 0 0 var(--radius-curve) var(--radius-curve);
+    padding-top: var(--space-2xl);
+  }
+
+  .hero-inner {
+    padding-bottom: var(--space-3xl);
+    max-width: 46rem;
+  }
+
+  .hero-lede {
+    margin-top: var(--space-md);
+    max-width: 38rem;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    margin-top: var(--space-xl);
+  }
+
+  .hero-search {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: var(--space-xl);
+    max-width: 30rem;
+    background: var(--color-surface-lowest);
+    border: 1.5px solid var(--color-outline-variant);
+    border-radius: var(--radius-pill);
+    padding: 0.4rem 0.4rem 0.4rem 1.1rem;
+    box-shadow: var(--shadow-soft);
+  }
+
+  .hero-search-icon {
+    color: var(--color-on-surface-variant);
+  }
+
+  .hero-search-input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    background: transparent;
+    font-size: 1rem;
+    padding: 0.75rem 0;
+    color: var(--color-on-surface);
+  }
+
+  /* No local focus-visible override here on purpose: the global
+     `*:focus-visible` rule (global.css) already gives this input a visible
+     ring without being clipped by the pill's overflow, since the input has
+     no border-radius/overflow of its own. */
+
+  .hero-search-input::placeholder {
+    color: var(--color-on-surface-variant);
+  }
+
+  .hero-search-submit {
+    flex-shrink: 0;
+    min-height: 48px;
+  }
+
+  @media (max-width: 479px) {
+    .hero-search {
+      flex-wrap: wrap;
+      padding: 0.9rem 1rem;
+    }
+    .hero-search-submit {
+      width: 100%;
+      order: 3;
+      margin-top: 0.4rem;
+    }
+  }
+</style>

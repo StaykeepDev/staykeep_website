@@ -1,0 +1,62 @@
+---
+import Icon from '../Icon.astro';
+import { APP_STAYS_URL } from '../../content/site';
+
+interface Props {
+  showHeading?: boolean;
+}
+
+const { showHeading = true } = Astro.props;
+---
+
+<section class="section" aria-labelledby={showHeading ? 'two-doors-heading' : undefined}>
+  <div class="container">
+    {showHeading && (
+      <div class="section-heading">
+        <h2 class="display-2" id="two-doors-heading">Two doors. One promise.</h2>
+        <p class="lede">No commission, no booking fee — whichever side of the stay you're on.</p>
+      </div>
+    )}
+
+    <div class="grid-2">
+      <div class="card card-pad-lg door-card">
+        <div class="icon-circle"><Icon name="search" /></div>
+        <h3 class="display-3">Booking a stay</h3>
+        <p class="body-text">
+          Search homestays and hotels near you or by place, and book directly with the owner —
+          there's never a booking fee.
+        </p>
+        <a href={APP_STAYS_URL} class="btn btn-primary" rel="noopener">
+          Find a stay
+          <Icon name="arrow-right" size={18} />
+        </a>
+      </div>
+
+      <div class="card card-pad-lg door-card">
+        <div class="icon-circle"><Icon name="building" /></div>
+        <h3 class="display-3">Running a property</h3>
+        <p class="body-text">
+          Bookings, check-in and check-out, staff, billing and your own website — with 0%
+          commission on every booking, always.
+        </p>
+        <a href="/owners" class="btn btn-primary">
+          For property owners
+          <Icon name="arrow-right" size={18} />
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .door-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    align-items: flex-start;
+  }
+
+  .door-card .btn {
+    margin-top: var(--space-sm);
+  }
+</style>

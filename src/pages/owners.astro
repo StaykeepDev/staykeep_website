@@ -1,0 +1,34 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import OwnersHero from '../components/sections/OwnersHero.astro';
+import HowItWorks from '../components/sections/HowItWorks.astro';
+import FeatureList from '../components/sections/FeatureList.astro';
+import ProductShowcase from '../components/sections/ProductShowcase.astro';
+import OwnWebsiteDetailed from '../components/sections/OwnWebsiteDetailed.astro';
+import ComparisonTable from '../components/sections/ComparisonTable.astro';
+import Faq from '../components/sections/Faq.astro';
+import FinalCta from '../components/sections/FinalCta.astro';
+import { OWNER_FEATURES } from '../content/features';
+import { FAQ_OWNERS } from '../content/faq';
+---
+
+<BaseLayout
+  title="For property owners — 0% commission | StayKeep"
+  description="Run your homestay or hotel with StayKeep: bookings, check-in, staff, billing and your own website — with 0% commission on every booking, always."
+  path="/owners"
+>
+  <OwnersHero />
+  <HowItWorks showEyebrow={false} />
+  <FeatureList
+    id="owner-features-heading"
+    eyebrow="Everything you need"
+    heading="One app to run your property"
+    lede="From the first enquiry to the final invoice — without giving up a share of the booking to get there."
+    items={OWNER_FEATURES}
+  />
+  <ProductShowcase variant="owners" />
+  <OwnWebsiteDetailed />
+  <ComparisonTable />
+  <Faq items={FAQ_OWNERS} />
+  <FinalCta variant="owners" />
+</BaseLayout>

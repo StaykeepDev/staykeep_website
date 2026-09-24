@@ -1,0 +1,85 @@
+---
+import { FEE_FOOTNOTE } from '../../content/site';
+---
+
+<section class="section" aria-labelledby="fee-example-heading">
+  <div class="container">
+    <div class="fee-card card card-pad-lg">
+      <p class="eyebrow" id="fee-example-heading">On a typical ₹5,000 booking</p>
+
+      <div class="fee-stats">
+        <div class="fee-stat">
+          <p class="fee-stat-value fee-stat-muted">Up to ₹1,500</p>
+          <p class="body-text">in fees on other platforms</p>
+        </div>
+        <div class="fee-stat-divider" aria-hidden="true">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><line x1="12" y1="3" x2="12" y2="21"></line></svg>
+        </div>
+        <div class="fee-stat">
+          <p class="fee-stat-value fee-stat-hero sk-tabular">₹0</p>
+          <p class="body-text">with StayKeep</p>
+        </div>
+        <div class="fee-stat-divider" aria-hidden="true">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><line x1="12" y1="3" x2="12" y2="21"></line></svg>
+        </div>
+        <div class="fee-stat">
+          <p class="fee-stat-value sk-tabular">Up to ₹1,500</p>
+          <p class="body-text">stays with the owner</p>
+        </div>
+      </div>
+
+      <p class="fee-footnote">{FEE_FOOTNOTE}</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .fee-card {
+    text-align: center;
+  }
+
+  .fee-stats {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+    align-items: center;
+    margin-top: var(--space-lg);
+  }
+
+  .fee-stat-value {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(1.9rem, 1.6rem + 1.4vw, 2.75rem);
+    color: var(--color-on-surface);
+    line-height: 1.1;
+  }
+
+  .fee-stat-muted {
+    color: var(--color-on-surface-variant);
+  }
+
+  .fee-stat-hero {
+    color: var(--color-primary);
+    font-size: clamp(2.75rem, 2.2rem + 2.5vw, 4rem);
+  }
+
+  .fee-stat-divider {
+    display: none;
+    color: var(--color-outline-variant);
+    justify-self: center;
+  }
+
+  .fee-footnote {
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  @media (min-width: 720px) {
+    .fee-stats {
+      grid-template-columns: 1fr auto 1fr auto 1fr;
+    }
+    .fee-stat-divider {
+      display: block;
+    }
+  }
+</style>

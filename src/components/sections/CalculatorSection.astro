@@ -1,0 +1,20 @@
+---
+import SavingsCalculator from '../islands/SavingsCalculator';
+import { FEE_FOOTNOTE } from '../../content/site';
+---
+
+<section class="section" id="calculator" aria-labelledby="calculator-heading">
+  <div class="container">
+    <div class="section-heading">
+      <p class="eyebrow">See your own numbers</p>
+      <h2 class="display-2" id="calculator-heading">What could you save?</h2>
+      <p class="lede">Move the slider or type your own numbers. No sign-up needed.</p>
+    </div>
+
+    <div class="card card-pad-lg calc-card">
+      <SavingsCalculator client:visible defaultAmount={5000} defaultBookingsPerMonth={20} />
+    </div>
+
+    <p class="fee-footnote">{FEE_FOOTNOTE}</p>
+  </div>
+</section>
