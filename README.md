@@ -53,6 +53,8 @@ Deploys are **not** run from here in the normal course of things — see
 `.github/workflows/deploy.yml` (push to `prod`, or manual dispatch). It
 needs a `CLOUDFLARE_API_TOKEN` repo secret; without one it skips the deploy
 step with a notice instead of failing. Account id and Worker name are in
-`wrangler.toml` / the workflow. **No routes are declared in `wrangler.toml`
-on purpose** — `staykeep.com/*` and `www.staykeep.com/*` are attached after
-review.
+`wrangler.toml` / the workflow. The routes `staykeep.com/*` and
+`www.staykeep.com/*` are declared in `wrangler.toml` (live since 2026-09-24);
+both hostnames are proxied DNS records whose origin is still the old Vercel
+deployment, so removing the two routes rolls the site back. Manual deploy:
+`npm run build && npx wrangler deploy` (wrangler OAuth or a token).
