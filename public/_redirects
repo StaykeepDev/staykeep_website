@@ -1,0 +1,32 @@
+# Legacy redirects from the old staykeep.com (Next.js) site. Cloudflare's
+# static-asset layer (the `ASSETS` binding in wrangler.toml) evaluates this
+# file directly — see worker/index.ts for the one thing it does NOT cover
+# (the www -> apex host redirect, which needs the Worker itself).
+#
+# Cloudflare's `_redirects` only supports a trailing `*` wildcard, matched
+# back with `:splat` — no mid-path named placeholders — hence `/*` + `:splat`
+# below rather than `/:id`. Exact-match rules are listed before the
+# wildcard ones per wrangler's own ordering hint (plain rules are cheaper to
+# match than splat/placeholder ones) — this is a performance note only, none
+# of these rules overlap so the order never changes what matches.
+#
+# Never add a rule that matches `/.well-known/*` or `/apple-app-site-association`
+# here — those two files must be served directly, never redirected.
+
+/profile      https://app.staykeep.com/account            301
+/inbox        https://app.staykeep.com/trips              301
+/features     /owners   301
+/manage       /owners   301
+/pricing      /owners   301
+
+# The old blog (app/blog) had four placeholder posts with fabricated
+# stats/dates, not real content — see the handoff report. Nothing worth
+# porting, so it redirects home rather than to /owners.
+/blog         /   301
+
+/property/*   https://app.staykeep.com/property/:splat   301
+/booking/*    https://app.staykeep.com/trips/:splat       301
+/profile/*    https://app.staykeep.com/account            301
+/inbox/*      https://app.staykeep.com/trips              301
+/features/*   /owners   301
+/blog/*       /   301

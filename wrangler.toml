@@ -1,0 +1,13 @@
+name = "staykeep-website"
+main = "worker/index.ts"
+compatibility_date = "2026-09-24"
+compatibility_flags = ["nodejs_compat"]
+
+# No [[routes]] here on purpose — the lead attaches staykeep.com/* and
+# www.staykeep.com/* after reviewing this deploy. See DEPLOY.md.
+
+[assets]
+directory = "./dist"
+binding = "ASSETS"
+not_found_handling = "404-page"
+run_worker_first = true

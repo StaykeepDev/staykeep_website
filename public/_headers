@@ -1,0 +1,56 @@
+# Security + caching headers, read directly by Cloudflare's static-asset
+# layer (the `ASSETS` binding — see wrangler.toml / worker/index.ts).
+#
+# CSP is self-only: no third-party script or font origins anywhere on this
+# site. `form-action` explicitly allows app.staykeep.com because the hero
+# search form (public/… -> src/components/sections/Hero.astro) is a plain
+# GET <form> that submits there; every other cross-site link on the site is
+# an <a href>, which CSP does not govern at all.
+#
+# `script-src 'self'` gets exact `sha256-…` hashes appended by
+# scripts/patch-csp-hashes.mjs (run as part of `npm run build`, AFTER `astro
+# build`) — never `'unsafe-inline'`. Astro's own runtime unavoidably inlines
+# a couple of tiny scripts with no `src` whenever a `client:` island exists
+# (found in the actual build output, not assumed), and this site's own
+# Header.astro mobile-menu script gets inlined the same way rather than
+# extracted; content-hashing those exact, known scripts keeps script-src
+# free of 'unsafe-inline' while still allowing them to run. If you edit
+# either script, re-run `npm run build` so the hashes stay in sync — a
+# mismatched hash simply breaks that script silently, so also check with
+# the browser console after a change like that.
+#
+# `style-src` DOES carry 'unsafe-inline': Astro's compiler leaves a handful
+# of small component styles as literal inline <style> tags (also confirmed
+# in the build output) rather than extracting every one to the bundled
+# stylesheet, and unlike script-src there is no `is:inline`-free way to
+# predict or hash all of them across every future edit. CSS-only injection
+# is a materially smaller risk than script injection, which is why
+# script-src — not style-src — is where this CSP actually holds the line.
+/*
+  Strict-Transport-Security: max-age=63072000; includeSubDomains
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; form-action 'self' https://app.staykeep.com; base-uri 'self'; object-src 'none'; frame-ancestors 'none'
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()
+  Cross-Origin-Opener-Policy: same-origin
+
+# Hashed build output (JS/CSS/fonts/images Vite emits under /_astro/) —
+# the filename changes whenever the content does, so this can be cached
+# for a year.
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/favicon.svg
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+
+# ── App-link association files — byte-identical to the old site, and their
+# Content-Type MUST be application/json (an extension-less file otherwise
+# serves as application/octet-stream, which both Apple's CDN and Android's
+# verifier reject). No _redirects rule may ever touch these two paths.
+/.well-known/assetlinks.json
+  Content-Type: application/json
+  Cache-Control: public, max-age=3600, must-revalidate
+/.well-known/apple-app-site-association
+  Content-Type: application/json
+  Cache-Control: public, max-age=3600, must-revalidate

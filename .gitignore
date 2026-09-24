@@ -1,24 +1,21 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
 # dependencies
 /node_modules
 /.pnp
 .pnp.*
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/versions
 
-# testing
+# build output
+/dist
+/.astro
+
+# Cloudflare / Wrangler
+.wrangler
+.dev.vars
+.dev.vars.*
+
+# testing / tooling scratch
 /coverage
-
-# next.js
-/.next/
-/out/
-
-# production
-/build
+/test-results
+/playwright-report
 
 # misc
 .DS_Store
@@ -30,12 +27,13 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
-.env*
+# env files (opt in explicitly if ever needed)
+.env
+.env.*
+!.env.example
 
-# vercel
+# vercel (kept only so `deploymentEnabled:false` is honoured; no project files)
 .vercel
 
 # typescript
 *.tsbuildinfo
-next-env.d.ts
