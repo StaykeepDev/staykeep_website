@@ -18,7 +18,7 @@ const PRICING_FAQ: FaqItem = {
 
 const LANGUAGES_FAQ: FaqItem = {
   question: 'What languages does StayKeep support?',
-  answer: 'English, Malayalam and Arabic — for guests booking on the web, and for owners running their property on Manage.',
+  answer: 'English, Malayalam and Arabic - for guests booking on the web, and for owners running their property on Manage.',
 };
 
 const WHATS_NEXT_FAQ: FaqItem = {
@@ -30,7 +30,7 @@ const WHATS_NEXT_FAQ: FaqItem = {
 const GUESTS_NEED_APP_FAQ: FaqItem = {
   question: 'Do guests need to install an app to book?',
   answer:
-    'No. Guests can search and book entirely on the web at app.staykeep.com — no app, no account needed to browse.',
+    'No. Guests can search and book entirely on the web at app.staykeep.com - no app, no account needed to browse.',
 };
 
 const DURING_STAY_FAQ: FaqItem = {
@@ -47,7 +47,7 @@ const MULTIPLE_PROPERTIES_FAQ: FaqItem = {
 const OWN_WEBSITE_FAQ: FaqItem = {
   question: 'Do I need my own website already?',
   answer:
-    'No. Every StayKeep owner can set one up free at yourname.staykeep.com — drag-and-drop sections, your own photos and colours, and a booking widget that sends bookings straight to you at 0% commission. You can also just use your Manage-app tools without one.',
+    'No. Every StayKeep owner can set one up free at yourname.staykeep.com - drag-and-drop sections, your own photos and colours, and a booking widget that sends bookings straight to you at 0% commission. You can also just use your Manage-app tools without one.',
 };
 
 const CHECK_IN_OUT_FAQ: FaqItem = {

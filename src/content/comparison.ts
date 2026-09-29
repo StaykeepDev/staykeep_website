@@ -10,7 +10,7 @@ export const COMPARISON_ROWS: CompareRow[] = [
   {
     label: "Commission on bookings",
     typical: { kind: "text", value: "Varies by platform" },
-    staykeep: { kind: "text", value: "0% — always" },
+    staykeep: { kind: "text", value: "0% - always" },
   },
   {
     label: "Guest booking fee",

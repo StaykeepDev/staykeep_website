@@ -15,7 +15,7 @@ export const GUEST_FEATURES: FeatureItem[] = [
   {
     icon: 'search',
     title: 'Search and book directly',
-    description: 'Find stays near you or by place, and book directly — no booking fee, ever.',
+    description: 'Find stays near you or by place, and book directly - no booking fee, ever.',
   },
   {
     icon: 'map-pin',
@@ -30,7 +30,7 @@ export const GUEST_FEATURES: FeatureItem[] = [
   {
     icon: 'receipt',
     title: 'Your bill, in the app',
-    description: 'See your bill and invoice any time — no chasing the front desk for a copy.',
+    description: 'See your bill and invoice any time - no chasing the front desk for a copy.',
   },
   {
     icon: 'globe',
@@ -63,7 +63,7 @@ export const OWNER_FEATURES: FeatureItem[] = [
   {
     icon: 'list',
     title: 'Your own service catalogue',
-    description: 'Set up what guests can order — towels, food, a cab — and route requests to the right person.',
+    description: 'Set up what guests can order - towels, food, a cab - and route requests to the right person.',
   },
   {
     icon: 'chat',
@@ -73,7 +73,7 @@ export const OWNER_FEATURES: FeatureItem[] = [
   {
     icon: 'wallet',
     title: 'Bills, invoices and accounts',
-    description: 'Add-ons, invoices, payments and refunds recorded — with accounts and P&L for your property.',
+    description: 'Add-ons, invoices, payments and refunds recorded - with accounts and P&L for your property.',
   },
   {
     icon: 'building',

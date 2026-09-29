@@ -23,7 +23,7 @@ export const PRICING_ENABLED = false;
 export const PRICING_FAQ_QUESTION = 'How much does StayKeep cost?';
 
 export const PRICING_FAQ_ANSWER =
-  "We haven't published pricing yet — plans are simple, and there is never a commission on your bookings. Talk to us and we'll work out what's right for your property: hello@staykeep.com or +91 99807 83609.";
+  "We haven't published pricing yet - plans are simple, and there is never a commission on your bookings. Talk to us and we'll work out what's right for your property: hello@staykeep.com or +91 99807 83609.";
 
 /**
  * Reserved for when real plans exist. Kept here, unused, so a pricing
