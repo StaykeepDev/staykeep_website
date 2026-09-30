@@ -41,7 +41,10 @@ const columns = [
       ))}
     </div>
     <div class="footer-bottom">
-      <p>© {year} StayKeep. All rights reserved.</p>
+      <div class="footer-legal">
+        <p>© {year} StayKeep (OPC) Private Limited. All rights reserved.</p>
+        <p>CIN: U79900KL2025OPC097111</p>
+      </div>
       <nav aria-label="Legal">
         {FOOTER_LINKS.legal.map((link) => (
           <a href={link.href}>{link.label}</a>
@@ -51,6 +54,11 @@ const columns = [
   </div>
 </footer>
 <style>
+  .footer-legal p + p {
+    margin-top: 0.25rem;
+    opacity: 0.8;
+    font-size: 0.8125rem;
+  }
   .site-footer {
     background: #14213d;
     color: #f4f6fc;
