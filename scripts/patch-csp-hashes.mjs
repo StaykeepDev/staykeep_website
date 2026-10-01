@@ -63,6 +63,60 @@ function extractInlineScriptHashes(html) {
   return hashes;
 }
 
+/**
+ * A7 - analytics origins, added to dist/_headers ONLY when the matching public
+ * id is set at build time (`PUBLIC_GA4_ID` / `PUBLIC_CLARITY_ID`, from the
+ * environment or a `.env` file, the same sources Astro reads). With neither
+ * set the CSP is untouched. This site's CSP has no `connect-src`/`img-src`
+ * widening otherwise, so the directives are appended or extended here.
+ */
+export const GA4_ORIGINS = {
+  script: ['https://www.googletagmanager.com'],
+  connect: ['https://www.googletagmanager.com', 'https://*.google-analytics.com', 'https://*.analytics.google.com'],
+  img: ['https://www.googletagmanager.com', 'https://*.google-analytics.com'],
+};
+export const CLARITY_ORIGINS = {
+  script: ['https://*.clarity.ms'],
+  connect: ['https://*.clarity.ms', 'https://c.bing.com'],
+  img: ['https://*.clarity.ms', 'https://c.bing.com'],
+};
+
+export function withAnalyticsOrigins(policy, { ga4, clarity }) {
+  const add = { script: [], connect: [], img: [] };
+  for (const [on, o] of [[ga4, GA4_ORIGINS], [clarity, CLARITY_ORIGINS]]) {
+    if (!on) continue;
+    add.script.push(...o.script);
+    add.connect.push(...o.connect);
+    add.img.push(...o.img);
+  }
+  const directives = policy.split(';').map((d) => d.trim()).filter((d) => d !== '');
+  const extend = (name, extra, base) => {
+    if (extra.length === 0) return;
+    const i = directives.findIndex((d) => d.split(/\s+/)[0] === name);
+    if (i >= 0) directives[i] = `${directives[i]} ${extra.join(' ')}`;
+    else directives.push(`${name} ${base} ${extra.join(' ')}`);
+  };
+  extend('script-src', add.script, "'self'");
+  // `connect-src` is absent from this CSP and falls back to `default-src 'self'`.
+  extend('connect-src', add.connect, "'self'");
+  extend('img-src', add.img, "'self'");
+  return directives.join('; ');
+}
+
+async function readEnvId(name) {
+  if (process.env[name]) return process.env[name].trim();
+  for (const file of ['.env.production.local', '.env.local', '.env.production', '.env']) {
+    try {
+      const text = await readFile(join(ROOT, file), 'utf8');
+      const m = new RegExp(`^${name}\\s*=\\s*(.*)$`, 'm').exec(text);
+      if (m) return m[1].trim().replace(/^["']|["']$/g, '');
+    } catch {
+      /* no such file */
+    }
+  }
+  return '';
+}
+
 async function main() {
   const htmlFiles = await findHtmlFiles(DIST_DIR);
   const allHashes = new Set();
@@ -74,7 +128,10 @@ async function main() {
     }
   }
 
-  if (allHashes.size === 0) {
+  const ga4 = (await readEnvId('PUBLIC_GA4_ID')) !== '';
+  const clarity = (await readEnvId('PUBLIC_CLARITY_ID')) !== '';
+
+  if (allHashes.size === 0 && !ga4 && !clarity) {
     console.log('patch-csp-hashes: no inline scripts found, _headers left unchanged.');
     return;
   }
@@ -93,14 +150,24 @@ async function main() {
       "patch-csp-hashes: expected \"script-src 'self'\" in the CSP to extend with hashes; found: " + originalPolicy,
     );
   }
-  const patchedPolicy = originalPolicy.replace("script-src 'self'", `script-src 'self' ${hashList}`);
-  headers = headers.replace(cspLineRegex, `$1${patchedPolicy}`);
+  let patchedPolicy =
+    allHashes.size === 0
+      ? originalPolicy
+      : originalPolicy.replace("script-src 'self'", `script-src 'self' ${hashList}`);
+  patchedPolicy = withAnalyticsOrigins(patchedPolicy, { ga4, clarity });
+  // A function replacer: `$` in a policy must never be read as a pattern.
+  headers = headers.replace(cspLineRegex, (_m, head) => `${head}${patchedPolicy}`);
 
   await writeFile(HEADERS_PATH, headers);
-  console.log(`patch-csp-hashes: added ${allHashes.size} script hash(es) to dist/_headers.`);
+  console.log(
+    `patch-csp-hashes: added ${allHashes.size} script hash(es) to dist/_headers` +
+      `${ga4 || clarity ? ` and analytics origins (ga4=${ga4}, clarity=${clarity})` : ''}.`,
+  );
 }
 
-main().catch((error) => {
-  console.error('patch-csp-hashes failed:', error);
-  process.exitCode = 1;
-});
+if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
+  main().catch((error) => {
+    console.error('patch-csp-hashes failed:', error);
+    process.exitCode = 1;
+  });
+}

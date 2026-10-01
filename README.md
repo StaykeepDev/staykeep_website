@@ -110,3 +110,7 @@ The original booking icon is retained at `src/assets/brand/booking-app-logo.png`
 `src/components/demos/` contains reusable, responsive previews for bookings, room availability, billing, guest messages and the property website. Each illustrative sequence runs once for ten seconds on entering view, pauses when offscreen or when its desktop chapter is inactive, and offers pause/resume/replay controls. The property website scrolls to room selection and ends with a direct-booking confirmation. Native text, CSS shapes and an inline SVG illustration stay sharp at every size. No preview submits a real booking.
 
 Reduced-motion preferences and the footer toggle show the complete still state and hide playback controls. Without JavaScript the same complete state remains visible. The existing booking and property-listing links remain the actual calls to action.
+
+## Analytics (optional)
+
+`PUBLIC_GA4_ID` (a `G-...` measurement id) and `PUBLIC_CLARITY_ID` (a Clarity project id) are public, build-time values. Unset, nothing is rendered or loaded and the CSP is unchanged. Set, `scripts/patch-csp-hashes.mjs` adds the GA4 and/or Clarity origins to `dist/_headers`, and the tags load only after the visitor accepts the cookie banner (`src/components/Analytics.astro`). Plan: `../docs/analytics-plan.md`. Test: `node --test scripts/patch-csp-hashes.test.mjs`.

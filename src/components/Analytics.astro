@@ -1,0 +1,236 @@
+---
+import { ANALYTICS_ENABLED } from "../lib/analytics-config";
+---
+
+{
+  ANALYTICS_ENABLED && (
+    <div
+      id="sk-consent"
+      class="sk-consent"
+      role="region"
+      aria-label="Cookie consent"
+      hidden
+    >
+      <p>We use cookies to understand how StayKeep is used.</p>
+      <div class="sk-consent-actions">
+        <button type="button" data-consent="denied">
+          Decline
+        </button>
+        <button type="button" data-consent="granted" class="sk-consent-accept">
+          Accept
+        </button>
+      </div>
+    </div>
+  )
+}
+<script>
+  /**
+   * A3/A6 - GA4 + Microsoft Clarity behind consent, the light inline twin of
+   * `@staykeep/web-core`'s analytics module. Nothing loads before Accept: GA4
+   * gets Consent Mode v2 default `denied` and its script is injected only
+   * after the visitor accepts; Clarity is injected only after Accept too.
+   * The choice lives in localStorage `sk_consent` (try/catch: storage can be
+   * blocked). Events carry no PII: only fixed event names.
+   */
+  const GA4 = (import.meta.env.PUBLIC_GA4_ID ?? "").trim();
+  const CLARITY = (import.meta.env.PUBLIC_CLARITY_ID ?? "").trim();
+  const KEY = "sk_consent";
+
+  type AnyWindow = Window & {
+    dataLayer?: unknown[];
+    gtag?: (...args: unknown[]) => void;
+    clarity?: ((...args: unknown[]) => void) & { q?: unknown[] };
+  };
+  const w = window as AnyWindow;
+
+  function read(): "granted" | "denied" | null {
+    try {
+      const v = window.localStorage.getItem(KEY);
+      if (v === "granted" || v === "denied") return v;
+    } catch {
+      /* storage blocked */
+    }
+    return memory;
+  }
+  let memory: "granted" | "denied" | null = null;
+
+  function inject(src: string): void {
+    const s = document.createElement("script");
+    s.async = true;
+    s.src = src;
+    document.head.appendChild(s);
+  }
+
+  let gaLoaded = false;
+  let clarityLoaded = false;
+
+  function defineGtag(): void {
+    w.dataLayer = w.dataLayer ?? [];
+    const layer = w.dataLayer;
+    w.gtag =
+      w.gtag ??
+      function () {
+        // gtag.js reads `arguments` objects, not arrays.
+        // eslint-disable-next-line prefer-rest-params
+        layer.push(arguments);
+      };
+    w.gtag("consent", "default", {
+      analytics_storage: "denied",
+      ad_storage: "denied",
+      ad_user_data: "denied",
+      ad_personalization: "denied",
+      wait_for_update: 500,
+    });
+    w.gtag("js", new Date());
+    w.gtag("config", GA4, {
+      send_page_view: false,
+      allow_google_signals: false,
+      linker: { domains: ["staykeep.com", "app.staykeep.com"] },
+    });
+  }
+
+  function load(): void {
+    if (GA4 && !gaLoaded) {
+      gaLoaded = true;
+      w.gtag?.("consent", "update", { analytics_storage: "granted" });
+      inject(
+        "https://www.googletagmanager.com/gtag/js?id=" +
+          encodeURIComponent(GA4),
+      );
+      // The marketing site has no ids in its paths: send the plain path.
+      w.gtag?.("event", "page_view", {
+        page_path: location.pathname,
+        page_location: location.origin + location.pathname,
+        page_title: document.title,
+      });
+    }
+    if (CLARITY && !clarityLoaded) {
+      clarityLoaded = true;
+      const c: NonNullable<AnyWindow["clarity"]> =
+        w.clarity ??
+        function (...args: unknown[]) {
+          (c.q = c.q ?? []).push(args);
+        };
+      w.clarity = c;
+      inject("https://www.clarity.ms/tag/" + encodeURIComponent(CLARITY));
+      c("consent");
+    }
+  }
+
+  function apply(): void {
+    const choice = read();
+    if (choice === "granted") load();
+    else if (choice === "denied") {
+      if (gaLoaded) w.gtag?.("consent", "update", { analytics_storage: "denied" });
+      if (clarityLoaded) w.clarity?.("consent", false);
+    }
+  }
+
+  function track(name: string): void {
+    if (read() !== "granted" || !gaLoaded) return;
+    w.gtag?.("event", name, {});
+  }
+
+  if (GA4 || CLARITY) {
+    if (GA4) defineGtag();
+    const banner = document.getElementById("sk-consent");
+    const sync = (): void => {
+      if (banner) banner.hidden = read() !== null;
+    };
+    const choose = (choice: "granted" | "denied"): void => {
+      memory = choice;
+      try {
+        window.localStorage.setItem(KEY, choice);
+      } catch {
+        /* storage blocked: the in-memory value holds for this visit */
+      }
+      sync();
+      apply();
+    };
+    sync();
+    apply();
+
+    document.addEventListener("click", (event) => {
+      const target = event.target as Element | null;
+      const choiceButton = target?.closest<HTMLElement>("[data-consent]");
+      if (choiceButton) {
+        choose(choiceButton.dataset.consent === "granted" ? "granted" : "denied");
+        return;
+      }
+      if (target?.closest("[data-cookie-settings]")) {
+        if (banner) banner.hidden = false;
+        return;
+      }
+      const link = target?.closest<HTMLAnchorElement>("a[href]");
+      if (!link) return;
+      const href = link.getAttribute("href") ?? "";
+      if (href.startsWith("mailto:") || href.startsWith("tel:")) {
+        track("contact_click");
+        return;
+      }
+      let host = "";
+      try {
+        host = new URL(href, location.href).host;
+      } catch {
+        return;
+      }
+      if (host === "app.staykeep.com") track("cta_find_a_stay");
+      else if (host === "manage.staykeep.com") track("cta_owner_sign_in");
+    });
+
+    // The hero search is a plain GET form that submits to the guest app.
+    document.addEventListener("submit", (event) => {
+      const form = event.target as HTMLFormElement | null;
+      if (form?.action && new URL(form.action, location.href).host === "app.staykeep.com") {
+        track("cta_find_a_stay");
+      }
+    });
+  }
+</script>
+<style>
+  .sk-consent {
+    position: fixed;
+    inset-inline: 0;
+    bottom: 0;
+    z-index: 60;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem 1rem;
+    padding: 0.75rem 1rem;
+    background: #ffffff;
+    color: #14213d;
+    border-top: 1px solid #d5dbe8;
+    font-size: 0.875rem;
+  }
+  .sk-consent[hidden] {
+    display: none;
+  }
+  .sk-consent p {
+    margin: 0;
+  }
+  .sk-consent-actions {
+    display: flex;
+    gap: 0.5rem;
+  }
+  .sk-consent button {
+    min-height: 2.75rem;
+    padding: 0 1.1rem;
+    border-radius: 999px;
+    border: 1px solid #315ed2;
+    background: #ffffff;
+    color: #315ed2;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .sk-consent button.sk-consent-accept {
+    background: #315ed2;
+    color: #ffffff;
+  }
+  .sk-consent button:focus-visible {
+    outline: 2px solid #315ed2;
+    outline-offset: 2px;
+  }
+</style>
