@@ -11,8 +11,8 @@ import {
   DEFAULT_OG_DESCRIPTION,
 } from "../content/site";
 
-// The two fonts we preload — Plus Jakarta Sans 400 (body, used everywhere)
-// and Plus Jakarta Sans 700 (headings) — resolved to their hashed
+// The two fonts we preload - Plus Jakarta Sans 400 (body, used everywhere)
+// and Plus Jakarta Sans 700 (headings) - resolved to their hashed
 // build URLs so the preload href matches what fonts.css actually fetches.
 import jakartaRegularUrl from "@fontsource/plus-jakarta-sans/files/plus-jakarta-sans-latin-400-normal.woff2?url";
 import jakartaBoldUrl from "@fontsource/plus-jakarta-sans/files/plus-jakarta-sans-latin-700-normal.woff2?url";
@@ -72,7 +72,7 @@ const schemas = [organizationSchema, websiteSchema, ...structuredData];
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalUrl} />
 
-    <!-- Meta Business (WhatsApp) domain verification — required on every page. -->
+    <!-- Meta Business (WhatsApp) domain verification - required on every page. -->
     <meta
       name="facebook-domain-verification"
       content={FB_DOMAIN_VERIFICATION}
@@ -85,7 +85,7 @@ const schemas = [organizationSchema, websiteSchema, ...structuredData];
     <link rel="icon" href="/icon-32.png" type="image/png" sizes="32x32" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
 
-    <!-- Self-hosted font preloads — the two most-used weights. -->
+    <!-- Self-hosted font preloads - the two most-used weights. -->
     <link
       rel="preload"
       as="font"

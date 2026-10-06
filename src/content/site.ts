@@ -7,7 +7,7 @@ export const SITE_URL = 'https://staykeep.com';
 export const SITE_NAME = 'StayKeep';
 export const SITE_TITLE_SUFFIX = ' | StayKeep';
 
-/** The guest web app. Search page takes `q`, `checkIn`, `checkOut`, `guests` — verified against staykeep_booking_web/src/core/search/search-filters.ts. */
+/** The guest web app. Search page takes `q`, `checkIn`, `checkOut`, `guests` - verified against staykeep_booking_web/src/core/search/search-filters.ts. */
 export const APP_URL = 'https://app.staykeep.com';
 export const APP_STAYS_URL = APP_URL;
 
@@ -18,7 +18,7 @@ export const CONTACT_EMAIL = 'hello@staykeep.com';
 export const CONTACT_PHONE_DISPLAY = '+91 99807 83609';
 export const CONTACT_PHONE_TEL = 'tel:+919980783609';
 
-/** Meta Business (WhatsApp) domain verification — must appear on every page. */
+/** Meta Business (WhatsApp) domain verification - must appear on every page. */
 export const FB_DOMAIN_VERIFICATION = 'fuh2r4qjmoh1x6e0x04ophie21p16g';
 
 /** Disclosure for the illustrative 15% booking-commission example. */

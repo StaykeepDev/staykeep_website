@@ -1,4 +1,4 @@
-/** Kept in sync with the `name` union in `src/components/Icon.astro` by hand — small, stable set. */
+/** Kept in sync with the `name` union in `src/components/Icon.astro` by hand - small, stable set. */
 export type IconName =
   | 'search'
   | 'map-pin'

@@ -1,6 +1,6 @@
 /**
  * Only real, shipped features. Nothing here may claim a channel manager, OTA
- * sync, reviews/ratings, ads, or anything not already live — check with the
+ * sync, reviews/ratings, ads, or anything not already live - check with the
  * PRD before adding a line.
  */
 import type { IconName } from './icon-names';

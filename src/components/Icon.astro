@@ -1,6 +1,6 @@
 ---
 /**
- * A small, hand-drawn set of line icons (24x24, stroke-based, currentColor) —
+ * A small, hand-drawn set of line icons (24x24, stroke-based, currentColor) -
  * no icon package, per the brief. Sized/coloured by the shared `.icon` class
  * in global.css; pass `size` or a `class` to override in place.
  */
@@ -34,7 +34,7 @@ interface Props {
 
 const { name, size, class: className = '' } = Astro.props;
 // Width/height as SVG presentation attributes rather than a `style="..."`
-// string — the site's CSP has no `style-src 'unsafe-inline'`, so an inline
+// string - the site's CSP has no `style-src 'unsafe-inline'`, so an inline
 // style attribute would simply be dropped by the browser.
 const dims = size ? { width: size, height: size } : {};
 ---
