@@ -51,10 +51,19 @@ const columns = [
           <a href={link.href}>{link.label}</a>
         ))}
         {ANALYTICS_ENABLED && (
-          <button type="button" class="cookie-settings" data-cookie-settings>
+          <button type="button" class="footer-text-button" data-cookie-settings>
             Cookie settings
           </button>
         )}
+        <button
+          type="button"
+          class="footer-text-button"
+          data-motion-toggle
+          aria-pressed="false"
+          hidden
+        >
+          <span data-motion-label>Reduce motion</span>
+        </button>
       </nav>
     </div>
   </div>
@@ -114,7 +123,7 @@ const columns = [
     font-size: 0.8125rem;
     color: #b5c0d5;
   }
-  .cookie-settings {
+  .footer-text-button {
     background: none;
     border: 0;
     padding: 0;
@@ -122,14 +131,23 @@ const columns = [
     color: inherit;
     cursor: pointer;
   }
-  .cookie-settings:hover {
+  .footer-text-button[hidden] {
+    display: none;
+  }
+  .footer-text-button:hover {
     text-decoration: underline;
     text-underline-offset: 5px;
+  }
+  .footer-text-button:disabled {
+    opacity: 0.7;
+    cursor: default;
+    text-decoration: none;
   }
   .footer-bottom nav {
     display: flex;
     gap: 1.5rem;
     flex-wrap: wrap;
+    align-items: center;
   }
   @media (max-width: 760px) {
     .footer-grid {

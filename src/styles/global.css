@@ -138,7 +138,7 @@ button:disabled {
 }
 .eyebrow,
 .label {
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   font-weight: 600;
   letter-spacing: 0.07em;
   text-transform: uppercase;
@@ -204,6 +204,9 @@ button:disabled {
 .section-heading-center {
   margin-inline: auto;
   text-align: center;
+}
+.section-heading-center .lede {
+  margin-inline: auto;
 }
 .section-split {
   display: grid;
