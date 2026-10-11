@@ -18,12 +18,14 @@
  * fall through to ASSETS for anything it doesn't special-case.
  */
 
+import { handleSitesSitemap, SITES_SITEMAP_PATH } from './sites-sitemap';
+
 export interface Env {
   ASSETS: Fetcher;
 }
 
 export default {
-  async fetch(request: Request, env: Env): Promise<Response> {
+  async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
 
     // Plain http never serves a page: the old host (Vercel) redirected it, and HSTS
@@ -42,6 +44,14 @@ export default {
       // arrived on — staykeep.com never serves plain http.
       target.protocol = 'https:';
       return Response.redirect(target.toString(), 301);
+    }
+
+    // Phase 54 D2: the sitemap index of every published builder site.
+    if (
+      url.pathname === SITES_SITEMAP_PATH &&
+      (request.method === 'GET' || request.method === 'HEAD')
+    ) {
+      return handleSitesSitemap(request, ctx);
     }
 
     return env.ASSETS.fetch(request);

@@ -47,3 +47,4 @@ User-agent: meta-externalagent
 Allow: /
 
 Sitemap: https://staykeep.com/sitemap.xml
+Sitemap: https://staykeep.com/sitemaps/sites.xml

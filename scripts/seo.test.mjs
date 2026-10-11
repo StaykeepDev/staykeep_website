@@ -70,6 +70,7 @@ test('robots.txt has the AI crawler groups and the Sitemap line', async () => {
     assert.match(r, new RegExp(`^User-agent: ${b}\\nAllow: /$`, 'm'), b);
   }
   assert.match(r, /^Sitemap: https:\/\/staykeep\.com\/sitemap\.xml$/m);
+  assert.match(r, /^Sitemap: https:\/\/staykeep\.com\/sitemaps\/sites\.xml$/m);
   assert.match(r, /llms\.txt/);
 });
 
