@@ -105,7 +105,6 @@ export function buildGraph(opts: {
       url: MANAGE_URL,
       downloadUrl: PLAY_MANAGE_URL,
       publisher: { '@id': ORG_ID },
-      offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' },
     },
   ];
 

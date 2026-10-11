@@ -91,9 +91,9 @@ ${bullets(OWNER_FEATURES)}
 
 ## Pricing
 
-${FEE_FOOTNOTE}
+StayKeep takes 0% commission on bookings, and guests pay no StayKeep booking fee. Plans for property owners: contact us at ${CONTACT_EMAIL} or ${CONTACT_PHONE_DISPLAY}; StayKeep has not published prices.
 
-Plans for property owners: contact us at ${CONTACT_EMAIL} or ${CONTACT_PHONE_DISPLAY}. StayKeep has not published prices; there is never a commission on bookings.
+The savings example on the site is illustrative: ${FEE_FOOTNOTE}
 
 ## Languages
 
