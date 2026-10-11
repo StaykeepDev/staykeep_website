@@ -18,9 +18,12 @@ const ENTRIES: Entry[] = [
 ];
 
 export const GET: APIRoute = () => {
+  // Build date: every deploy rebuilds the site, so this is the last-changed day.
+  const lastmod = new Date().toISOString().slice(0, 10);
   const urls = ENTRIES.map(
     (entry) => `  <url>
     <loc>${SITE_URL}${entry.path}</loc>
+    <lastmod>${lastmod}</lastmod>
     <changefreq>${entry.changefreq}</changefreq>
     <priority>${entry.priority}</priority>
   </url>`,

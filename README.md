@@ -114,3 +114,9 @@ Reduced-motion preferences and the footer toggle show the complete still state a
 ## Analytics (optional)
 
 `PUBLIC_GA4_ID` (a `G-...` measurement id) and `PUBLIC_CLARITY_ID` (a Clarity project id) are public, build-time values. Unset, nothing is rendered or loaded and the CSP is unchanged. Set, `scripts/patch-csp-hashes.mjs` adds the GA4 and/or Clarity origins to `dist/_headers`, and the tags load only after the visitor accepts the cookie banner (`src/components/Analytics.astro`). Plan: `../docs/analytics-plan.md`. Test: `node --test scripts/patch-csp-hashes.test.mjs`.
+
+## SEO and AI discoverability
+
+- JSON-LD (`src/lib/structured-data.ts`, one `@graph` per page via `BaseLayout`), `robots.txt` with explicit AI crawler groups, `sitemap.xml` with `lastmod`, and `/llms.txt` + `/llms-full.txt` (generated from `src/content/*.ts` by `src/lib/llms.ts`).
+- Checks: `npm run build && node --test scripts/*.test.mjs` (also run in CI).
+- **IndexNow**: the key file is `public/c2d6bf704b73e87cb5f6423cea2ef751.txt`. After a deploy, run `node scripts/indexnow.mjs` (reads the live sitemap; pass `dist/sitemap.xml` to use the local build) to submit every URL to `api.indexnow.org`. Do not run it before the deploy: the key file must be live first.

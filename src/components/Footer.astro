@@ -5,6 +5,8 @@ import {
   CONTACT_EMAIL,
   CONTACT_PHONE_DISPLAY,
   CONTACT_PHONE_TEL,
+  CIN,
+  REGISTERED_ADDRESS,
 } from "../content/site";
 import { ANALYTICS_ENABLED } from "../lib/analytics-config";
 const year = new Date().getFullYear();
@@ -44,7 +46,8 @@ const columns = [
     <div class="footer-bottom">
       <div class="footer-legal">
         <p>© {year} StayKeep (OPC) Private Limited. All rights reserved.</p>
-        <p>CIN: U79900KL2025OPC097111</p>
+        <p>CIN: {CIN}</p>
+        <p>Registered office: {REGISTERED_ADDRESS}</p>
       </div>
       <nav aria-label="Legal">
         {FOOTER_LINKS.legal.map((link) => (

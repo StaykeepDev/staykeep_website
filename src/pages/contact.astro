@@ -7,6 +7,9 @@ import {
   CONTACT_PHONE_TEL,
   APP_STAYS_URL,
   MANAGE_URL,
+  LEGAL_NAME_DISPLAY,
+  CIN,
+  REGISTERED_ADDRESS,
 } from "../content/site";
 ---
 
@@ -14,6 +17,7 @@ import {
   title="Contact - let’s talk | StayKeep"
   description="Questions about a stay, your property or StayKeep? Get in touch with the StayKeep team by email or phone."
   path="/contact"
+  pageType="contact"
 >
   <section class="section contact-page">
     <div class="container">
@@ -62,6 +66,9 @@ import {
           </a>
         </div>
       </div>
+      <p class="company-line">
+        {LEGAL_NAME_DISPLAY} (CIN {CIN}). Registered office: {REGISTERED_ADDRESS}.
+      </p>
       <div class="contact-shortcuts">
         <div>
           <h2 class="display-4">Already know where you’re headed?</h2>
@@ -157,13 +164,18 @@ import {
   .phone-card {
     background: #edf2ff;
   }
+  .company-line {
+    margin-top: 3rem;
+    font-size: 0.875rem;
+    color: var(--color-on-surface-variant);
+  }
   .contact-shortcuts {
     display: flex;
     gap: 1rem;
     align-items: center;
     border-top: 1px solid var(--color-outline-variant);
     padding-top: 2rem;
-    margin-top: 4rem;
+    margin-top: 1.5rem;
   }
   .contact-shortcuts > div {
     margin-right: auto;

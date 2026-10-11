@@ -57,3 +57,15 @@
 /.well-known/apple-app-site-association
   Content-Type: application/json
   Cache-Control: public, max-age=3600, must-revalidate
+
+# Plain-text files for AI crawlers and IndexNow: always text/plain, UTF-8.
+/llms.txt
+  Content-Type: text/plain; charset=utf-8
+  Cache-Control: public, max-age=3600
+/llms-full.txt
+  Content-Type: text/plain; charset=utf-8
+  Cache-Control: public, max-age=3600
+/robots.txt
+  Content-Type: text/plain; charset=utf-8
+/c2d6bf704b73e87cb5f6423cea2ef751.txt
+  Content-Type: text/plain; charset=utf-8

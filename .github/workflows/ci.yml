@@ -35,5 +35,8 @@ jobs:
       - name: Build
         run: npm run build:nocheck
 
+      - name: SEO / JSON-LD / llms.txt / robots checks
+        run: node --test scripts/*.test.mjs
+
       - name: Verify Worker config (dry run, no credentials needed)
         run: npx wrangler deploy --dry-run

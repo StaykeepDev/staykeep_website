@@ -1,5 +1,6 @@
 ---
 import LegalLayout from '../layouts/LegalLayout.astro';
+import { REGISTERED_ADDRESS } from '../content/site';
 
 // Legal TEXT ported verbatim from the previous site (app/privacy/page.tsx on
 // `main`) - wording is not ours to rewrite. See the handoff report for two
@@ -40,7 +41,7 @@ const sections = [
   {
     title: 'Contact Us',
     content:
-      'For privacy-related questions or requests, contact our Data Protection Officer at privacy@staykeep.com or write to StayKeep (OPC) Private Limited (CIN U79900KL2025OPC097111), Kerala, India.',
+      'For privacy-related questions or requests, contact our Data Protection Officer at privacy@staykeep.com or write to StayKeep (OPC) Private Limited (CIN U79900KL2025OPC097111), ' + REGISTERED_ADDRESS + '.',
   },
 ];
 ---

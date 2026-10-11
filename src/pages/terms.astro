@@ -1,5 +1,6 @@
 ---
 import LegalLayout from '../layouts/LegalLayout.astro';
+import { REGISTERED_ADDRESS } from '../content/site';
 
 // Legal TEXT ported verbatim from the previous site (app/terms/page.tsx on
 // `main`). The payment-terms section describes subscription billing that
@@ -43,7 +44,7 @@ const sections = [
   },
   {
     title: 'Contact',
-    content: 'For legal matters, contact legal@staykeep.com or StayKeep (OPC) Private Limited (CIN U79900KL2025OPC097111), Kerala, India.',
+    content: 'For legal matters, contact legal@staykeep.com or StayKeep (OPC) Private Limited (CIN U79900KL2025OPC097111), ' + REGISTERED_ADDRESS + '.',
   },
 ];
 ---

@@ -14,6 +14,24 @@ export const APP_STAYS_URL = APP_URL;
 /** The owner app: OTP login, then property setup. */
 export const MANAGE_URL = 'https://manage.staykeep.com';
 
+/** Legal entity and registered office (docs/OPERATIONS.md, owner 2026-10-12). One constant, used by the footer, legal pages, contact page and JSON-LD. */
+export const LEGAL_NAME = 'STAYKEEP (OPC) PRIVATE LIMITED';
+export const LEGAL_NAME_DISPLAY = 'StayKeep (OPC) Private Limited';
+export const CIN = 'U79900KL2025OPC097111';
+export const REGISTERED_ADDRESS =
+  'C/O Kalayamthanath (H), Varambetta, Padinhara Thara, Vythiri, Wayanad - 673575, Kerala, India';
+export const ADDRESS_PARTS = {
+  streetAddress: 'C/O Kalayamthanath (H), Varambetta, Padinhara Thara',
+  addressLocality: 'Vythiri',
+  addressRegion: 'Kerala',
+  postalCode: '673575',
+  addressCountry: 'IN',
+  district: 'Wayanad',
+};
+
+export const PLAY_GUEST_URL = 'https://play.google.com/store/apps/details?id=com.staykeep.app';
+export const PLAY_MANAGE_URL = 'https://play.google.com/store/apps/details?id=com.staykeep.manage';
+
 export const CONTACT_EMAIL = 'hello@staykeep.com';
 export const CONTACT_PHONE_DISPLAY = '+91 99807 83609';
 export const CONTACT_PHONE_TEL = 'tel:+919980783609';
