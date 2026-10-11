@@ -37,7 +37,11 @@ test('JSON-LD on every page parses and has the required fields', async () => {
     const [site] = byType(g, 'WebSite');
     assert.match(site.potentialAction.target.urlTemplate, /^https:\/\/app\.staykeep\.com\/stays\?q=\{search_term_string\}$/, f);
     assert.equal(byType(g, 'SoftwareApplication').length, 2, f);
-    for (const a of byType(g, 'SoftwareApplication')) assert.equal(a.offers.price, '0', f);
+    // The guest app is free; StayKeep Manage has paid plans, so it carries no price at all.
+    for (const a of byType(g, 'SoftwareApplication')) {
+      if (a['@id'].endsWith('#app-guest')) assert.equal(a.offers.price, '0', f);
+      else assert.equal(a.offers, undefined, f);
+    }
     const robots = html.match(/<meta name="robots" content="([^"]*)"/)?.[1];
     assert.ok(robots, f + ' has robots meta');
     if (f.endsWith('404.html')) assert.match(robots, /noindex/);
