@@ -18,6 +18,7 @@
  * fall through to ASSETS for anything it doesn't special-case.
  */
 
+import { handleShortLink } from './short-link';
 import { handleSitesSitemap, SITES_SITEMAP_PATH } from './sites-sitemap';
 
 export interface Env {
@@ -53,6 +54,10 @@ export default {
     ) {
       return handleSitesSitemap(request, ctx);
     }
+
+    // Phase 60 S7: the booking short link in our SMS, staykeep.com/b/:code.
+    const short = handleShortLink(request);
+    if (short) return short;
 
     return env.ASSETS.fetch(request);
   },
