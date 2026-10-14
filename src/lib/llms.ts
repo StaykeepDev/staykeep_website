@@ -2,6 +2,7 @@ import {
   SITE_URL,
   APP_URL,
   MANAGE_URL,
+  DEMO_URL,
   PLAY_GUEST_URL,
   PLAY_MANAGE_URL,
   LEGAL_NAME,
@@ -27,6 +28,7 @@ const LINKS = {
   apps: [
     ['Guest app (web)', APP_URL, 'Search and book stays, manage trips'],
     ['Owner app (web)', MANAGE_URL, 'StayKeep Manage for property owners'],
+    ['Try the demo', DEMO_URL, 'One-click demo of StayKeep Manage with sample data, no sign-up'],
     ['StayKeep on Google Play', PLAY_GUEST_URL, 'Android app for guests'],
     ['StayKeep Manage on Google Play', PLAY_MANAGE_URL, 'Android app for property owners'],
   ],
@@ -85,7 +87,7 @@ ${bullets(GUEST_FEATURES)}
 
 ## For property owners
 
-Owners use StayKeep Manage, on the web at ${MANAGE_URL} and on Android at ${PLAY_MANAGE_URL}. More at ${SITE_URL}/owners
+Owners use StayKeep Manage, on the web at ${MANAGE_URL} and on Android at ${PLAY_MANAGE_URL}. Try it with sample data, no sign-up: ${DEMO_URL}. More at ${SITE_URL}/owners
 
 ${bullets(OWNER_FEATURES)}
 

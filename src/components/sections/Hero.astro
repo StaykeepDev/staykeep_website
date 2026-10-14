@@ -1,6 +1,6 @@
 ---
 import { Image } from "astro:assets";
-import { APP_STAYS_URL } from "../../content/site";
+import { APP_STAYS_URL, DEMO_URL } from "../../content/site";
 import Icon from "../Icon.astro";
 import stayImage from "../../assets/photos/tropical-stay.jpg";
 ---
@@ -37,6 +37,7 @@ import stayImage from "../../assets/photos/tropical-stay.jpg";
       <a href="/owners" class="btn btn-outline">
         List your property <Icon name="arrow-right" />
       </a>
+      <a href={DEMO_URL} class="btn btn-secondary">Try the demo</a>
     </div>
     <a href="#stay-experience" class="scroll-cue hero-enter">
       <span>A little closer to your next escape</span>
