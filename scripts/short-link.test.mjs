@@ -13,6 +13,16 @@ test('a well-formed code is a 302 to the booking site', () => {
   assert.equal(handleShortLink(get(`/b/${CODE}`, 'HEAD')).status, 302);
 });
 
+test('the STYKEP short link (the DLT CTA form) redirects the same way', () => {
+  const res = handleShortLink(get(`/STYKEP/${CODE}`));
+  assert.equal(res.status, 302);
+  assert.equal(res.headers.get('Location'), `https://app.staykeep.com/s/${CODE}`);
+  assert.equal(handleShortLink(get(`/STYKEP/${CODE}`, 'HEAD')).status, 302);
+  for (const path of ['/STYKEP/', '/STYKEP', `/stykep/${CODE}`, `/STYKEP/${CODE}x`, `/STYKEP/${CODE}/extra`]) {
+    assert.equal(handleShortLink(get(path)), null, path);
+  }
+});
+
 test('digits 2-9 are in the alphabet', () => {
   assert.equal(shortLinkTarget('/b/23456789pqrs'), 'https://app.staykeep.com/s/23456789pqrs');
 });
