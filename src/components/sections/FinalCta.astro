@@ -1,6 +1,6 @@
 ---
 import Icon from "../Icon.astro";
-import { APP_STAYS_URL, DEMO_URL, MANAGE_URL } from "../../content/site";
+import { APP_STAYS_URL, MANAGE_URL } from "../../content/site";
 interface Props {
   variant?: "home" | "owners";
 }
@@ -32,9 +32,6 @@ const { variant = "home" } = Astro.props;
             <a href="/owners" class="btn btn-outline">
               List your property
             </a>
-            <a href={DEMO_URL} class="btn btn-secondary">
-              Try the demo
-            </a>
           </>
         ) : (
           <>
@@ -43,9 +40,6 @@ const { variant = "home" } = Astro.props;
             </a>
             <a href="/contact" class="btn btn-outline">
               Talk to our team
-            </a>
-            <a href={DEMO_URL} class="btn btn-secondary">
-              Try the demo
             </a>
           </>
         )}

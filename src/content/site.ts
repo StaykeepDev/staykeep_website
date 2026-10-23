@@ -14,9 +14,6 @@ export const APP_STAYS_URL = APP_URL;
 /** The owner app: OTP login, then property setup. */
 export const MANAGE_URL = 'https://manage.staykeep.com';
 
-/** One-click demo of StayKeep Manage with sample data (phase 59 D3). */
-export const DEMO_URL = 'https://manage.staykeep.com/demo';
-
 /** Legal entity and registered office (docs/OPERATIONS.md, owner 2026-10-12). One constant, used by the footer, legal pages, contact page and JSON-LD. */
 export const LEGAL_NAME = 'STAYKEEP (OPC) PRIVATE LIMITED';
 export const LEGAL_NAME_DISPLAY = 'StayKeep (OPC) Private Limited';
