@@ -86,7 +86,7 @@ test('llms.txt format and no long dashes', async () => {
 
 test('sitemap has lastmod and the IndexNow key file matches', async () => {
   const x = await readFile(join(DIST, 'sitemap.xml'), 'utf8');
-  assert.equal((x.match(/<lastmod>\d{4}-\d\d-\d\d<\/lastmod>/g) ?? []).length, 7);
+  assert.equal((x.match(/<lastmod>\d{4}-\d\d-\d\d<\/lastmod>/g) ?? []).length, 8);
   const script = await readFile(join(ROOT, 'scripts/indexnow.mjs'), 'utf8');
   const key = script.match(/const KEY = '([0-9a-f]{32})'/)[1];
   assert.equal(await readFile(join(DIST, key + '.txt'), 'utf8'), key);

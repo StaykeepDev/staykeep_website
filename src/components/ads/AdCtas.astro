@@ -1,0 +1,71 @@
+---
+/**
+ * The three ad landing CTAs. `data-cta` + `data-cta-location` drive the GA4
+ * events and Google Ads conversions in Analytics.astro; `data-cta="signup"`
+ * links also get the ad's utm_* and gclid (see homestay-software.astro).
+ */
+import Icon from "../Icon.astro";
+import { MANAGE_URL, CONTACT_PHONE_TEL, CONTACT_PHONE_DISPLAY } from "../../content/site";
+import { WHATSAPP_URL } from "../../content/ads";
+interface Props {
+  location: "hero" | "footer";
+}
+const { location } = Astro.props;
+---
+
+<div class="ad-ctas">
+  <a
+    href={MANAGE_URL}
+    class="btn btn-primary ad-cta-main"
+    data-cta="signup"
+    data-cta-location={location}
+  >
+    List your property <Icon name="arrow-right" />
+  </a>
+  <a
+    href={WHATSAPP_URL}
+    class="btn btn-outline"
+    target="_blank"
+    rel="noopener"
+    data-cta="whatsapp"
+    data-cta-location={location}
+  >
+    <Icon name="chat" /> Chat on WhatsApp
+  </a>
+  <a
+    href={CONTACT_PHONE_TEL}
+    class="btn btn-outline"
+    data-cta="call"
+    data-cta-location={location}
+    aria-label={`Call ${CONTACT_PHONE_DISPLAY}`}
+  >
+    <Icon name="phone" /> Call
+  </a>
+</div>
+<style>
+  .ad-ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 2rem;
+  }
+  .ad-ctas .btn-outline {
+    background: white;
+  }
+  .ad-ctas .icon {
+    width: 1.15rem;
+    height: 1.15rem;
+  }
+  @media (max-width: 560px) {
+    .ad-ctas {
+      display: grid;
+      grid-template-columns: 1fr auto;
+    }
+    .ad-cta-main {
+      grid-column: 1 / -1;
+    }
+    .ad-ctas .btn {
+      padding-inline: 1.1rem;
+    }
+  }
+</style>

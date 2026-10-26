@@ -81,3 +81,23 @@ export const FAQ_OWNERS: FaqItem[] = [
   LANGUAGES_FAQ,
   WHATS_NEXT_FAQ,
 ];
+
+/** /homestay-software (the ad landing page): short, owner-first answers. */
+export const FAQ_HOMESTAY_SOFTWARE: FaqItem[] = [
+  {
+    question: 'How much does it cost?',
+    answer:
+      'Plans by room count. Talk to us on WhatsApp or call +91 99807 83609. There is never a commission on your bookings.',
+  },
+  IS_ZERO_COMMISSION_REAL,
+  {
+    question: 'Does it work on Android?',
+    answer:
+      'Yes. StayKeep Manage is on Google Play for Android. It also runs in the browser at manage.staykeep.com, on a computer or any phone.',
+  },
+  {
+    question: 'Is my data safe?',
+    answer:
+      'Your data is stored on secure servers in India and encrypted in transit and at rest. You can ask for an export or deletion of your data at any time.',
+  },
+];

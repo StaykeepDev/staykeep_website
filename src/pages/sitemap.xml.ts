@@ -10,6 +10,7 @@ interface Entry {
 const ENTRIES: Entry[] = [
   { path: '/', priority: '1.0', changefreq: 'monthly' },
   { path: '/owners', priority: '0.9', changefreq: 'monthly' },
+  { path: '/homestay-software', priority: '0.8', changefreq: 'monthly' },
   { path: '/about', priority: '0.6', changefreq: 'yearly' },
   { path: '/contact', priority: '0.6', changefreq: 'yearly' },
   { path: '/privacy', priority: '0.3', changefreq: 'yearly' },

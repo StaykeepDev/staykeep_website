@@ -1,0 +1,222 @@
+---
+/**
+ * Ad landing page for searches like "homestay software" and "homestay
+ * management app". Config (WhatsApp number, video, Google Ads id + labels):
+ * src/content/ads.ts. Plan: docs/ads/google-ads-plan.md.
+ */
+import { getImage } from "astro:assets";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import HowItWorks from "../components/sections/HowItWorks.astro";
+import FeatureList from "../components/sections/FeatureList.astro";
+import Faq from "../components/sections/Faq.astro";
+import AdCtas from "../components/ads/AdCtas.astro";
+import { FAQ_HOMESTAY_SOFTWARE } from "../content/faq";
+import { AD_VIDEO_SRC } from "../content/ads";
+import type { FeatureItem } from "../content/features";
+import calendar from "../assets/screenshots/calendar.png";
+
+const poster = await getImage({
+  src: calendar,
+  width: 1280,
+  height: 720,
+  fit: "cover",
+  position: "top",
+  format: "webp",
+  quality: 70,
+});
+
+const FEATURES: FeatureItem[] = [
+  {
+    icon: "calendar",
+    title: "Direct bookings",
+    description:
+      "Guests book you directly at 0% commission. A calendar and rooms board show what is free.",
+  },
+  {
+    icon: "shield-check",
+    title: "Check-in with ID",
+    description:
+      "Verify guest ID at check-in. The guest register is kept for you, digitally.",
+  },
+  {
+    icon: "wallet",
+    title: "Bills and accounts",
+    description:
+      "Add-ons, bills, payments and refunds in one place, with accounts for your property.",
+  },
+  {
+    icon: "users",
+    title: "Your staff",
+    description:
+      "Give reception and housekeeping their own tasks. Check-out creates the cleaning task.",
+  },
+  {
+    icon: "palette",
+    title: "Your own website",
+    description:
+      "A booking website at yourname.staykeep.com with your photos and rooms. Free to set up.",
+  },
+  {
+    icon: "search",
+    title: "A guest app",
+    description:
+      "Guests book, chat with you and see their bill in the StayKeep app or on the web.",
+  },
+];
+---
+
+<BaseLayout
+  title="Homestay software with 0% booking commission | StayKeep"
+  description="Homestay management app for owners in India. Direct bookings at 0% commission, check-in with ID, bills and accounts, staff tasks and your own website. Android and web."
+  path="/homestay-software"
+  faq={FAQ_HOMESTAY_SOFTWARE}
+>
+  <section class="hs-hero">
+    <div class="container hs-hero-grid">
+      <div>
+        <p class="eyebrow">For homestay owners</p>
+        <h1 class="display-1">Homestay software with 0% booking commission</h1>
+        <p class="lede">
+          Take direct bookings, check guests in with ID, keep bills and
+          accounts, and give your staff their tasks. One app, on Android and
+          the web.
+        </p>
+        <AdCtas location="hero" />
+        <p class="hs-note">Plans by room count. Talk to us.</p>
+      </div>
+      <figure class="hs-video">
+        {
+          AD_VIDEO_SRC ? (
+            <video
+              controls
+              muted
+              playsinline
+              preload="none"
+              poster={poster.src}
+              width="1280"
+              height="720"
+              aria-label="StayKeep for homestays, short video"
+            >
+              <source src={AD_VIDEO_SRC} type="video/mp4" />
+            </video>
+          ) : (
+            <img
+              src={poster.src}
+              width="1280"
+              height="720"
+              alt="StayKeep Manage room calendar for an example homestay"
+              fetchpriority="high"
+              decoding="async"
+            />
+          )
+        }
+      </figure>
+    </div>
+  </section>
+
+  <FeatureList
+    id="hs-features-heading"
+    eyebrow="What it does"
+    heading="Everything your homestay runs on."
+    items={FEATURES}
+  />
+  <HowItWorks />
+  <Faq items={FAQ_HOMESTAY_SOFTWARE} />
+
+  <section class="hs-end" aria-labelledby="hs-end-heading">
+    <div class="container">
+      <div class="hs-end-box">
+        <h2 class="display-3" id="hs-end-heading">
+          Run your homestay with StayKeep.
+        </h2>
+        <p class="lede">0% commission on every direct booking.</p>
+        <AdCtas location="footer" />
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  // Carry the ad's utm_* and gclid to the sign-up link only.
+  const params = new URLSearchParams(location.search);
+  const keep = [...params].filter(
+    ([key]) => key.startsWith("utm_") || key === "gclid",
+  );
+  if (keep.length > 0) {
+    for (const link of document.querySelectorAll<HTMLAnchorElement>(
+      'a[data-cta="signup"]',
+    )) {
+      const url = new URL(link.href);
+      for (const [key, value] of keep) url.searchParams.set(key, value);
+      link.href = url.toString();
+    }
+  }
+</script>
+
+<style>
+  .hs-hero {
+    padding: 3.5rem 0 4.5rem;
+    background: linear-gradient(#f5f7ff, #fff);
+  }
+  .hs-hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+  .hs-hero h1 {
+    font-size: clamp(2.2rem, 4.2vw, 3.6rem);
+  }
+  .hs-hero .lede {
+    margin-top: 1.25rem;
+    max-width: 34rem;
+  }
+  .hs-note {
+    margin-top: 1rem;
+    font-size: 0.875rem;
+    color: var(--color-on-surface-variant);
+  }
+  .hs-video {
+    margin: 0;
+    aspect-ratio: 16 / 9;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid #dbe3f5;
+    background: #edf2ff;
+  }
+  .hs-video img,
+  .hs-video video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .hs-end {
+    padding: 0 0 5rem;
+  }
+  .hs-end-box {
+    padding: 3rem;
+    background: #edf2ff;
+    border-radius: 24px;
+  }
+  .hs-end-box .lede {
+    margin-top: 0.75rem;
+  }
+  @media (max-width: 900px) {
+    .hs-hero-grid {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+  }
+  @media (max-width: 760px) {
+    .hs-hero {
+      padding: 2rem 0 3rem;
+    }
+    .hs-end {
+      padding-bottom: 3.5rem;
+    }
+    .hs-end-box {
+      padding: 2rem 1.5rem;
+    }
+  }
+</style>

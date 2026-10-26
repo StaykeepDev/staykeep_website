@@ -81,13 +81,43 @@ export const CLARITY_ORIGINS = {
   img: ['https://*.clarity.ms', 'https://c.bing.com'],
 };
 
-export function withAnalyticsOrigins(policy, { ga4, clarity }) {
-  const add = { script: [], connect: [], img: [] };
-  for (const [on, o] of [[ga4, GA4_ORIGINS], [clarity, CLARITY_ORIGINS]]) {
+/**
+ * Google Ads conversion tracking (gtag.js), from Google's CSP guide for Ads:
+ * the gtag loader, the conversion pixels on google.com / google.co.in
+ * (India) / doubleclick / googleadservices, and the td.doubleclick.net frame.
+ * Added only when GOOGLE_ADS_ID in src/content/ads.ts is set.
+ */
+export const ADS_ORIGINS = {
+  script: [
+    'https://www.googletagmanager.com',
+    'https://www.googleadservices.com',
+    'https://www.google.com',
+    'https://googleads.g.doubleclick.net',
+  ],
+  connect: [
+    'https://www.googletagmanager.com',
+    'https://www.google.com',
+    'https://www.google.co.in',
+    'https://googleads.g.doubleclick.net',
+    'https://www.googleadservices.com',
+  ],
+  img: [
+    'https://www.googletagmanager.com',
+    'https://www.google.com',
+    'https://www.google.co.in',
+    'https://googleads.g.doubleclick.net',
+    'https://www.googleadservices.com',
+  ],
+  frame: ['https://td.doubleclick.net', 'https://www.googletagmanager.com'],
+};
+
+export function withAnalyticsOrigins(policy, { ga4, clarity, ads = false }) {
+  const add = { script: [], connect: [], img: [], frame: [] };
+  for (const [on, o] of [[ga4, GA4_ORIGINS], [clarity, CLARITY_ORIGINS], [ads, ADS_ORIGINS]]) {
     if (!on) continue;
-    add.script.push(...o.script);
-    add.connect.push(...o.connect);
-    add.img.push(...o.img);
+    for (const k of Object.keys(add)) {
+      for (const origin of o[k] ?? []) if (!add[k].includes(origin)) add[k].push(origin);
+    }
   }
   const directives = policy.split(';').map((d) => d.trim()).filter((d) => d !== '');
   const extend = (name, extra, base) => {
@@ -100,6 +130,7 @@ export function withAnalyticsOrigins(policy, { ga4, clarity }) {
   // `connect-src` is absent from this CSP and falls back to `default-src 'self'`.
   extend('connect-src', add.connect, "'self'");
   extend('img-src', add.img, "'self'");
+  extend('frame-src', add.frame, "'self'");
   return directives.join('; ');
 }
 
@@ -117,6 +148,13 @@ async function readEnvId(name) {
   return '';
 }
 
+/** GOOGLE_ADS_ID from src/content/ads.ts ('' when unset or not an AW- id). */
+export function adsIdFromSource(text) {
+  const m = /export const GOOGLE_ADS_ID\s*(?::\s*string\s*)?=\s*['"]([^'"]*)['"]/.exec(text);
+  const id = m ? m[1].trim() : '';
+  return /^AW-\d+$/.test(id) ? id : '';
+}
+
 async function main() {
   const htmlFiles = await findHtmlFiles(DIST_DIR);
   const allHashes = new Set();
@@ -131,7 +169,9 @@ async function main() {
   const ga4 = (await readEnvId('PUBLIC_GA4_ID')) !== '';
   const clarity = (await readEnvId('PUBLIC_CLARITY_ID')) !== '';
 
-  if (allHashes.size === 0 && !ga4 && !clarity) {
+  const ads = adsIdFromSource(await readFile(join(ROOT, 'src/content/ads.ts'), 'utf8')) !== '';
+
+  if (allHashes.size === 0 && !ga4 && !clarity && !ads) {
     console.log('patch-csp-hashes: no inline scripts found, _headers left unchanged.');
     return;
   }
@@ -154,14 +194,14 @@ async function main() {
     allHashes.size === 0
       ? originalPolicy
       : originalPolicy.replace("script-src 'self'", `script-src 'self' ${hashList}`);
-  patchedPolicy = withAnalyticsOrigins(patchedPolicy, { ga4, clarity });
+  patchedPolicy = withAnalyticsOrigins(patchedPolicy, { ga4, clarity, ads });
   // A function replacer: `$` in a policy must never be read as a pattern.
   headers = headers.replace(cspLineRegex, (_m, head) => `${head}${patchedPolicy}`);
 
   await writeFile(HEADERS_PATH, headers);
   console.log(
     `patch-csp-hashes: added ${allHashes.size} script hash(es) to dist/_headers` +
-      `${ga4 || clarity ? ` and analytics origins (ga4=${ga4}, clarity=${clarity})` : ''}.`,
+      `${ga4 || clarity || ads ? ` and analytics origins (ga4=${ga4}, clarity=${clarity}, ads=${ads})` : ''}.`,
   );
 }
 

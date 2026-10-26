@@ -1,5 +1,5 @@
 ---
-import { ANALYTICS_ENABLED } from "../lib/analytics-config";
+import { ANALYTICS_ENABLED, ADS_ENABLED } from "../lib/analytics-config";
 ---
 
 {
@@ -11,7 +11,11 @@ import { ANALYTICS_ENABLED } from "../lib/analytics-config";
       aria-label="Cookie consent"
       hidden
     >
-      <p>We use cookies to understand how StayKeep is used.</p>
+      <p>
+        {ADS_ENABLED
+          ? "We use cookies to understand how StayKeep is used and to measure our ads."
+          : "We use cookies to understand how StayKeep is used."}
+      </p>
       <div class="sk-consent-actions">
         <button type="button" data-consent="denied">
           Decline
@@ -30,9 +34,17 @@ import { ANALYTICS_ENABLED } from "../lib/analytics-config";
    * gets Consent Mode v2 default `denied` and its script is injected only
    * after the visitor accepts; Clarity is injected only after Accept too.
    * The choice lives in localStorage `sk_consent` (try/catch: storage can be
-   * blocked). Events carry no PII: only fixed event names.
+   * blocked). Events carry no PII: only fixed event names and parameters.
+   *
+   * Ad landing CTAs (`data-cta` = whatsapp | call | signup, plus
+   * `data-cta-location`) send `<cta>_click` with `cta_location` and `page`,
+   * and, when `GOOGLE_ADS_ID` and that CTA's label are set in
+   * src/content/ads.ts, a Google Ads conversion. Ads loads only after Accept.
    */
+  import { GOOGLE_ADS_ID, GOOGLE_ADS_LABELS } from "../content/ads";
   const GA4 = (import.meta.env.PUBLIC_GA4_ID ?? "").trim();
+  const ADS = GOOGLE_ADS_ID.trim();
+  const ADS_LABELS: Record<string, string> = GOOGLE_ADS_LABELS;
   const CLARITY = (import.meta.env.PUBLIC_CLARITY_ID ?? "").trim();
   const KEY = "sk_consent";
 
@@ -82,27 +94,36 @@ import { ANALYTICS_ENABLED } from "../lib/analytics-config";
       wait_for_update: 500,
     });
     w.gtag("js", new Date());
-    w.gtag("config", GA4, {
-      send_page_view: false,
-      allow_google_signals: false,
-      linker: { domains: ["staykeep.com", "app.staykeep.com"] },
-    });
+    if (GA4) {
+      w.gtag("config", GA4, {
+        send_page_view: false,
+        allow_google_signals: false,
+        linker: { domains: ["staykeep.com", "app.staykeep.com"] },
+      });
+    }
+    if (ADS) w.gtag("config", ADS);
   }
 
   function load(): void {
-    if (GA4 && !gaLoaded) {
+    if ((GA4 || ADS) && !gaLoaded) {
       gaLoaded = true;
-      w.gtag?.("consent", "update", { analytics_storage: "granted" });
+      // Ads measures conversions only; ad_personalization stays denied.
+      w.gtag?.("consent", "update", {
+        analytics_storage: "granted",
+        ...(ADS ? { ad_storage: "granted", ad_user_data: "granted" } : {}),
+      });
       inject(
         "https://www.googletagmanager.com/gtag/js?id=" +
-          encodeURIComponent(GA4),
+          encodeURIComponent(GA4 || ADS),
       );
       // The marketing site has no ids in its paths: send the plain path.
-      w.gtag?.("event", "page_view", {
-        page_path: location.pathname,
-        page_location: location.origin + location.pathname,
-        page_title: document.title,
-      });
+      if (GA4) {
+        w.gtag?.("event", "page_view", {
+          page_path: location.pathname,
+          page_location: location.origin + location.pathname,
+          page_title: document.title,
+        });
+      }
     }
     if (CLARITY && !clarityLoaded) {
       clarityLoaded = true;
@@ -121,18 +142,60 @@ import { ANALYTICS_ENABLED } from "../lib/analytics-config";
     const choice = read();
     if (choice === "granted") load();
     else if (choice === "denied") {
-      if (gaLoaded) w.gtag?.("consent", "update", { analytics_storage: "denied" });
+      if (gaLoaded) {
+        w.gtag?.("consent", "update", {
+          analytics_storage: "denied",
+          ad_storage: "denied",
+          ad_user_data: "denied",
+        });
+      }
       if (clarityLoaded) w.clarity?.("consent", false);
     }
   }
 
-  function track(name: string): void {
+  function track(name: string, params: Record<string, unknown> = {}): void {
     if (read() !== "granted" || !gaLoaded) return;
-    w.gtag?.("event", name, {});
+    w.gtag?.("event", name, params);
   }
 
-  if (GA4 || CLARITY) {
-    if (GA4) defineGtag();
+  /** Ad landing CTA: GA4 event + optional Ads conversion. True if it navigates for us. */
+  function trackCta(link: HTMLAnchorElement, event: MouseEvent): boolean {
+    const cta = link.dataset.cta ?? "";
+    track(cta + "_click", {
+      cta_location: link.dataset.ctaLocation ?? "",
+      page: location.pathname,
+    });
+    const label = ADS_LABELS[cta] ?? "";
+    if (!ADS || !label || read() !== "granted" || !gaLoaded) return false;
+    // Same-tab links (sign-up) wait briefly so the conversion is sent first.
+    const sameTab =
+      !link.target &&
+      !link.href.startsWith("tel:") &&
+      !event.metaKey &&
+      !event.ctrlKey &&
+      !event.shiftKey &&
+      event.button === 0;
+    if (!sameTab) {
+      w.gtag?.("event", "conversion", { send_to: ADS + "/" + label });
+      return false;
+    }
+    event.preventDefault();
+    let gone = false;
+    const go = (): void => {
+      if (gone) return;
+      gone = true;
+      location.href = link.href;
+    };
+    w.gtag?.("event", "conversion", {
+      send_to: ADS + "/" + label,
+      event_callback: go,
+    });
+    window.setTimeout(go, 800);
+    return true;
+  }
+
+  if (GA4 || CLARITY || ADS) {
+    if (GA4 || ADS) defineGtag();
     const banner = document.getElementById("sk-consent");
     const sync = (): void => {
       if (banner) banner.hidden = read() !== null;
@@ -163,6 +226,10 @@ import { ANALYTICS_ENABLED } from "../lib/analytics-config";
       }
       const link = target?.closest<HTMLAnchorElement>("a[href]");
       if (!link) return;
+      if (link.dataset.cta) {
+        trackCta(link, event);
+        return;
+      }
       const href = link.getAttribute("href") ?? "";
       if (href.startsWith("mailto:") || href.startsWith("tel:")) {
         track("contact_click");

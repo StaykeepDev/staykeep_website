@@ -20,6 +20,7 @@ const SITE_ID = `${SITE_URL}/#website`;
 /** Readable names for the breadcrumb trail, keyed by path. */
 const CRUMB_NAMES: Record<string, string> = {
   '/owners': 'For property owners',
+  '/homestay-software': 'Homestay software',
   '/about': 'About',
   '/contact': 'Contact',
   '/privacy': 'Privacy policy',
