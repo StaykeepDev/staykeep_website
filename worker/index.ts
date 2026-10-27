@@ -18,6 +18,7 @@
  * fall through to ASSETS for anything it doesn't special-case.
  */
 
+import { handleMediaRange } from './media-range';
 import { handleShortLink } from './short-link';
 import { handleSitesSitemap, SITES_SITEMAP_PATH } from './sites-sitemap';
 
@@ -58,6 +59,10 @@ export default {
     // Phase 60 S7: the booking short link in our SMS, staykeep.com/b/:code.
     const short = handleShortLink(request);
     if (short) return short;
+
+    // 2026-10-27: byte ranges for the ad video (Safari on iPhone needs a 206).
+    const media = await handleMediaRange(request, env.ASSETS);
+    if (media) return media;
 
     return env.ASSETS.fetch(request);
   },
