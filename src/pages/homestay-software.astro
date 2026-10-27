@@ -1,8 +1,8 @@
 ---
 /**
  * Ad landing page for searches like "homestay software" and "homestay
- * management app". Leads with free setup and one WhatsApp action
- * (owner decisions, 27 Oct 2026). Config (WhatsApp number, price, video,
+ * management app". Leads with setup by our team and one WhatsApp action
+ * (owner, 27 Oct 2026: no "free", no prices). Config (WhatsApp number, video,
  * Google Ads id + labels): src/content/ads.ts. Plan: docs/ads/google-ads-plan.md.
  */
 import { getImage, Image } from "astro:assets";
@@ -12,7 +12,7 @@ import Faq from "../components/sections/Faq.astro";
 import AdCtas from "../components/ads/AdCtas.astro";
 import Icon from "../components/Icon.astro";
 import { FAQ_HOMESTAY_SOFTWARE } from "../content/faq";
-import { AD_VIDEO_POSTER, AD_VIDEO_SRC, PRICE_FROM } from "../content/ads";
+import { AD_VIDEO_POSTER, AD_VIDEO_SRC } from "../content/ads";
 import type { FeatureItem } from "../content/features";
 import calendar from "../assets/screenshots/calendar.png";
 import phoneCalendar from "../assets/screenshots/ad/phone-calendar.png";
@@ -33,7 +33,7 @@ const SHOTS = [
   {
     src: phoneCalendar,
     title: "Every room on one calendar",
-    alt: "StayKeep Manage month calendar showing free rooms per day for an example homestay",
+    alt: "StayKeep Manage month calendar showing available rooms per day for an example homestay",
   },
   {
     src: phoneWebsite,
@@ -54,7 +54,7 @@ const STEPS = [
   },
   {
     title: "We set up your property",
-    text: "Our team adds your rooms and prices and sets up your booking website. Free.",
+    text: "Our team adds your property and rooms and sets up your booking website.",
   },
   {
     title: "We walk you through it",
@@ -73,7 +73,7 @@ const FEATURES: FeatureItem[] = [
     icon: "palette",
     title: "Your own booking website",
     description:
-      "A website at yourname.staykeep.com with your photos and rooms. Guests book direct at 0% commission.",
+      "A website at yourname.staykeep.com with your photos and rooms. Guests book with you directly.",
   },
   {
     icon: "shield-check",
@@ -103,27 +103,23 @@ const FEATURES: FeatureItem[] = [
 ---
 
 <BaseLayout
-  title="Homestay software, set up free for you | StayKeep"
-  description={`Homestay app for owners in India. Send your Google Maps link on WhatsApp and we set up your property, free. One calendar, booking website, ID check-in, GST bills and UPI. Plans from ${PRICE_FROM}.`}
+  title="Homestay software, set up for you | StayKeep"
+  description="Homestay app for owners in India. Send your Google Maps link on WhatsApp and our team sets up your property for you. One calendar, booking website, ID check-in, GST bills and UPI."
   path="/homestay-software"
   faq={FAQ_HOMESTAY_SOFTWARE}
 >
   <section class="hs-hero">
     <div class="container hs-hero-grid">
       <div>
-        <p class="hs-free"><Icon name="check" /> Free setup by our team</p>
         <h1 class="display-1">
           Send your Google Maps link. We'll set up your homestay app.
         </h1>
         <p class="lede">
           One calendar for every room, your own booking website, ID check-in
-          with Form C, and GST bills with UPI. Our team in Wayanad does the
-          setup.
+          with Form C, and GST bills with UPI. Our team does the setup for
+          you.
         </p>
         <AdCtas location="hero" />
-        <p class="hs-note">
-          Plans from {PRICE_FROM}, by room count. No commission on bookings.
-        </p>
       </div>
       <figure class="hs-video">
         {
@@ -135,7 +131,7 @@ const FEATURES: FeatureItem[] = [
               poster={AD_VIDEO_POSTER || poster.src}
               width="1280"
               height="720"
-              aria-label="StayKeep for homestays, 34 second video with voice"
+              aria-label="StayKeep for homestays, 31 second video with voice"
             >
               <source src={AD_VIDEO_SRC} type="video/mp4" />
             </video>
@@ -157,7 +153,6 @@ const FEATURES: FeatureItem[] = [
   <section class="hs-trust" aria-label="About us">
     <ul class="container hs-trust-list">
       <li><Icon name="building" /> STAYKEEP (OPC) Pvt Ltd</li>
-      <li><Icon name="map-pin" /> Wayanad, Kerala</li>
       <li><Icon name="chat" /> Our team replies on WhatsApp</li>
     </ul>
   </section>
@@ -190,7 +185,7 @@ const FEATURES: FeatureItem[] = [
 
   <section class="section hs-steps-section" aria-labelledby="hs-steps-heading">
     <div class="container">
-      <p class="eyebrow">How free setup works</p>
+      <p class="eyebrow">How setup works</p>
       <h2 class="display-2" id="hs-steps-heading">Three steps, and you are live.</h2>
       <ol class="hs-steps">
         {
@@ -221,7 +216,7 @@ const FEATURES: FeatureItem[] = [
           WhatsApp your Google Maps link. We'll do the rest.
         </h2>
         <p class="lede">
-          Free setup. Plans from {PRICE_FROM}, by room count.
+          Our team sets up your property and walks you through it.
         </p>
         <AdCtas location="footer" />
       </div>
@@ -257,33 +252,12 @@ const FEATURES: FeatureItem[] = [
     gap: 4rem;
     align-items: center;
   }
-  .hs-free {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    margin: 0 0 1rem;
-    padding: 0.35rem 0.85rem;
-    border-radius: 999px;
-    background: var(--color-primary-container);
-    color: var(--color-primary);
-    font-weight: 700;
-    font-size: 0.95rem;
-  }
-  .hs-free .icon {
-    width: 1.05rem;
-    height: 1.05rem;
-  }
   .hs-hero h1 {
     font-size: clamp(2rem, 4vw, 3.3rem);
   }
   .hs-hero .lede {
     margin-top: 1.1rem;
     max-width: 34rem;
-  }
-  .hs-note {
-    margin-top: 0.6rem;
-    font-size: 0.9rem;
-    color: var(--color-on-surface-variant);
   }
   .hs-video {
     margin: 0;

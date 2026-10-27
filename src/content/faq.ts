@@ -85,19 +85,14 @@ export const FAQ_OWNERS: FaqItem[] = [
 /** /homestay-software (the ad landing page): short, owner-first answers. */
 export const FAQ_HOMESTAY_SOFTWARE: FaqItem[] = [
   {
-    question: 'How much does it cost?',
+    question: 'What does setup include?',
     answer:
-      'Plans start at ₹499 a month and go by the number of rooms. Setup is free: send us your Google Maps link on WhatsApp and our team sets up your property. There is never a commission on your bookings.',
-  },
-  {
-    question: 'What does free setup include?',
-    answer:
-      'Send us your Google Maps link on WhatsApp. Our team adds your property, rooms and prices, and sets up your own booking website. Then we walk you through it on a call, and you start.',
+      'Send us your Google Maps link on WhatsApp. Our team adds your property and rooms, and sets up your own booking website. Then we walk you through it on a call, and you start.',
   },
   {
     question: 'I am on Booking.com, Airbnb or other OTAs. Does it work with them?',
     answer:
-      'Keep your OTA listings. Forward the booking emails that OTAs send you, and those bookings show up in the same StayKeep list as your phone, walk-in and website bookings. StayKeep does not sync rooms or prices with OTAs today, so close a room on the OTA yourself when it is booked elsewhere.',
+      'Keep your OTA listings. Forward the booking emails that OTAs send you, and those bookings show up in the same StayKeep list as your phone, walk-in and website bookings. StayKeep does not sync availability with OTAs today, so close a room on the OTA yourself when it is booked elsewhere.',
   },
   {
     question: 'Do I need to fill Form C for foreign guests?',
@@ -109,7 +104,6 @@ export const FAQ_HOMESTAY_SOFTWARE: FaqItem[] = [
     answer:
       'Yes. StayKeep Manage is on Google Play for Android. It also runs in the browser at manage.staykeep.com, on a computer or any phone.',
   },
-  IS_ZERO_COMMISSION_REAL,
   {
     question: 'Is my data safe?',
     answer:
