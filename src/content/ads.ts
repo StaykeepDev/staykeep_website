@@ -16,7 +16,13 @@ export const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURICo
  * public/media/, MP4 H.264, under 25 MB: a Workers static asset limit).
  * Empty: the slot shows the poster only.
  */
-export const AD_VIDEO_SRC = '';
+export const AD_VIDEO_SRC = '/media/homestay-30s.mp4';
+
+/**
+ * Poster frame for the video (a file in public/media/, 1280 x 720). Empty:
+ * the video uses the calendar screenshot poster.
+ */
+export const AD_VIDEO_POSTER = '/media/homestay-30s-poster.webp';
 
 /**
  * Google Ads tag id, 'AW-' followed by digits. Empty: no Google Ads tag.

@@ -11,7 +11,7 @@ import FeatureList from "../components/sections/FeatureList.astro";
 import Faq from "../components/sections/Faq.astro";
 import AdCtas from "../components/ads/AdCtas.astro";
 import { FAQ_HOMESTAY_SOFTWARE } from "../content/faq";
-import { AD_VIDEO_SRC } from "../content/ads";
+import { AD_VIDEO_POSTER, AD_VIDEO_SRC } from "../content/ads";
 import type { FeatureItem } from "../content/features";
 import calendar from "../assets/screenshots/calendar.png";
 
@@ -92,7 +92,7 @@ const FEATURES: FeatureItem[] = [
               muted
               playsinline
               preload="none"
-              poster={poster.src}
+              poster={AD_VIDEO_POSTER || poster.src}
               width="1280"
               height="720"
               aria-label="StayKeep for homestays, short video"
