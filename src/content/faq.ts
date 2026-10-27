@@ -87,14 +87,29 @@ export const FAQ_HOMESTAY_SOFTWARE: FaqItem[] = [
   {
     question: 'How much does it cost?',
     answer:
-      'Plans by room count. Talk to us on WhatsApp or call +91 99807 83609. There is never a commission on your bookings.',
+      'Plans start at ₹499 a month and go by the number of rooms. Setup is free: send us your Google Maps link on WhatsApp and our team sets up your property. There is never a commission on your bookings.',
   },
-  IS_ZERO_COMMISSION_REAL,
+  {
+    question: 'What does free setup include?',
+    answer:
+      'Send us your Google Maps link on WhatsApp. Our team adds your property, rooms and prices, and sets up your own booking website. Then we walk you through it on a call, and you start.',
+  },
+  {
+    question: 'I am on Booking.com, Airbnb or other OTAs. Does it work with them?',
+    answer:
+      'Keep your OTA listings. Forward the booking emails that OTAs send you, and those bookings show up in the same StayKeep list as your phone, walk-in and website bookings. StayKeep does not sync rooms or prices with OTAs today, so close a room on the OTA yourself when it is booked elsewhere.',
+  },
+  {
+    question: 'Do I need to fill Form C for foreign guests?',
+    answer:
+      'Yes, Form C is your duty for every foreign guest. StayKeep marks foreign guests at check-in and keeps a Form C list that shows which ones are still due, next to your digital guest register.',
+  },
   {
     question: 'Does it work on Android?',
     answer:
       'Yes. StayKeep Manage is on Google Play for Android. It also runs in the browser at manage.staykeep.com, on a computer or any phone.',
   },
+  IS_ZERO_COMMISSION_REAL,
   {
     question: 'Is my data safe?',
     answer:

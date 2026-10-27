@@ -1,19 +1,23 @@
 ---
 /**
  * Ad landing page for searches like "homestay software" and "homestay
- * management app". Config (WhatsApp number, video, Google Ads id + labels):
- * src/content/ads.ts. Plan: docs/ads/google-ads-plan.md.
+ * management app". Leads with free setup and one WhatsApp action
+ * (owner decisions, 27 Oct 2026). Config (WhatsApp number, price, video,
+ * Google Ads id + labels): src/content/ads.ts. Plan: docs/ads/google-ads-plan.md.
  */
-import { getImage } from "astro:assets";
+import { getImage, Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import HowItWorks from "../components/sections/HowItWorks.astro";
 import FeatureList from "../components/sections/FeatureList.astro";
 import Faq from "../components/sections/Faq.astro";
 import AdCtas from "../components/ads/AdCtas.astro";
+import Icon from "../components/Icon.astro";
 import { FAQ_HOMESTAY_SOFTWARE } from "../content/faq";
-import { AD_VIDEO_POSTER, AD_VIDEO_SRC } from "../content/ads";
+import { AD_VIDEO_POSTER, AD_VIDEO_SRC, PRICE_FROM } from "../content/ads";
 import type { FeatureItem } from "../content/features";
 import calendar from "../assets/screenshots/calendar.png";
+import phoneCalendar from "../assets/screenshots/ad/phone-calendar.png";
+import phoneWebsite from "../assets/screenshots/ad/phone-website.png";
+import phoneCheckin from "../assets/screenshots/ad/phone-checkin.png";
 
 const poster = await getImage({
   src: calendar,
@@ -25,77 +29,113 @@ const poster = await getImage({
   quality: 70,
 });
 
+const SHOTS = [
+  {
+    src: phoneCalendar,
+    title: "Every room on one calendar",
+    alt: "StayKeep Manage month calendar showing free rooms per day for an example homestay",
+  },
+  {
+    src: phoneWebsite,
+    title: "Your own booking website",
+    alt: "An example homestay booking website at hillview.staykeep.com, previewed on a phone",
+  },
+  {
+    src: phoneCheckin,
+    title: "Check-in with verified IDs",
+    alt: "StayKeep Manage check-in screen with two guests whose IDs are verified",
+  },
+];
+
+const STEPS = [
+  {
+    title: "Send your Google Maps link",
+    text: "Message us on WhatsApp with the link to your homestay on Google Maps.",
+  },
+  {
+    title: "We set up your property",
+    text: "Our team adds your rooms and prices and sets up your booking website. Free.",
+  },
+  {
+    title: "We walk you through it",
+    text: "A short call to show you around, and you start taking bookings.",
+  },
+];
+
 const FEATURES: FeatureItem[] = [
   {
     icon: "calendar",
-    title: "Direct bookings",
+    title: "One calendar, every room",
     description:
-      "Guests book you directly at 0% commission. A calendar and rooms board show what is free.",
-  },
-  {
-    icon: "shield-check",
-    title: "Check-in with ID",
-    description:
-      "Verify guest ID at check-in. The guest register is kept for you, digitally.",
-  },
-  {
-    icon: "wallet",
-    title: "Bills and accounts",
-    description:
-      "Add-ons, bills, payments and refunds in one place, with accounts for your property.",
-  },
-  {
-    icon: "users",
-    title: "Your staff",
-    description:
-      "Give reception and housekeeping their own tasks. Check-out creates the cleaning task.",
+      "Add phone and walk-in bookings from your phone. Guests get an SMS confirmation.",
   },
   {
     icon: "palette",
-    title: "Your own website",
+    title: "Your own booking website",
     description:
-      "A booking website at yourname.staykeep.com with your photos and rooms. Free to set up.",
+      "A website at yourname.staykeep.com with your photos and rooms. Guests book direct at 0% commission.",
   },
   {
-    icon: "search",
-    title: "A guest app",
+    icon: "shield-check",
+    title: "ID scan check-in",
     description:
-      "Guests book, chat with you and see their bill in the StayKeep app or on the web.",
+      "Add guest IDs at check-in. The guest register is kept for you, and Form C for foreign guests is listed.",
+  },
+  {
+    icon: "wallet",
+    title: "GST bills, UPI and online payments",
+    description:
+      "Bills with GST, payments by UPI or online, and accounts for your property.",
+  },
+  {
+    icon: "users",
+    title: "Staff tasks",
+    description:
+      "Housekeeping and reception get their own tasks. Check-out creates the cleaning task.",
+  },
+  {
+    icon: "mail",
+    title: "OTA emails in the same list",
+    description:
+      "Forward the booking emails OTAs send you, and those bookings sit next to your direct ones. Guests can leave reviews too.",
   },
 ];
 ---
 
 <BaseLayout
-  title="Homestay software with 0% booking commission | StayKeep"
-  description="Homestay management app for owners in India. Direct bookings at 0% commission, check-in with ID, bills and accounts, staff tasks and your own website. Android and web."
+  title="Homestay software, set up free for you | StayKeep"
+  description={`Homestay app for owners in India. Send your Google Maps link on WhatsApp and we set up your property, free. One calendar, booking website, ID check-in, GST bills and UPI. Plans from ${PRICE_FROM}.`}
   path="/homestay-software"
   faq={FAQ_HOMESTAY_SOFTWARE}
 >
   <section class="hs-hero">
     <div class="container hs-hero-grid">
       <div>
-        <p class="eyebrow">For homestay owners</p>
-        <h1 class="display-1">Homestay software with 0% booking commission</h1>
+        <p class="hs-free"><Icon name="check" /> Free setup by our team</p>
+        <h1 class="display-1">
+          Send your Google Maps link. We'll set up your homestay app.
+        </h1>
         <p class="lede">
-          Take direct bookings, check guests in with ID, keep bills and
-          accounts, and give your staff their tasks. One app, on Android and
-          the web.
+          One calendar for every room, your own booking website, ID check-in
+          with Form C, and GST bills with UPI. Our team in Wayanad does the
+          setup.
         </p>
         <AdCtas location="hero" />
-        <p class="hs-note">Plans by room count. Talk to us.</p>
+        <p class="hs-note">
+          Plans from {PRICE_FROM}, by room count. No commission on bookings.
+        </p>
       </div>
       <figure class="hs-video">
         {
           AD_VIDEO_SRC ? (
             <video
               controls
-              muted
               playsinline
               preload="none"
               poster={AD_VIDEO_POSTER || poster.src}
               width="1280"
               height="720"
-              aria-label="StayKeep for homestays, short video"
+              aria-label="StayKeep for homestays, 34 second video with voice"
             >
               <source src={AD_VIDEO_SRC} type="video/mp4" />
             </video>
@@ -114,22 +154,75 @@ const FEATURES: FeatureItem[] = [
     </div>
   </section>
 
+  <section class="hs-trust" aria-label="About us">
+    <ul class="container hs-trust-list">
+      <li><Icon name="building" /> STAYKEEP (OPC) Pvt Ltd</li>
+      <li><Icon name="map-pin" /> Wayanad, Kerala</li>
+      <li><Icon name="chat" /> Our team replies on WhatsApp</li>
+    </ul>
+  </section>
+
+  <section class="section hs-shots" aria-labelledby="hs-shots-heading">
+    <div class="container">
+      <p class="eyebrow">The real app</p>
+      <h2 class="display-2" id="hs-shots-heading">What you get on your phone.</h2>
+      <ul class="hs-shot-list">
+        {
+          SHOTS.map((shot) => (
+            <li>
+              <Image
+                src={shot.src}
+                alt={shot.alt}
+                widths={[280, 560]}
+                sizes="(max-width: 760px) 70vw, 280px"
+                format="webp"
+                quality={72}
+                loading="lazy"
+                decoding="async"
+              />
+              <p>{shot.title}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section hs-steps-section" aria-labelledby="hs-steps-heading">
+    <div class="container">
+      <p class="eyebrow">How free setup works</p>
+      <h2 class="display-2" id="hs-steps-heading">Three steps, and you are live.</h2>
+      <ol class="hs-steps">
+        {
+          STEPS.map((step, i) => (
+            <li>
+              <span class="hs-step-number">{i + 1}</span>
+              <h3 class="display-4">{step.title}</h3>
+              <p class="body-text">{step.text}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
   <FeatureList
     id="hs-features-heading"
     eyebrow="What it does"
     heading="Everything your homestay runs on."
     items={FEATURES}
   />
-  <HowItWorks />
   <Faq items={FAQ_HOMESTAY_SOFTWARE} />
 
   <section class="hs-end" aria-labelledby="hs-end-heading">
     <div class="container">
       <div class="hs-end-box">
         <h2 class="display-3" id="hs-end-heading">
-          Run your homestay with StayKeep.
+          WhatsApp your Google Maps link. We'll do the rest.
         </h2>
-        <p class="lede">0% commission on every direct booking.</p>
+        <p class="lede">
+          Free setup. Plans from {PRICE_FROM}, by room count.
+        </p>
         <AdCtas location="footer" />
       </div>
     </div>
@@ -155,7 +248,7 @@ const FEATURES: FeatureItem[] = [
 
 <style>
   .hs-hero {
-    padding: 3.5rem 0 4.5rem;
+    padding: 3rem 0 3.5rem;
     background: linear-gradient(#f5f7ff, #fff);
   }
   .hs-hero-grid {
@@ -164,16 +257,32 @@ const FEATURES: FeatureItem[] = [
     gap: 4rem;
     align-items: center;
   }
+  .hs-free {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin: 0 0 1rem;
+    padding: 0.35rem 0.85rem;
+    border-radius: 999px;
+    background: var(--color-primary-container);
+    color: var(--color-primary);
+    font-weight: 700;
+    font-size: 0.95rem;
+  }
+  .hs-free .icon {
+    width: 1.05rem;
+    height: 1.05rem;
+  }
   .hs-hero h1 {
-    font-size: clamp(2.2rem, 4.2vw, 3.6rem);
+    font-size: clamp(2rem, 4vw, 3.3rem);
   }
   .hs-hero .lede {
-    margin-top: 1.25rem;
+    margin-top: 1.1rem;
     max-width: 34rem;
   }
   .hs-note {
-    margin-top: 1rem;
-    font-size: 0.875rem;
+    margin-top: 0.6rem;
+    font-size: 0.9rem;
     color: var(--color-on-surface-variant);
   }
   .hs-video {
@@ -191,6 +300,84 @@ const FEATURES: FeatureItem[] = [
     height: 100%;
     object-fit: cover;
   }
+  .hs-trust {
+    border-block: 1px solid #e3e8f4;
+    background: #fff;
+  }
+  .hs-trust-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.6rem 2.25rem;
+    margin: 0 auto;
+    padding-block: 1rem;
+    list-style: none;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-on-surface);
+  }
+  .hs-trust-list li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+  }
+  .hs-trust-list .icon {
+    width: 1.1rem;
+    height: 1.1rem;
+    color: var(--color-primary);
+  }
+  .hs-shot-list {
+    display: grid;
+    grid-template-columns: repeat(3, 280px);
+    justify-content: center;
+    gap: 2.5rem;
+    margin: 2.5rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .hs-shot-list img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 22px;
+    border: 1px solid #dbe3f5;
+    box-shadow: var(--shadow-soft);
+  }
+  .hs-shot-list p {
+    margin-top: 0.9rem;
+    text-align: center;
+    font-weight: 700;
+  }
+  .hs-steps-section {
+    padding-top: 0;
+  }
+  .hs-steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin: 2.5rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .hs-steps li {
+    padding: 1.5rem;
+    border-radius: var(--radius-card);
+    background: #f5f7ff;
+  }
+  .hs-step-number {
+    display: inline-grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    margin-bottom: 0.9rem;
+    border-radius: 999px;
+    background: var(--color-primary);
+    color: #fff;
+    font-weight: 700;
+  }
+  .hs-steps .body-text {
+    margin-top: 0.4rem;
+  }
   .hs-end {
     padding: 0 0 5rem;
   }
@@ -207,10 +394,25 @@ const FEATURES: FeatureItem[] = [
       grid-template-columns: 1fr;
       gap: 2.5rem;
     }
+    .hs-steps {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+  }
+  @media (max-width: 960px) {
+    .hs-shot-list {
+      grid-template-columns: minmax(0, 260px);
+      gap: 2rem;
+    }
   }
   @media (max-width: 760px) {
     .hs-hero {
-      padding: 2rem 0 3rem;
+      padding: 1.5rem 0 2.5rem;
+    }
+    .hs-trust-list {
+      justify-content: flex-start;
+      flex-direction: column;
+      gap: 0.45rem;
     }
     .hs-end {
       padding-bottom: 3.5rem;
