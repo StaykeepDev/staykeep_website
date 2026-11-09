@@ -16,15 +16,15 @@ export const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURICo
  * public/media/, MP4 H.264, under 25 MB: a Workers static asset limit).
  * Empty: the slot shows the poster only.
  */
-// Owner, 9 Nov 2026: the hook-v2 video is off the page until the new PMS video is made
-// (the slot shows the calendar screenshot meanwhile). Was '/media/homestay-hook-v2.mp4'.
-export const AD_VIDEO_SRC = '';
+// Owner, 9 Nov 2026: the PMS ad (staykeep_videos src/ads/pms30, Gaurav's voice, 32.6 s,
+// out/ads/pms30-web.mp4) replaces the hook-v2 video the owner did not like.
+export const AD_VIDEO_SRC = '/media/pms30.mp4';
 
 /**
  * Poster frame for the video (a file in public/media/, 1280 x 720). Empty:
  * the video uses the calendar screenshot poster.
  */
-export const AD_VIDEO_POSTER = '';
+export const AD_VIDEO_POSTER = '/media/pms30-poster.webp';
 
 /**
  * Google Ads tag id, 'AW-' followed by digits. Empty: no Google Ads tag.
