@@ -84,6 +84,22 @@ export const FAQ_OWNERS: FaqItem[] = [
 
 /** /homestay-software (the ad landing page): short, owner-first answers. */
 export const FAQ_HOMESTAY_SOFTWARE: FaqItem[] = [
+  { question: PRICING_FAQ_QUESTION, answer: PRICING_FAQ_ANSWER },
+  {
+    question: 'What counts as a room?',
+    answer:
+      'Every room, cottage or whole villa you rent out counts as one. The price is per property: a homestay with 3 rooms pays the 3-room price.',
+  },
+  {
+    question: 'Is there a commission on my bookings?',
+    answer:
+      'No. StayKeep takes 0% commission on your bookings, whatever their size. You pay only the monthly or yearly plan.',
+  },
+  {
+    question: 'How do I pay, and can I stop?',
+    answer:
+      'Pay monthly or yearly by UPI or card, from Billing in StayKeep Manage. You can cancel at any time, and your plan runs to the end of the period you paid for.',
+  },
   {
     question: 'What does setup include?',
     answer:

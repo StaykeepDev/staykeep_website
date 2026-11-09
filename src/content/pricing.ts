@@ -19,11 +19,42 @@
 
 export const PRICING_ENABLED = false;
 
-/** Shown today, wherever pricing would otherwise go. */
+/**
+ * 2026-11-09 - owner, for the Google Ads page: "499 per month up to 3 listing
+ * and all", everything crystal clear. These are the live plan prices (admin >
+ * Plans, changed 2026-10-10; docs/OPERATIONS.md "Plan prices"): per property,
+ * by its number of rooms, no GST added (StayKeep is not GST-registered), yearly
+ * = 10 x monthly. Change them here when admin > Plans changes.
+ */
+export interface RoomPlan {
+  /** The most rooms the plan covers. */
+  maxRooms: number;
+  /** "Up to 3 rooms", "4 to 6 rooms". */
+  rooms: string;
+  monthly: number;
+  yearly: number;
+}
+
+export const ROOM_PLANS: RoomPlan[] = [
+  { maxRooms: 3, rooms: 'Up to 3 rooms', monthly: 499, yearly: 4990 },
+  { maxRooms: 6, rooms: '4 to 6 rooms', monthly: 899, yearly: 8990 },
+  { maxRooms: 10, rooms: '7 to 10 rooms', monthly: 1299, yearly: 12990 },
+  { maxRooms: 25, rooms: '11 to 25 rooms', monthly: 2499, yearly: 24990 },
+  { maxRooms: 50, rooms: '26 to 50 rooms', monthly: 4999, yearly: 49990 },
+  { maxRooms: 100, rooms: '51 to 100 rooms', monthly: 9999, yearly: 99990 },
+];
+
+/** "₹1,299" (Indian digit grouping). */
+export function rupees(n: number): string {
+  return `₹${n.toLocaleString('en-IN')}`;
+}
+
 export const PRICING_FAQ_QUESTION = 'How much does StayKeep cost?';
 
 export const PRICING_FAQ_ANSWER =
-  "We haven't published pricing yet - plans are simple, and there is never a commission on your bookings. Talk to us and we'll work out what's right for your property: hello@staykeep.com or +91 99807 83609.";
+  `${rupees(499)} a month for a property with up to 3 rooms. Bigger properties: ` +
+  ROOM_PLANS.slice(1).map((p) => `${p.rooms.replace(' rooms', '')} rooms ${rupees(p.monthly)}`).join(', ') +
+  ' a month. Pay yearly and get 12 months for the price of 10. No GST is added, and there is never a commission on your bookings. More than 100 rooms: talk to us at hello@staykeep.com or +91 99807 83609.';
 
 /**
  * Reserved for when real plans exist. Kept here, unused, so a pricing

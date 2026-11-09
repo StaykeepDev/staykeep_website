@@ -13,6 +13,7 @@ import {
 } from '../content/site';
 import { GUEST_FEATURES, OWNER_FEATURES } from '../content/features';
 import { FAQ_OWNERS, FAQ_HOME } from '../content/faq';
+import { PRICING_FAQ_ANSWER } from '../content/pricing';
 
 const SUMMARY =
   'StayKeep connects guests and property owners directly: guests book homestays and hotels with no StayKeep booking fee, and owners run bookings, check-in, housekeeping, staff, guest chat and billing from one app at 0% booking commission.';
@@ -91,7 +92,7 @@ ${bullets(OWNER_FEATURES)}
 
 ## Pricing
 
-StayKeep takes 0% commission on bookings, and guests pay no StayKeep booking fee. Plans for property owners: contact us at ${CONTACT_EMAIL} or ${CONTACT_PHONE_DISPLAY}; StayKeep has not published prices.
+StayKeep takes 0% commission on bookings, and guests pay no StayKeep booking fee. Plans for property owners (StayKeep Manage), per property by number of rooms: ${PRICING_FAQ_ANSWER}
 
 The savings example on the site is illustrative: ${FEE_FOOTNOTE}
 

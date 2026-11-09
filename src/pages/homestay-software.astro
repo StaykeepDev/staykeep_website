@@ -1,9 +1,11 @@
 ---
 /**
  * Ad landing page for searches like "homestay software" and "homestay
- * management app". Leads with setup by our team and one WhatsApp action
- * (owner, 27 Oct 2026: no "free", no prices). Config (WhatsApp number, video,
- * Google Ads id + labels): src/content/ads.ts. Plan: docs/ads/google-ads-plan.md.
+ * management app". Owner, 9 Nov 2026: show the price (₹499 a month for up to
+ * 3 rooms, and the bigger plans), everything crystal clear, built for
+ * conversions. Still no "free" anywhere (owner, 27 Oct 2026). Prices:
+ * src/content/pricing.ts. Config (WhatsApp number, video, Google Ads id +
+ * labels): src/content/ads.ts. Plan: docs/ads/google-ads-plan.md.
  */
 import { getImage, Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
@@ -12,7 +14,9 @@ import Faq from "../components/sections/Faq.astro";
 import AdCtas from "../components/ads/AdCtas.astro";
 import Icon from "../components/Icon.astro";
 import { FAQ_HOMESTAY_SOFTWARE } from "../content/faq";
-import { AD_VIDEO_POSTER, AD_VIDEO_SRC } from "../content/ads";
+import { AD_VIDEO_POSTER, AD_VIDEO_SRC, WHATSAPP_URL } from "../content/ads";
+import { ROOM_PLANS, rupees } from "../content/pricing";
+import { CONTACT_PHONE_TEL, CONTACT_PHONE_DISPLAY } from "../content/site";
 import type { FeatureItem } from "../content/features";
 import calendar from "../assets/screenshots/calendar.png";
 import phoneCalendar from "../assets/screenshots/ad/phone-calendar.png";
@@ -28,6 +32,8 @@ const poster = await getImage({
   format: "webp",
   quality: 70,
 });
+
+const [starter] = ROOM_PLANS;
 
 const SHOTS = [
   {
@@ -54,11 +60,11 @@ const STEPS = [
   },
   {
     title: "We set up your property",
-    text: "Our team adds your property and rooms and sets up your booking website.",
+    text: "Our team adds your property and rooms and sets up your booking website, then shows you around on a short call.",
   },
   {
-    title: "We walk you through it",
-    text: "A short call to show you around, and you start taking bookings.",
+    title: "Choose your plan and go live",
+    text: "Pay monthly or yearly by UPI or card, and start taking bookings.",
   },
 ];
 
@@ -67,7 +73,7 @@ const FEATURES: FeatureItem[] = [
     icon: "calendar",
     title: "One calendar, every room",
     description:
-      "Add phone and walk-in bookings from your phone. Guests get an SMS confirmation.",
+      "Add phone and walk-in bookings from your phone and see which rooms are open on any night.",
   },
   {
     icon: "palette",
@@ -103,8 +109,8 @@ const FEATURES: FeatureItem[] = [
 ---
 
 <BaseLayout
-  title="Homestay software, set up for you | StayKeep"
-  description="Homestay app for owners in India. Send your Google Maps link on WhatsApp and our team sets up your property for you. One calendar, booking website, ID check-in, GST bills and UPI."
+  title={`Homestay software, ${rupees(starter.monthly)} a month | StayKeep`}
+  description={`Homestay app for owners in India: one calendar, your own booking website, ID check-in, GST bills and UPI. ${rupees(starter.monthly)} a month for up to 3 rooms, 0% commission on bookings. Our team sets it up for you.`}
   path="/homestay-software"
   faq={FAQ_HOMESTAY_SOFTWARE}
 >
@@ -112,14 +118,26 @@ const FEATURES: FeatureItem[] = [
     <div class="container hs-hero-grid">
       <div>
         <h1 class="display-1">
-          Send your Google Maps link. We'll set up your homestay app.
+          Homestay software for {rupees(starter.monthly)} a month
         </h1>
         <p class="lede">
-          One calendar for every room, your own booking website, ID check-in
-          with Form C, and GST bills with UPI. Our team does the setup for
-          you.
+          Bookings, one calendar for every room, your own booking website,
+          guest ID check-in and GST bills. All in one app on your phone.
         </p>
-        <AdCtas location="hero" />
+        <ul class="hs-facts">
+          <li>
+            <Icon name="check" />
+            <span>
+              <strong>{rupees(starter.monthly)} a month</strong> for up to 3 rooms.{" "}
+              <a href="#pricing" class="hs-inline-link">See all plans</a>
+            </span>
+          </li>
+          <li><Icon name="check" /><span><strong>0% commission</strong> on your bookings</span></li>
+          <li><Icon name="check" /><span><strong>Our team sets it up</strong> for you</span></li>
+        </ul>
+        <div id="hs-hero-ctas">
+          <AdCtas location="hero" />
+        </div>
       </div>
       <figure class="hs-video">
         {
@@ -153,6 +171,8 @@ const FEATURES: FeatureItem[] = [
   <section class="hs-trust" aria-label="About us">
     <ul class="container hs-trust-list">
       <li><Icon name="building" /> STAYKEEP (OPC) Pvt Ltd</li>
+      <li><Icon name="phone" /> Android app on Google Play</li>
+      <li><Icon name="globe" /> Works in any browser</li>
       <li><Icon name="chat" /> Our team replies on WhatsApp</li>
     </ul>
   </section>
@@ -183,9 +203,87 @@ const FEATURES: FeatureItem[] = [
     </div>
   </section>
 
+  <FeatureList
+    id="hs-features-heading"
+    eyebrow="What it does"
+    heading="Everything your homestay runs on."
+    items={FEATURES}
+  />
+
+  <section class="section hs-pricing" id="pricing" aria-labelledby="hs-pricing-heading">
+    <div class="container">
+      <p class="eyebrow">Pricing</p>
+      <h2 class="display-2" id="hs-pricing-heading">One clear price, by your number of rooms.</h2>
+      <div class="hs-pricing-grid">
+        <div class="hs-plan">
+          <p class="hs-plan-rooms">{starter.rooms}</p>
+          <p class="hs-plan-price">
+            <span class="hs-plan-amount">{rupees(starter.monthly)}</span>
+            <span class="hs-plan-per">a month</span>
+          </p>
+          <p class="hs-plan-year">
+            or {rupees(starter.yearly)} a year: 12 months for the price of 10
+          </p>
+          <ul class="hs-plan-list">
+            <li><Icon name="check" /> Every feature on this page</li>
+            <li><Icon name="check" /> 0% commission on your bookings</li>
+            <li><Icon name="check" /> Setup by our team</li>
+            <li><Icon name="check" /> No GST added</li>
+            <li><Icon name="check" /> Cancel any time</li>
+          </ul>
+          <a
+            href={WHATSAPP_URL}
+            class="btn btn-primary hs-plan-cta"
+            target="_blank"
+            rel="noopener"
+            data-cta="whatsapp"
+            data-cta-location="pricing"
+          >
+            <Icon name="chat" /> WhatsApp your Maps link
+          </a>
+        </div>
+        <div class="hs-tiers">
+          <table>
+            <caption>All plans, per property</caption>
+            <thead>
+              <tr>
+                <th scope="col">Rooms</th>
+                <th scope="col">Monthly</th>
+                <th scope="col">Yearly</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                ROOM_PLANS.map((plan, i) => (
+                  <tr class={i === 0 ? "hs-tier-first" : undefined}>
+                    <th scope="row">{plan.rooms}</th>
+                    <td>{rupees(plan.monthly)}</td>
+                    <td>{rupees(plan.yearly)}</td>
+                  </tr>
+                ))
+              }
+              <tr>
+                <th scope="row">More than 100 rooms</th>
+                <td colspan="2">
+                  <a href={CONTACT_PHONE_TEL} class="text-link" data-cta="call" data-cta-location="pricing">
+                    Call {CONTACT_PHONE_DISPLAY}
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="hs-tiers-note">
+            Every room, cottage or whole villa you rent out counts as one room.
+            Every plan has every feature. Pay by UPI or card.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="section hs-steps-section" aria-labelledby="hs-steps-heading">
     <div class="container">
-      <p class="eyebrow">How setup works</p>
+      <p class="eyebrow">How to start</p>
       <h2 class="display-2" id="hs-steps-heading">Three steps, and you are live.</h2>
       <ol class="hs-steps">
         {
@@ -201,27 +299,38 @@ const FEATURES: FeatureItem[] = [
     </div>
   </section>
 
-  <FeatureList
-    id="hs-features-heading"
-    eyebrow="What it does"
-    heading="Everything your homestay runs on."
-    items={FEATURES}
-  />
   <Faq items={FAQ_HOMESTAY_SOFTWARE} />
 
   <section class="hs-end" aria-labelledby="hs-end-heading">
     <div class="container">
-      <div class="hs-end-box">
+      <div class="hs-end-box" id="hs-end-box">
         <h2 class="display-3" id="hs-end-heading">
           WhatsApp your Google Maps link. We'll do the rest.
         </h2>
         <p class="lede">
-          Our team sets up your property and walks you through it.
+          Our team sets up your property and shows you around.
+          {rupees(starter.monthly)} a month for up to 3 rooms, 0% commission.
         </p>
         <AdCtas location="footer" />
       </div>
     </div>
   </section>
+
+  <div class="hs-sticky" id="hs-sticky" aria-label="Contact StayKeep" role="region" hidden>
+    <a
+      href={WHATSAPP_URL}
+      class="btn btn-primary"
+      target="_blank"
+      rel="noopener"
+      data-cta="whatsapp"
+      data-cta-location="sticky"
+    >
+      <Icon name="chat" /> WhatsApp us
+    </a>
+    <a href={CONTACT_PHONE_TEL} class="btn btn-outline" data-cta="call" data-cta-location="sticky">
+      <Icon name="phone" /> Call
+    </a>
+  </div>
 </BaseLayout>
 
 <script>
@@ -238,6 +347,24 @@ const FEATURES: FeatureItem[] = [
       for (const [key, value] of keep) url.searchParams.set(key, value);
       link.href = url.toString();
     }
+  }
+
+  // Phones: WhatsApp and Call stay at hand once the hero's buttons scroll away,
+  // and step aside while the closing box (with the same buttons) is on screen.
+  const bar = document.getElementById("hs-sticky");
+  const hero = document.getElementById("hs-hero-ctas");
+  const end = document.getElementById("hs-end-box");
+  if (bar && hero && end && "IntersectionObserver" in window) {
+    const seen = new Map<Element, boolean>([
+      [hero, true],
+      [end, false],
+    ]);
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) seen.set(e.target, e.isIntersecting);
+      bar.hidden = seen.get(hero) === true || seen.get(end) === true;
+    });
+    io.observe(hero);
+    io.observe(end);
   }
 </script>
 
@@ -258,6 +385,35 @@ const FEATURES: FeatureItem[] = [
   .hs-hero .lede {
     margin-top: 1.1rem;
     max-width: 34rem;
+  }
+  .hs-facts {
+    display: grid;
+    gap: 0.55rem;
+    margin: 1.4rem 0 0;
+    padding: 0;
+    list-style: none;
+    font-size: 1.02rem;
+    color: var(--color-on-surface);
+  }
+  .hs-facts li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.55rem;
+  }
+  .hs-facts .icon,
+  .hs-plan-list .icon {
+    flex: 0 0 auto;
+    width: 1.2rem;
+    height: 1.2rem;
+    margin-top: 0.15rem;
+    color: var(--color-primary);
+  }
+  .hs-inline-link {
+    font-weight: 600;
+    color: var(--color-primary);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    white-space: nowrap;
   }
   .hs-video {
     margin: 0;
@@ -322,8 +478,116 @@ const FEATURES: FeatureItem[] = [
     text-align: center;
     font-weight: 700;
   }
-  .hs-steps-section {
-    padding-top: 0;
+  .hs-pricing {
+    background: #f5f7ff;
+  }
+  .hs-pricing-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 22rem) minmax(0, 1fr);
+    gap: 2.5rem;
+    align-items: start;
+    margin-top: 2.5rem;
+  }
+  .hs-plan {
+    padding: 2rem;
+    border-radius: var(--radius-card);
+    border: 2px solid var(--color-primary);
+    background: #fff;
+    box-shadow: var(--shadow-soft);
+  }
+  .hs-plan-rooms {
+    font-weight: 700;
+    color: var(--color-primary);
+  }
+  .hs-plan-price {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    margin-top: 0.4rem;
+  }
+  .hs-plan-amount {
+    font-size: 3rem;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--color-on-surface);
+  }
+  .hs-plan-per {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--color-on-surface-variant);
+  }
+  .hs-plan-year {
+    margin-top: 0.6rem;
+    font-size: 0.95rem;
+    color: var(--color-on-surface-variant);
+  }
+  .hs-plan-list {
+    display: grid;
+    gap: 0.5rem;
+    margin: 1.4rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .hs-plan-list li {
+    display: flex;
+    gap: 0.5rem;
+  }
+  .hs-plan-cta {
+    width: 100%;
+    margin-top: 1.6rem;
+    justify-content: center;
+  }
+  .hs-plan-cta .icon {
+    width: 1.15rem;
+    height: 1.15rem;
+  }
+  .hs-tiers table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    font-size: 1rem;
+  }
+  .hs-tiers caption {
+    padding-bottom: 0.75rem;
+    text-align: start;
+    font-weight: 700;
+    color: var(--color-on-surface);
+  }
+  .hs-tiers th,
+  .hs-tiers td {
+    padding: 0.8rem 1rem;
+    text-align: start;
+    border-bottom: 1px solid #e3e8f4;
+  }
+  .hs-tiers thead th {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--color-on-surface-variant);
+    background: #fff;
+  }
+  .hs-tiers tbody th {
+    font-weight: 600;
+  }
+  .hs-tiers td {
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+  }
+  .hs-tiers tbody tr:last-child th,
+  .hs-tiers tbody tr:last-child td {
+    border-bottom: 0;
+  }
+  .hs-tier-first th,
+  .hs-tier-first td {
+    background: #edf2ff;
+    color: var(--color-primary);
+    font-weight: 800;
+  }
+  .hs-tiers-note {
+    margin-top: 0.9rem;
+    font-size: 0.95rem;
+    color: var(--color-on-surface-variant);
   }
   .hs-steps {
     display: grid;
@@ -363,6 +627,9 @@ const FEATURES: FeatureItem[] = [
   .hs-end-box .lede {
     margin-top: 0.75rem;
   }
+  .hs-sticky {
+    display: none;
+  }
   @media (max-width: 900px) {
     .hs-hero-grid {
       grid-template-columns: 1fr;
@@ -371,6 +638,9 @@ const FEATURES: FeatureItem[] = [
     .hs-steps {
       grid-template-columns: 1fr;
       gap: 1rem;
+    }
+    .hs-pricing-grid {
+      grid-template-columns: 1fr;
     }
   }
   @media (max-width: 960px) {
@@ -388,11 +658,41 @@ const FEATURES: FeatureItem[] = [
       flex-direction: column;
       gap: 0.45rem;
     }
+    .hs-plan {
+      padding: 1.5rem;
+    }
+    .hs-tiers th,
+    .hs-tiers td {
+      padding: 0.7rem 0.75rem;
+    }
     .hs-end {
-      padding-bottom: 3.5rem;
+      padding-bottom: 6.5rem;
     }
     .hs-end-box {
       padding: 2rem 1.5rem;
+    }
+    .hs-sticky:not([hidden]) {
+      position: fixed;
+      inset-inline: 0;
+      bottom: 0;
+      z-index: 50;
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 0.6rem;
+      padding: 0.7rem 1rem calc(0.7rem + env(safe-area-inset-bottom));
+      background: #fff;
+      border-top: 1px solid #e3e8f4;
+      box-shadow: 0 -6px 18px rgb(20 40 90 / 0.08);
+    }
+    .hs-sticky .btn {
+      justify-content: center;
+    }
+    .hs-sticky .btn-outline {
+      background: #fff;
+    }
+    .hs-sticky .icon {
+      width: 1.1rem;
+      height: 1.1rem;
     }
   }
 </style>
