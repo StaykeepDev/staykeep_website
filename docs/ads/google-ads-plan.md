@@ -12,6 +12,160 @@ Every line in the ads is true of what is live today. Do not add the channel mana
 
 ---
 
+## Campaign v2: PMS Search, from 9 Nov 2026 (supersedes section 2)
+
+Owner, 9 Nov 2026: StayKeep is a PMS, not homestay software; the offer is shown (Rs 499 a month for up to 3 listings, free booking website, 0% commission, channel manager add-on from Rs 1,000); landing page https://staykeep.com/host; budget sized for the Rs 20,000 new-advertiser credit (spend Rs 20,000 in the 60 days after the offer is applied); the owner asked Claude to choose. Every text below is checked against Google's limits by `ads_v2.py` (headline 30, description 90, path 15, callout 25, sitelink 25 / 35).
+
+| Setting | Value |
+|---|---|
+| Campaign | StayKeep PMS - Search |
+| Goal / type | Leads, Search. Networks: Google Search only (untick Search partners and Display). |
+| Budget | Rs 350 a day (Rs 21,000 over 60 days, just above the Rs 20,000 the credit needs). |
+| Bidding | Weeks 1 to 2: Maximize clicks, max CPC Rs 35. From about 20 conversions: Maximize conversions. |
+| Locations | India; 'Presence: people in or regularly in' (not 'interest in'). |
+| Languages | English, Hindi, Malayalam (the ads stay English). |
+| Schedule | Every day 8:00 AM to 10:00 PM IST (someone answers WhatsApp and calls). |
+| Final URL | https://staykeep.com/host |
+| Final URL suffix | utm_source=google&utm_medium=cpc&utm_campaign=pms_search |
+| Conversions | Primary: whatsapp_click and call_click imported from GA4 (property 504710646, linked); secondary: signup_click. Count: one per click. The site sends them with Consent Mode (cookieless before Accept), and GTM GTM-M59JZC9N also gets cta_whatsapp / cta_call / cta_signup if Ads tags are preferred later. |
+| Call asset | +91 99807 83609, call reporting on, 8 AM to 10 PM. |
+
+### Ad group: PMS and hotel software
+
+Keywords (phrase "..." and exact [...]): [hotel pms], "hotel pms software", "property management system", "hotel management software", "hotel software", "small hotel software", "hotel front desk software", "pms software", "resort management software", "hotel booking software", [pms for hotels], "hotel reservation software"
+
+Display path: staykeep.com/hotel/pms
+
+| # | Headline | Chars | Pin |
+|---|---|---|---|
+| 1 | Hotel PMS from ₹499 a Month | 27 | 1 |
+| 2 | Property Management System | 26 | 1 |
+| 3 | ₹499 a Month, Up to 3 Rooms | 27 |  |
+| 4 | Free Booking Website | 20 |  |
+| 5 | 0% Commission on Bookings | 25 |  |
+| 6 | Our Team Sets It Up for You | 27 |  |
+| 7 | WhatsApp Your Maps Link | 23 |  |
+| 8 | Android App and Web | 19 |  |
+| 9 | GST Bills and UPI Payments | 26 |  |
+| 10 | ID Scan Check-in, Form C List | 29 |  |
+| 11 | One Calendar for Every Room | 27 |  |
+
+| # | Description | Chars |
+|---|---|---|
+| 1 | Reservations, front desk, calendar, guest register, GST bills and your own booking site. | 88 |
+| 2 | ₹499 a month for up to 3 rooms. Free booking website with every plan. 0% commission. | 84 |
+| 3 | Send your Google Maps link on WhatsApp and our team sets up your property for you. | 82 |
+| 4 | Channel manager add-on from ₹1,000 a month: Booking.com, Agoda, Airbnb, MakeMyTrip. | 83 |
+
+### Ad group: Homestay software
+
+Keywords (phrase "..." and exact [...]): "homestay software", "homestay management software", "homestay management app", "homestay app", "homestay booking software", "homestay pms", "villa management software", "guest house software", "guest house management", "homestay owner app"
+
+Display path: staykeep.com/homestay/pms
+
+| # | Headline | Chars | Pin |
+|---|---|---|---|
+| 1 | Homestay PMS from ₹499 | 22 | 1 |
+| 2 | Homestay Software | 17 | 1 |
+| 3 | ₹499 a Month, Up to 3 Rooms | 27 |  |
+| 4 | Free Booking Website | 20 |  |
+| 5 | 0% Commission on Bookings | 25 |  |
+| 6 | Our Team Sets It Up for You | 27 |  |
+| 7 | WhatsApp Your Maps Link | 23 |  |
+| 8 | Android App and Web | 19 |  |
+| 9 | GST Bills and UPI Payments | 26 |  |
+| 10 | ID Scan Check-in, Form C List | 29 |  |
+| 11 | One Calendar for Every Room | 27 |  |
+
+| # | Description | Chars |
+|---|---|---|
+| 1 | Reservations, front desk, calendar, guest register, GST bills and your own booking site. | 88 |
+| 2 | ₹499 a month for up to 3 rooms. Free booking website with every plan. 0% commission. | 84 |
+| 3 | Send your Google Maps link on WhatsApp and our team sets up your property for you. | 82 |
+| 4 | Channel manager add-on from ₹1,000 a month: Booking.com, Agoda, Airbnb, MakeMyTrip. | 83 |
+
+### Ad group: Hostel and PG software
+
+Keywords (phrase "..." and exact [...]): "hostel management software", "hostel software", "pg management software", "pg management app", "hostel booking software", "pg software", "hostel pms", "paying guest management"
+
+Display path: staykeep.com/hostel/pg
+
+| # | Headline | Chars | Pin |
+|---|---|---|---|
+| 1 | Hostel and PG Software | 22 | 1 |
+| 2 | Hostel PMS from ₹499 | 20 | 1 |
+| 3 | ₹499 a Month, Up to 3 Rooms | 27 |  |
+| 4 | Free Booking Website | 20 |  |
+| 5 | 0% Commission on Bookings | 25 |  |
+| 6 | Our Team Sets It Up for You | 27 |  |
+| 7 | WhatsApp Your Maps Link | 23 |  |
+| 8 | Android App and Web | 19 |  |
+| 9 | GST Bills and UPI Payments | 26 |  |
+| 10 | ID Scan Check-in, Form C List | 29 |  |
+| 11 | One Calendar for Every Room | 27 |  |
+
+| # | Description | Chars |
+|---|---|---|
+| 1 | Reservations, front desk, calendar, guest register, GST bills and your own booking site. | 88 |
+| 2 | ₹499 a month for up to 3 rooms. Free booking website with every plan. 0% commission. | 84 |
+| 3 | Send your Google Maps link on WhatsApp and our team sets up your property for you. | 82 |
+| 4 | Channel manager add-on from ₹1,000 a month: Booking.com, Agoda, Airbnb, MakeMyTrip. | 83 |
+
+### Ad group: Channel manager and booking engine
+
+Keywords (phrase "..." and exact [...]): "channel manager", "hotel channel manager", "channel manager india", "channel manager for homestay", "hotel booking engine", "booking engine for hotels", "direct booking website for hotel", "ota channel manager"
+
+Display path: staykeep.com/channel/manager
+
+| # | Headline | Chars | Pin |
+|---|---|---|---|
+| 1 | Channel Manager from ₹1,000 | 27 | 1 |
+| 2 | PMS with Channel Manager | 24 | 1 |
+| 3 | ₹499 a Month, Up to 3 Rooms | 27 |  |
+| 4 | Free Booking Website | 20 |  |
+| 5 | 0% Commission on Bookings | 25 |  |
+| 6 | Our Team Sets It Up for You | 27 |  |
+| 7 | WhatsApp Your Maps Link | 23 |  |
+| 8 | Android App and Web | 19 |  |
+| 9 | GST Bills and UPI Payments | 26 |  |
+| 10 | ID Scan Check-in, Form C List | 29 |  |
+| 11 | One Calendar for Every Room | 27 |  |
+
+| # | Description | Chars |
+|---|---|---|
+| 1 | Reservations, front desk, calendar, guest register, GST bills and your own booking site. | 88 |
+| 2 | ₹499 a month for up to 3 rooms. Free booking website with every plan. 0% commission. | 84 |
+| 3 | Send your Google Maps link on WhatsApp and our team sets up your property for you. | 82 |
+| 4 | Channel manager add-on from ₹1,000 a month: Booking.com, Agoda, Airbnb, MakeMyTrip. | 83 |
+
+### Negative keywords (campaign level, phrase match)
+
+"jobs", "job", "salary", "course", "training", "internship", "syllabus", "pdf", "project", "free download", "crack", "apk mod", "github", "open source", "tutorial", "definition", "meaning", "login", "near me", "booking near", "rooms near", "cheap rooms", "oyo", "hotel booking app for", "book hotel", "book homestay", "homestay in", "homestays in", "hostel in", "hostels in", "pg in", "pg for", "rent", "for rent", "student hostel"
+
+### Assets
+
+Callouts: ₹499 a Month (12); Free Booking Website (20); 0% Commission (13); Setup by Our Team (17); Android App and Web (19); GST Bills and UPI (17); Cancel Any Time (15); No GST Added (12)
+
+Structured snippet, Types: Homestays, Hotels, Hostels, PGs, Villas, Resorts
+
+| Sitelink | Description 1 | Description 2 | URL |
+|---|---|---|---|
+| See All Plans (13) | From ₹499 a month by listings (29) | Channel manager add-on extra (28) | https://staykeep.com/host#pricing |
+| Free Booking Website (20) | Your site at name.staykeep.com (30) | Free with every plan (20) | https://staykeep.com/host#hs-features-heading |
+| How Setup Works (15) | Send your Google Maps link (26) | Our team sets it all up (23) | https://staykeep.com/host#hs-steps-heading |
+| Sign Up Yourself (16) | Start on manage.staykeep.com (28) | Add your rooms in minutes (25) | https://manage.staykeep.com |
+
+### Watch and change
+
+- Day 1 to 3: search terms report daily; add every traveller search (a place, 'near me', dates) as a negative.
+- After Rs 3,000: pause any ad group with clicks but no WhatsApp or call; move its budget to the best one.
+- After about 20 conversions: switch bidding to Maximize conversions.
+- Rs 20,000 credit: keep the daily budget until Rs 20,000 is spent inside the 60 days, then decide on the next budget from cost per WhatsApp chat.
+
+---
+
+The sections below are the first plan (27 Oct, homestay only, no prices). Sections 1, 4 and 5 still apply; section 2 is replaced by Campaign v2 above.
+
 ## 1. Account setup (the owner does this)
 
 1. Open **ads.google.com** and sign in as **jithin@staykeep.com**.
