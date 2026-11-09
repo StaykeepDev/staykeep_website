@@ -74,6 +74,6 @@ test('HEAD with a range: the 206 headers, no body', async () => {
 
 test('a missing file keeps the asset server answer; other paths and methods fall through', async () => {
   assert.equal((await handleMediaRange(req('/media/missing.mp4', { range: 'bytes=0-1' }), assets)).status, 404);
-  assert.equal(await handleMediaRange(req('/homestay-software', { range: 'bytes=0-1' }), assets), null);
+  assert.equal(await handleMediaRange(req('/host', { range: 'bytes=0-1' }), assets), null);
   assert.equal(await handleMediaRange(req('/media/a.mp4', { method: 'POST' }), assets), null);
 });

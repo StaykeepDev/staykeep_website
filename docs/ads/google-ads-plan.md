@@ -5,7 +5,7 @@ Owner decisions, 27 Oct 2026:
 - **Google Search only, ₹200 a day, for 2 weeks** (about ₹2,800 in total).
 - No Facebook ads. YouTube uploads and a paid YouTube campaign are **on hold (owner, 27 Oct)**. See the last section.
 - Customers we want: **homestay owners** in India.
-- Landing page: **https://staykeep.com/homestay-software**. Its config is in `src/content/ads.ts`.
+- Landing page: **https://staykeep.com/host** (moved from /homestay-software on 2026-11-09, which 301s here). Its config is in `src/content/ads.ts`.
 - WhatsApp: +91 99807 83609 (confirmed by the owner, it has WhatsApp).
 
 Every line in the ads is true of what is live today. Do not add the channel manager, price sending to OTAs, a free trial, or any price. There is no public price: the ads and the page say "Plans by room count".
@@ -64,7 +64,7 @@ Every line in the ads is true of what is live today. Do not add the channel mana
 
 ### Ad group 1: Homestay software
 
-Final URL: `https://staykeep.com/homestay-software`
+Final URL: `https://staykeep.com/host`
 
 Keywords (12):
 
@@ -116,7 +116,7 @@ Pins: only "Homestay Software" and "Homestay Management App" are pinned, both to
 
 ### Ad group 2: Homestay booking app and website
 
-Final URL: `https://staykeep.com/homestay-software`
+Final URL: `https://staykeep.com/host`
 
 Keywords (10). "homestay booking app" is also searched by travellers, so it is exact match only and the negatives below do most of the work:
 
@@ -291,8 +291,8 @@ That is 90 negatives. Check the search terms report every other day and add more
 | Sitelink text | Chars | Description 1 | Description 2 | Final URL |
 |---|---|---|---|---|
 | For Property Owners | 19 | Everything StayKeep Manage does | 0% commission on direct bookings | https://staykeep.com/owners |
-| How It Works | 12 | Three steps to your first booking | Add rooms, share your link | https://staykeep.com/homestay-software#how-it-works-heading |
-| Questions and Answers | 21 | Price, Android app and your data | Short answers for owners | https://staykeep.com/homestay-software#faq-heading |
+| How It Works | 12 | Three steps to your first booking | Add rooms, share your link | https://staykeep.com/host#how-it-works-heading |
+| Questions and Answers | 21 | Price, Android app and your data | Short answers for owners | https://staykeep.com/host#faq-heading |
 | Contact Us | 10 | WhatsApp, call or email us | Based in Wayanad, Kerala | https://staykeep.com/contact |
 
 If Google rejects the two `#` links as the same page, replace them with "About StayKeep" (https://staykeep.com/about).
@@ -376,7 +376,7 @@ It **cannot** show:
 
 ## 5. Free channels (no ad spend)
 
-- **Google Business Profile for StayKeep:** business.google.com, category "Software company", service area: the 9 states above (hide the street address if the registered office is not open to visitors). Add the website `https://staykeep.com/homestay-software`, the phone and WhatsApp number, the hours someone answers, a short description using only live features (0% booking commission, direct bookings, check-in with ID, bills and accounts, staff tasks, own website, Android and web), and the logo. Ask the first owners for a review.
+- **Google Business Profile for StayKeep:** business.google.com, category "Software company", service area: the 9 states above (hide the street address if the registered office is not open to visitors). Add the website `https://staykeep.com/host`, the phone and WhatsApp number, the hours someone answers, a short description using only live features (0% booking commission, direct bookings, check-in with ID, bills and accounts, staff tasks, own website, Android and web), and the logo. Ask the first owners for a review.
 - **WhatsApp and Facebook groups of homestay owners** (posting in groups, not Facebook ads): share the landing page with a 2-line note in your own words, for example "We built StayKeep for homestays: direct bookings at 0% commission, guest ID check-in, bills and staff tasks. Ask me anything." Post once per group, answer questions, do not repeat. Add `?utm_source=whatsapp&utm_medium=group` (or `facebook`) to the link so GA4 shows which group sent people.
 
 YouTube channel uploads are on hold (owner, 27 Oct), see section 3.

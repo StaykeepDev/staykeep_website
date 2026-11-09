@@ -66,7 +66,7 @@ export const FOOTER_LINKS = {
   ],
   owners: [
     { label: 'For property owners', href: '/owners' },
-    { label: 'Homestay software', href: '/homestay-software' },
+    { label: 'StayKeep PMS', href: '/host' },
     { label: 'Owner sign in', href: MANAGE_URL, external: true },
   ],
   company: [

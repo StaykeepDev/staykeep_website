@@ -82,7 +82,7 @@ export const FAQ_OWNERS: FaqItem[] = [
   WHATS_NEXT_FAQ,
 ];
 
-/** /homestay-software (the ad landing page, a PMS page): short, owner-first answers. */
+/** /host (the ad landing page, a PMS page): short, owner-first answers. */
 export const FAQ_HOMESTAY_SOFTWARE: FaqItem[] = [
   {
     question: 'What is StayKeep?',

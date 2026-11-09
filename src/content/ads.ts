@@ -1,5 +1,5 @@
 /**
- * Ad landing page config (/homestay-software). Every value the owner fills in
+ * Ad landing page config (/host). Every value the owner fills in
  * lives here, and nowhere else. Plan: docs/ads/google-ads-plan.md.
  *
  * Empty values are safe: no Google Ads tag loads, the CSP is unchanged, and

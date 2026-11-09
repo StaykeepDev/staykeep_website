@@ -19,6 +19,10 @@
 /manage       /owners   301
 /pricing      /owners   301
 
+# The Google Ads landing page moved to /host (owner, 2026-11-09). The old
+# address stays alive for ads, links and search results already out there.
+/homestay-software   /host   301
+
 # The old blog (app/blog) had four placeholder posts with fabricated
 # stats/dates, not real content - see the handoff report. Nothing worth
 # porting, so it redirects home rather than to /owners.

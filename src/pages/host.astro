@@ -1,6 +1,7 @@
 ---
 /**
- * Ad landing page (searches like "homestay software", "hotel PMS", "property
+ * Ad landing page at /host (owner, 9 Nov 2026: was /homestay-software, which
+ * now 301s here; public/_redirects). Searches like "homestay software", "hotel PMS", "property
  * management system"). Owner, 9 Nov 2026: StayKeep is a PMS, not "homestay
  * software": present it as a property management system for homestays, hotels
  * and hostels, in the standard PMS modules; price by listings (each room,
@@ -133,7 +134,7 @@ const FEATURES: FeatureItem[] = [
 <BaseLayout
   title={`PMS for homestays, hotels and hostels, ${rupees(starter.monthly)} a month | StayKeep`}
   description={`StayKeep is a property management system (PMS) for homestays, hotels and hostels in India: reservations, front desk, room calendar, ID check-in, GST billing, booking engine and channel manager. ${rupees(starter.monthly)} a month for up to 3 listings, 0% commission on bookings. Our team sets it up for you.`}
-  path="/homestay-software"
+  path="/host"
   faq={FAQ_HOMESTAY_SOFTWARE}
 >
   <section class="hs-hero">
