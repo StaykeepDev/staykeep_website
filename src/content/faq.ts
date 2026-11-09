@@ -1,4 +1,4 @@
-import { PRICING_FAQ_QUESTION, PRICING_FAQ_ANSWER } from './pricing';
+import { PRICING_FAQ_QUESTION, PRICING_FAQ_ANSWER, CHANNEL_MANAGER_FROM } from './pricing';
 
 export interface FaqItem {
   question: string;
@@ -118,7 +118,7 @@ export const FAQ_HOMESTAY_SOFTWARE: FaqItem[] = [
   {
     question: 'I am on Booking.com, Airbnb or other OTAs. Does it work with them?',
     answer:
-      'Yes. Add the channel manager (₹1,000 a month for up to 15 listings, ₹2,500 a month for more) and your availability and prices stay in sync with booking sites like Booking.com, Agoda, Airbnb and MakeMyTrip, and their bookings come straight into StayKeep. Without it, forward the booking emails that OTAs send you: those bookings show up in the same list, and you close a room on the OTA yourself when it is booked elsewhere.',
+      `Yes. Add the channel manager (from ${CHANNEL_MANAGER_FROM} a month, by your number of listings) and your availability and prices stay in sync with booking sites like Booking.com, Agoda, Airbnb and MakeMyTrip, and their bookings come straight into StayKeep. Without it, forward the booking emails that OTAs send you: those bookings show up in the same list, and you close a room on the OTA yourself when it is booked elsewhere.`,
   },
   {
     question: 'Do I need to fill Form C for foreign guests?',

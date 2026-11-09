@@ -317,7 +317,16 @@ const FEATURES: FeatureItem[] = [
                 CHANNEL_MANAGER_ADDON.map((a) => (
                   <li>
                     <span>{a.listings}</span>
-                    <strong>{rupees(a.monthly)} a month</strong>
+                    <span class="hs-addon-price">
+                      {a.was !== undefined && (
+                        <>
+                          <span class="visually-hidden">Was </span>
+                          <s>{rupees(a.was)}</s>
+                          <span class="visually-hidden">, now </span>
+                        </>
+                      )}
+                      <strong>{rupees(a.monthly)} a month</strong>
+                    </span>
                   </li>
                 ))
               }
@@ -674,6 +683,16 @@ const FEATURES: FeatureItem[] = [
     padding-top: 0.4rem;
     border-top: 1px solid #e3e8f4;
     font-variant-numeric: tabular-nums;
+  }
+  .hs-addon-price {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    white-space: nowrap;
+  }
+  .hs-addon-price s {
+    color: var(--color-on-surface-variant);
+    font-weight: 500;
   }
   .hs-steps {
     display: grid;

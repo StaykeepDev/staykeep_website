@@ -51,18 +51,44 @@ export const ROOM_PLANS: RoomPlan[] = [
 ];
 
 /**
- * The channel manager add-on, on top of the plan (owner, 9 Nov 2026: "1000 for
- * up to 15 rooms and 2500 above that, this is additional"). Monthly only.
+ * The channel manager add-on, on top of the plan. Owner, 9 Nov 2026: ₹1,000
+ * up to 10 listings, ₹1,600 for 11 to 15 ("very small profit", never a loss:
+ * the provider's cost with GST is about ₹944 up to 10 and ₹1,416 for 11 to
+ * 25), ₹2,500 above 15. Monthly only.
+ *
+ * `was` is struck through beside the price. The owner asked for double the
+ * price; the page shows the REAL list price the app had for that size on
+ * 9 Nov 2026 instead (₹2,000 up to 10, ₹2,500 for 11 to 25), because a made-up
+ * "was" price is a misleading discount. No `was` where the app's price was not
+ * higher.
  */
-export const CHANNEL_MANAGER_ADDON = [
-  { listings: 'Up to 15 listings', monthly: 1000 },
+export interface AddonPrice {
+  listings: string;
+  monthly: number;
+  was?: number;
+}
+
+export const CHANNEL_MANAGER_ADDON: AddonPrice[] = [
+  { listings: 'Up to 10 listings', monthly: 1000, was: 2000 },
+  { listings: '11 to 15 listings', monthly: 1600, was: 2500 },
   { listings: 'More than 15 listings', monthly: 2500 },
 ];
+
+/** "₹1,000 a month for up to 10 listings, ₹1,600 for 11 to 15 listings, ₹2,500 for more than 15 listings". */
+function addonText(): string {
+  return CHANNEL_MANAGER_ADDON.map(
+    (a, i) =>
+      `${rupees(a.monthly)}${i === 0 ? ' a month' : ''} for ${a.listings.charAt(0).toLowerCase()}${a.listings.slice(1)}`,
+  ).join(', ');
+}
 
 /** "₹1,299" (Indian digit grouping). */
 export function rupees(n: number): string {
   return `₹${n.toLocaleString('en-IN')}`;
 }
+
+/** "₹1,000": the lowest add-on price. */
+export const CHANNEL_MANAGER_FROM = rupees(Math.min(...CHANNEL_MANAGER_ADDON.map((a) => a.monthly)));
 
 export const PRICING_FAQ_QUESTION = 'How much does StayKeep cost?';
 
@@ -70,7 +96,7 @@ export const PRICING_FAQ_ANSWER =
   `${rupees(499)} a month for a property with up to 3 listings. ${LISTING_MEANING} Bigger properties: ` +
   ROOM_PLANS.slice(1).map((p) => `${p.listings} ${rupees(p.monthly)}`).join(', ') +
   ' a month. Pay yearly and get 12 months for the price of 10. A booking website is free with every plan. No GST is added, and there is never a commission on your bookings. ' +
-  `The channel manager is an add-on: ${rupees(1000)} a month for up to 15 listings, ${rupees(2500)} a month for more than 15. ` +
+  `The channel manager is an add-on: ${addonText()}. ` +
   'More than 100 listings: talk to us at hello@staykeep.com or +91 99807 83609.';
 
 /**
