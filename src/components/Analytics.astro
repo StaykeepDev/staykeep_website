@@ -30,9 +30,17 @@ import { ANALYTICS_ENABLED, ADS_ENABLED } from "../lib/analytics-config";
 <script>
   /**
    * A3/A6 - GA4 + Microsoft Clarity behind consent, the light inline twin of
-   * `@staykeep/web-core`'s analytics module. Nothing loads before Accept: GA4
-   * gets Consent Mode v2 default `denied` and its script is injected only
-   * after the visitor accepts; Clarity is injected only after Accept too.
+   * `@staykeep/web-core`'s analytics module.
+   *
+   * Consent Mode v2, advanced (owner, 9 Nov 2026: "yes" to counting the
+   * visitors who never answer the banner). Every Google tag (GA4, Ads, the
+   * GTM container) starts `denied` and, while the visitor has NOT chosen yet,
+   * loads in that state: no cookies, only cookieless pings Google models
+   * visits and conversions from (`ads_data_redaction`, `url_passthrough`).
+   * Accept grants analytics_storage, ad_storage and ad_user_data
+   * (ad_personalization stays denied) and loads Clarity; Clarity never loads
+   * before Accept. A stored Decline loads nothing at all, and no event of
+   * ours is sent after Decline.
    * The choice lives in localStorage `sk_consent` (try/catch: storage can be
    * blocked). Events carry no PII: only fixed event names and parameters.
    *
@@ -100,6 +108,9 @@ import { ANALYTICS_ENABLED, ADS_ENABLED } from "../lib/analytics-config";
       ad_personalization: "denied",
       wait_for_update: 500,
     });
+    // Cookieless while denied: no ad identifiers, the ad click id kept in links instead.
+    w.gtag("set", "ads_data_redaction", true);
+    w.gtag("set", "url_passthrough", true);
     w.gtag("js", new Date());
     if (GA4) {
       w.gtag("config", GA4, {
@@ -111,14 +122,18 @@ import { ANALYTICS_ENABLED, ADS_ENABLED } from "../lib/analytics-config";
     if (ADS) w.gtag("config", ADS);
   }
 
-  function load(): void {
+  /** Accept: Ads measures conversions only, so ad_personalization stays denied. */
+  function grant(): void {
+    w.gtag?.("consent", "update", {
+      analytics_storage: "granted",
+      ...(ADS || GTM ? { ad_storage: "granted", ad_user_data: "granted" } : {}),
+    });
+  }
+
+  /** The Google tags, in whatever consent state is current (denied until Accept). */
+  function loadGoogle(): void {
     if ((GA4 || ADS) && !gaLoaded) {
       gaLoaded = true;
-      // Ads measures conversions only; ad_personalization stays denied.
-      w.gtag?.("consent", "update", {
-        analytics_storage: "granted",
-        ...(ADS || GTM ? { ad_storage: "granted", ad_user_data: "granted" } : {}),
-      });
       inject(
         "https://www.googletagmanager.com/gtag/js?id=" +
           encodeURIComponent(GA4 || ADS),
@@ -134,15 +149,17 @@ import { ANALYTICS_ENABLED, ADS_ENABLED } from "../lib/analytics-config";
     }
     if (GTM && !gtmLoaded) {
       gtmLoaded = true;
-      if (!gaLoaded) {
-        // No GA4 or Ads id: the consent update above did not run, so grant here.
-        w.gtag?.("consent", "update", { ad_storage: "granted", ad_user_data: "granted" });
-      }
       // The official container snippet: the gtm.js start event, then the loader.
       w.dataLayer = w.dataLayer ?? [];
       w.dataLayer.push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
       inject("https://www.googletagmanager.com/gtm.js?id=" + encodeURIComponent(GTM));
     }
+  }
+
+  /** Accept: grant first, so the page view goes out with the visitor's consent. */
+  function load(): void {
+    grant();
+    loadGoogle();
     if (CLARITY && !clarityLoaded) {
       clarityLoaded = true;
       const c: NonNullable<AnyWindow["clarity"]> =
@@ -159,7 +176,8 @@ import { ANALYTICS_ENABLED, ADS_ENABLED } from "../lib/analytics-config";
   function apply(): void {
     const choice = read();
     if (choice === "granted") load();
-    else if (choice === "denied") {
+    else if (choice === null) loadGoogle();
+    else {
       if (gaLoaded || gtmLoaded) {
         w.gtag?.("consent", "update", {
           analytics_storage: "denied",
@@ -172,7 +190,8 @@ import { ANALYTICS_ENABLED, ADS_ENABLED } from "../lib/analytics-config";
   }
 
   function track(name: string, params: Record<string, unknown> = {}): void {
-    if (read() !== "granted" || !gaLoaded) return;
+    // Cookieless before a choice, never after Decline.
+    if (read() === "denied" || !gaLoaded) return;
     w.gtag?.("event", name, params);
   }
 
@@ -187,7 +206,7 @@ import { ANALYTICS_ENABLED, ADS_ENABLED } from "../lib/analytics-config";
       page: location.pathname,
     };
     track(cta + "_click", params);
-    if (read() !== "granted") return false;
+    if (read() === "denied") return false;
     const label = ADS_LABELS[cta] ?? "";
     const ads = ADS !== "" && label !== "" && gaLoaded;
     if (!ads && !gtmLoaded) return false;

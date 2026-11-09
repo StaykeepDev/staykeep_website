@@ -37,10 +37,11 @@ const sections = [
     // Added 2026-10-01 with the analytics rollout (docs/analytics-plan.md A8).
     title: 'Analytics',
     content:
-      'With your consent, we use Google Analytics and Microsoft Clarity to understand how StayKeep is used, such as which pages are visited and where people tap or scroll. They run only after you choose Accept on the cookie banner, and nothing is loaded if you choose Decline. Personal details are masked, and we do not send names, phone numbers or email addresses to either tool. You can change your choice at any time with the Cookie settings link at the bottom of every page.' +
+      'We use Google Analytics and Microsoft Clarity to understand how StayKeep is used, such as which pages are visited and where people tap or scroll.' +
       (ADS_ENABLED
-        ? ' With the same consent, we also use Google Ads, loaded through Google Tag Manager, to measure which of our ads lead to visits and enquiries. It runs only after you choose Accept, and ads are not personalised from it.'
-        : ''),
+        ? ' We also use Google Ads, loaded through Google Tag Manager, to measure which of our ads lead to visits and enquiries; ads are not personalised from it.'
+        : '') +
+      ' Until you choose on the cookie banner, the Google tools run in a limited mode: they set no cookies and send only basic signals without identifiers (for example, that a page was visited), which Google uses to estimate visits. Cookies are used, and Microsoft Clarity runs, only after you choose Accept. If you choose Decline, no cookies are set and nothing is loaded on the pages you open after that. Personal details are masked, and we do not send names, phone numbers or email addresses to these tools. You can change your choice at any time with the Cookie settings link at the bottom of every page.',
   },
   {
     title: 'Contact Us',
