@@ -8,7 +8,7 @@
 
 /** WhatsApp number, digits only with the country code (no +, no spaces). */
 export const WHATSAPP_NUMBER = '919980783609';
-export const WHATSAPP_TEXT = 'Hi StayKeep, please set up my property on StayKeep PMS. Google Maps link: ';
+export const WHATSAPP_TEXT = 'Hi StayKeep, please set up my property on StayKeep PMS. Google Maps link (or property name and town): ';
 export const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_TEXT)}`;
 
 /**

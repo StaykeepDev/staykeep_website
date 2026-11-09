@@ -4,7 +4,7 @@
  * now 301s here; public/_redirects). Searches like "homestay software", "hotel PMS", "property
  * management system"). Owner, 9 Nov 2026: StayKeep is a PMS, not "homestay
  * software": present it as a property management system for homestays, hotels
- * and hostels, in the standard PMS modules; price by listings (each room,
+ * resorts and hostels, in the standard PMS modules; price by listings (each room,
  * cottage or whole villa), ₹499 a month for up to 3 and the bigger plans, plus
  * the channel manager add-on; everything crystal clear, built for conversions.
  * Still no "free" anywhere (owner, 27 Oct 2026); only live features. Prices:
@@ -61,7 +61,7 @@ const SHOTS = [
 const STEPS = [
   {
     title: "Send your Google Maps link",
-    text: "Message us on WhatsApp with the link to your property on Google Maps.",
+    text: "Message us on WhatsApp with the link to your property on Google Maps, or just its name and town.",
   },
   {
     title: "We set up your property",
@@ -132,15 +132,15 @@ const FEATURES: FeatureItem[] = [
 ---
 
 <BaseLayout
-  title={`PMS for homestays, hotels and hostels, ${rupees(starter.monthly)} a month | StayKeep`}
-  description={`StayKeep is a property management system (PMS) for homestays, hotels and hostels in India: reservations, front desk, room calendar, ID check-in, GST billing, booking engine and channel manager. ${rupees(starter.monthly)} a month for up to 3 listings, 0% commission on bookings. Our team sets it up for you.`}
+  title={`PMS for homestays, hotels, resorts and hostels, ${rupees(starter.monthly)} a month | StayKeep`}
+  description={`StayKeep is a property management system (PMS) for homestays, hotels, resorts and hostels in India: reservations, front desk, room calendar, ID check-in, GST billing, booking engine and channel manager. ${rupees(starter.monthly)} a month for up to 3 listings, 0% commission on bookings. Our team sets it up for you.`}
   path="/host"
   faq={FAQ_HOMESTAY_SOFTWARE}
 >
   <section class="hs-hero">
     <div class="container hs-hero-grid">
       <div>
-        <p class="eyebrow">PMS for homestays, hotels and hostels</p>
+        <p class="eyebrow">PMS for homestays, hotels, resorts and hostels</p>
         <h1 class="display-1">
           Property management system for {rupees(starter.monthly)} a month
         </h1>

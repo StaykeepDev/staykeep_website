@@ -35,6 +35,9 @@ const { location } = Astro.props;
     <Icon name="phone" /> Call {CONTACT_PHONE_DISPLAY}
   </a>
 </div>
+<p class="ad-note">
+  Set up first, pay when you go live. We reply 8 AM to 10 PM, in English and Malayalam.
+</p>
 <p class="ad-diy">
   Prefer to do it yourself?{" "}
   <a
@@ -58,8 +61,13 @@ const { location } = Astro.props;
     width: 1.15rem;
     height: 1.15rem;
   }
-  .ad-diy {
+  .ad-note {
     margin-top: 0.9rem;
+    font-size: 0.95rem;
+    color: var(--color-on-surface);
+  }
+  .ad-diy {
+    margin-top: 0.4rem;
     font-size: 0.9rem;
     color: var(--color-on-surface-variant);
   }

@@ -87,7 +87,7 @@ export const FAQ_HOMESTAY_SOFTWARE: FaqItem[] = [
   {
     question: 'What is StayKeep?',
     answer:
-      'StayKeep is a property management system (PMS) for homestays, hotels and hostels: reservations, front desk, room calendar, guest register with ID check-in, housekeeping, billing with GST, reports and your own booking engine. It runs as an Android app and in the browser, on a phone or a computer.',
+      'StayKeep is a property management system (PMS) for homestays, hotels, resorts and hostels: reservations, front desk, room calendar, guest register with ID check-in, housekeeping, billing with GST, reports and your own booking engine. It runs as an Android app and in the browser, on a phone or a computer.',
   },
   { question: PRICING_FAQ_QUESTION, answer: PRICING_FAQ_ANSWER },
   {
