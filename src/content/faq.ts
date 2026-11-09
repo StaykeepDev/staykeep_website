@@ -82,13 +82,23 @@ export const FAQ_OWNERS: FaqItem[] = [
   WHATS_NEXT_FAQ,
 ];
 
-/** /homestay-software (the ad landing page): short, owner-first answers. */
+/** /homestay-software (the ad landing page, a PMS page): short, owner-first answers. */
 export const FAQ_HOMESTAY_SOFTWARE: FaqItem[] = [
+  {
+    question: 'What is StayKeep?',
+    answer:
+      'StayKeep is a property management system (PMS) for homestays, hotels and hostels: reservations, front desk, room calendar, guest register with ID check-in, housekeeping, billing with GST, reports and your own booking engine. It runs as an Android app and in the browser, on a phone or a computer.',
+  },
   { question: PRICING_FAQ_QUESTION, answer: PRICING_FAQ_ANSWER },
   {
-    question: 'What counts as a room?',
+    question: 'What counts as a listing?',
     answer:
-      'Every room, cottage or whole villa you rent out counts as one. The price is per property: a homestay with 3 rooms pays the 3-room price.',
+      'Each room, cottage or whole villa you rent out is one listing. The price is per property: a property with 3 listings pays the 3-listing price.',
+  },
+  {
+    question: 'Is the booking website extra?',
+    answer:
+      'No. Your own booking website at yourname.staykeep.com is free with every plan, with your photos, listings and prices. Guests book and pay you directly.',
   },
   {
     question: 'Is there a commission on my bookings?',
@@ -108,7 +118,7 @@ export const FAQ_HOMESTAY_SOFTWARE: FaqItem[] = [
   {
     question: 'I am on Booking.com, Airbnb or other OTAs. Does it work with them?',
     answer:
-      'Keep your OTA listings. Forward the booking emails that OTAs send you, and those bookings show up in the same StayKeep list as your phone, walk-in and website bookings. StayKeep does not sync availability with OTAs today, so close a room on the OTA yourself when it is booked elsewhere.',
+      'Yes. Add the channel manager (₹1,000 a month for up to 15 listings, ₹2,500 a month for more) and your availability and prices stay in sync with booking sites like Booking.com, Agoda, Airbnb and MakeMyTrip, and their bookings come straight into StayKeep. Without it, forward the booking emails that OTAs send you: those bookings show up in the same list, and you close a room on the OTA yourself when it is booked elsewhere.',
   },
   {
     question: 'Do I need to fill Form C for foreign guests?',

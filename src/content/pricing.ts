@@ -27,21 +27,36 @@ export const PRICING_ENABLED = false;
  * = 10 x monthly. Change them here when admin > Plans changes.
  */
 export interface RoomPlan {
-  /** The most rooms the plan covers. */
-  maxRooms: number;
-  /** "Up to 3 rooms", "4 to 6 rooms". */
-  rooms: string;
+  /** The most listings the plan covers. */
+  maxListings: number;
+  /** "Up to 3 listings", "4 to 6 listings". */
+  listings: string;
   monthly: number;
   yearly: number;
 }
 
+/**
+ * A listing is each room, cottage or whole villa a property rents out (what
+ * the product counts as rooms). Owner, 9 Nov 2026: say "listing", not "room".
+ */
+export const LISTING_MEANING = 'A listing is each room, cottage or whole villa you rent out.';
+
 export const ROOM_PLANS: RoomPlan[] = [
-  { maxRooms: 3, rooms: 'Up to 3 rooms', monthly: 499, yearly: 4990 },
-  { maxRooms: 6, rooms: '4 to 6 rooms', monthly: 899, yearly: 8990 },
-  { maxRooms: 10, rooms: '7 to 10 rooms', monthly: 1299, yearly: 12990 },
-  { maxRooms: 25, rooms: '11 to 25 rooms', monthly: 2499, yearly: 24990 },
-  { maxRooms: 50, rooms: '26 to 50 rooms', monthly: 4999, yearly: 49990 },
-  { maxRooms: 100, rooms: '51 to 100 rooms', monthly: 9999, yearly: 99990 },
+  { maxListings: 3, listings: 'Up to 3 listings', monthly: 499, yearly: 4990 },
+  { maxListings: 6, listings: '4 to 6 listings', monthly: 899, yearly: 8990 },
+  { maxListings: 10, listings: '7 to 10 listings', monthly: 1299, yearly: 12990 },
+  { maxListings: 25, listings: '11 to 25 listings', monthly: 2499, yearly: 24990 },
+  { maxListings: 50, listings: '26 to 50 listings', monthly: 4999, yearly: 49990 },
+  { maxListings: 100, listings: '51 to 100 listings', monthly: 9999, yearly: 99990 },
+];
+
+/**
+ * The channel manager add-on, on top of the plan (owner, 9 Nov 2026: "1000 for
+ * up to 15 rooms and 2500 above that, this is additional"). Monthly only.
+ */
+export const CHANNEL_MANAGER_ADDON = [
+  { listings: 'Up to 15 listings', monthly: 1000 },
+  { listings: 'More than 15 listings', monthly: 2500 },
 ];
 
 /** "₹1,299" (Indian digit grouping). */
@@ -52,9 +67,11 @@ export function rupees(n: number): string {
 export const PRICING_FAQ_QUESTION = 'How much does StayKeep cost?';
 
 export const PRICING_FAQ_ANSWER =
-  `${rupees(499)} a month for a property with up to 3 rooms. Bigger properties: ` +
-  ROOM_PLANS.slice(1).map((p) => `${p.rooms.replace(' rooms', '')} rooms ${rupees(p.monthly)}`).join(', ') +
-  ' a month. Pay yearly and get 12 months for the price of 10. No GST is added, and there is never a commission on your bookings. More than 100 rooms: talk to us at hello@staykeep.com or +91 99807 83609.';
+  `${rupees(499)} a month for a property with up to 3 listings. ${LISTING_MEANING} Bigger properties: ` +
+  ROOM_PLANS.slice(1).map((p) => `${p.listings} ${rupees(p.monthly)}`).join(', ') +
+  ' a month. Pay yearly and get 12 months for the price of 10. A booking website is free with every plan. No GST is added, and there is never a commission on your bookings. ' +
+  `The channel manager is an add-on: ${rupees(1000)} a month for up to 15 listings, ${rupees(2500)} a month for more than 15. ` +
+  'More than 100 listings: talk to us at hello@staykeep.com or +91 99807 83609.';
 
 /**
  * Reserved for when real plans exist. Kept here, unused, so a pricing

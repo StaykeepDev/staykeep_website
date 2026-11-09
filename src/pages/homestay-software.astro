@@ -1,9 +1,12 @@
 ---
 /**
- * Ad landing page for searches like "homestay software" and "homestay
- * management app". Owner, 9 Nov 2026: show the price (₹499 a month for up to
- * 3 rooms, and the bigger plans), everything crystal clear, built for
- * conversions. Still no "free" anywhere (owner, 27 Oct 2026). Prices:
+ * Ad landing page (searches like "homestay software", "hotel PMS", "property
+ * management system"). Owner, 9 Nov 2026: StayKeep is a PMS, not "homestay
+ * software": present it as a property management system for homestays, hotels
+ * and hostels, in the standard PMS modules; price by listings (each room,
+ * cottage or whole villa), ₹499 a month for up to 3 and the bigger plans, plus
+ * the channel manager add-on; everything crystal clear, built for conversions.
+ * Still no "free" anywhere (owner, 27 Oct 2026); only live features. Prices:
  * src/content/pricing.ts. Config (WhatsApp number, video, Google Ads id +
  * labels): src/content/ads.ts. Plan: docs/ads/google-ads-plan.md.
  */
@@ -15,16 +18,17 @@ import AdCtas from "../components/ads/AdCtas.astro";
 import Icon from "../components/Icon.astro";
 import { FAQ_HOMESTAY_SOFTWARE } from "../content/faq";
 import { AD_VIDEO_POSTER, AD_VIDEO_SRC, WHATSAPP_URL } from "../content/ads";
-import { ROOM_PLANS, rupees } from "../content/pricing";
+import { CHANNEL_MANAGER_ADDON, LISTING_MEANING, ROOM_PLANS, rupees } from "../content/pricing";
 import { CONTACT_PHONE_TEL, CONTACT_PHONE_DISPLAY } from "../content/site";
 import type { FeatureItem } from "../content/features";
-import calendar from "../assets/screenshots/calendar.png";
+import deskMonth from "../assets/screenshots/ad/desk-month.png";
 import phoneCalendar from "../assets/screenshots/ad/phone-calendar.png";
 import phoneWebsite from "../assets/screenshots/ad/phone-website.png";
 import phoneCheckin from "../assets/screenshots/ad/phone-checkin.png";
 
+// The current Manage web Month calendar on a computer (demo property), captured 9 Nov 2026.
 const poster = await getImage({
-  src: calendar,
+  src: deskMonth,
   width: 1280,
   height: 720,
   fit: "cover",
@@ -56,11 +60,11 @@ const SHOTS = [
 const STEPS = [
   {
     title: "Send your Google Maps link",
-    text: "Message us on WhatsApp with the link to your homestay on Google Maps.",
+    text: "Message us on WhatsApp with the link to your property on Google Maps.",
   },
   {
     title: "We set up your property",
-    text: "Our team adds your property and rooms and sets up your booking website, then shows you around on a short call.",
+    text: "Our team adds your property and listings and sets up your booking website, then shows you around on a short call.",
   },
   {
     title: "Choose your plan and go live",
@@ -71,67 +75,88 @@ const STEPS = [
 const FEATURES: FeatureItem[] = [
   {
     icon: "calendar",
-    title: "One calendar, every room",
+    title: "Reservations and room calendar",
     description:
-      "Add phone and walk-in bookings from your phone and see which rooms are open on any night.",
+      "Phone, walk-in, website and OTA bookings in one list, on a month view and a room-by-room timeline.",
   },
   {
-    icon: "palette",
-    title: "Your own booking website",
+    icon: "key",
+    title: "Front desk",
     description:
-      "A website at yourname.staykeep.com with your photos and rooms. Guests book with you directly.",
+      "Check-in and check-out, room moves, stay extensions, and a live view of arrivals, departures and guests in house.",
   },
   {
     icon: "shield-check",
-    title: "ID scan check-in",
+    title: "Guest register and ID check-in",
     description:
-      "Add guest IDs at check-in. The guest register is kept for you, and Form C for foreign guests is listed.",
+      "Scan guest IDs at check-in, keep the digital guest register, print the registration card, and see the Form C list for foreign guests.",
   },
   {
-    icon: "wallet",
-    title: "GST bills, UPI and online payments",
+    icon: "receipt",
+    title: "Billing with GST",
     description:
-      "Bills with GST, payments by UPI or online, and accounts for your property.",
+      "Bills with GST by line and as PDF, UPI and online payments, expenses and accounts for each property.",
+  },
+  {
+    icon: "globe",
+    title: "Booking engine",
+    description:
+      "Your own booking website at yourname.staykeep.com, free with every plan. Guests book and pay you directly, with 0% commission.",
+  },
+  {
+    icon: "layout",
+    title: "Channel manager (add-on)",
+    description:
+      "Availability and prices stay in sync with booking sites like Booking.com, Agoda, Airbnb and MakeMyTrip, and their bookings come straight in.",
+  },
+  {
+    icon: "sparkle",
+    title: "Housekeeping",
+    description:
+      "Check-out creates the cleaning task, and housekeeping marks rooms clean from their phone.",
   },
   {
     icon: "users",
-    title: "Staff tasks",
+    title: "Staff and roles",
     description:
-      "Housekeeping and reception get their own tasks. Check-out creates the cleaning task.",
+      "Reception, housekeeping and managers get their own logins, roles and tasks.",
   },
   {
-    icon: "mail",
-    title: "OTA emails in the same list",
+    icon: "list",
+    title: "Reports",
     description:
-      "Forward the booking emails OTAs send you, and those bookings sit next to your direct ones. Guests can leave reviews too.",
+      "Occupancy, money collected and insights for every property, with one login for all your properties.",
   },
 ];
 ---
 
 <BaseLayout
-  title={`Homestay software, ${rupees(starter.monthly)} a month | StayKeep`}
-  description={`Homestay app for owners in India: one calendar, your own booking website, ID check-in, GST bills and UPI. ${rupees(starter.monthly)} a month for up to 3 rooms, 0% commission on bookings. Our team sets it up for you.`}
+  title={`PMS for homestays, hotels and hostels, ${rupees(starter.monthly)} a month | StayKeep`}
+  description={`StayKeep is a property management system (PMS) for homestays, hotels and hostels in India: reservations, front desk, room calendar, ID check-in, GST billing, booking engine and channel manager. ${rupees(starter.monthly)} a month for up to 3 listings, 0% commission on bookings. Our team sets it up for you.`}
   path="/homestay-software"
   faq={FAQ_HOMESTAY_SOFTWARE}
 >
   <section class="hs-hero">
     <div class="container hs-hero-grid">
       <div>
+        <p class="eyebrow">PMS for homestays, hotels and hostels</p>
         <h1 class="display-1">
-          Homestay software for {rupees(starter.monthly)} a month
+          Property management system for {rupees(starter.monthly)} a month
         </h1>
         <p class="lede">
-          Bookings, one calendar for every room, your own booking website,
-          guest ID check-in and GST bills. All in one app on your phone.
+          Reservations, front desk, room calendar, guest register,
+          housekeeping, GST billing and your own booking engine. One PMS on
+          your phone and computer.
         </p>
         <ul class="hs-facts">
           <li>
             <Icon name="check" />
             <span>
-              <strong>{rupees(starter.monthly)} a month</strong> for up to 3 rooms.{" "}
+              <strong>{rupees(starter.monthly)} a month</strong> for up to 3 listings.{" "}
               <a href="#pricing" class="hs-inline-link">See all plans</a>
             </span>
           </li>
+          <li><Icon name="check" /><span><strong>Free booking website</strong> with every plan</span></li>
           <li><Icon name="check" /><span><strong>0% commission</strong> on your bookings</span></li>
           <li><Icon name="check" /><span><strong>Our team sets it up</strong> for you</span></li>
         </ul>
@@ -158,7 +183,7 @@ const FEATURES: FeatureItem[] = [
               src={poster.src}
               width="1280"
               height="720"
-              alt="StayKeep Manage room calendar for an example homestay"
+              alt="StayKeep PMS month calendar on a computer, showing free listings per night for an example homestay"
               fetchpriority="high"
               decoding="async"
             />
@@ -180,7 +205,7 @@ const FEATURES: FeatureItem[] = [
   <section class="section hs-shots" aria-labelledby="hs-shots-heading">
     <div class="container">
       <p class="eyebrow">The real app</p>
-      <h2 class="display-2" id="hs-shots-heading">What you get on your phone.</h2>
+      <h2 class="display-2" id="hs-shots-heading">Your PMS, on your phone.</h2>
       <ul class="hs-shot-list">
         {
           SHOTS.map((shot) => (
@@ -205,18 +230,18 @@ const FEATURES: FeatureItem[] = [
 
   <FeatureList
     id="hs-features-heading"
-    eyebrow="What it does"
-    heading="Everything your homestay runs on."
+    eyebrow="What's in the PMS"
+    heading="A complete PMS, in one app."
     items={FEATURES}
   />
 
   <section class="section hs-pricing" id="pricing" aria-labelledby="hs-pricing-heading">
     <div class="container">
       <p class="eyebrow">Pricing</p>
-      <h2 class="display-2" id="hs-pricing-heading">One clear price, by your number of rooms.</h2>
+      <h2 class="display-2" id="hs-pricing-heading">One clear price, by your number of listings.</h2>
       <div class="hs-pricing-grid">
         <div class="hs-plan">
-          <p class="hs-plan-rooms">{starter.rooms}</p>
+          <p class="hs-plan-rooms">{starter.listings}</p>
           <p class="hs-plan-price">
             <span class="hs-plan-amount">{rupees(starter.monthly)}</span>
             <span class="hs-plan-per">a month</span>
@@ -225,7 +250,8 @@ const FEATURES: FeatureItem[] = [
             or {rupees(starter.yearly)} a year: 12 months for the price of 10
           </p>
           <ul class="hs-plan-list">
-            <li><Icon name="check" /> Every feature on this page</li>
+            <li><Icon name="check" /> Every PMS feature on this page</li>
+            <li><Icon name="check" /> Free booking website</li>
             <li><Icon name="check" /> 0% commission on your bookings</li>
             <li><Icon name="check" /> Setup by our team</li>
             <li><Icon name="check" /> No GST added</li>
@@ -247,7 +273,7 @@ const FEATURES: FeatureItem[] = [
             <caption>All plans, per property</caption>
             <thead>
               <tr>
-                <th scope="col">Rooms</th>
+                <th scope="col">Listings</th>
                 <th scope="col">Monthly</th>
                 <th scope="col">Yearly</th>
               </tr>
@@ -256,14 +282,14 @@ const FEATURES: FeatureItem[] = [
               {
                 ROOM_PLANS.map((plan, i) => (
                   <tr class={i === 0 ? "hs-tier-first" : undefined}>
-                    <th scope="row">{plan.rooms}</th>
+                    <th scope="row">{plan.listings}</th>
                     <td>{rupees(plan.monthly)}</td>
                     <td>{rupees(plan.yearly)}</td>
                   </tr>
                 ))
               }
               <tr>
-                <th scope="row">More than 100 rooms</th>
+                <th scope="row">More than 100 listings</th>
                 <td colspan="2">
                   <a href={CONTACT_PHONE_TEL} class="text-link" data-cta="call" data-cta-location="pricing">
                     Call {CONTACT_PHONE_DISPLAY}
@@ -273,9 +299,29 @@ const FEATURES: FeatureItem[] = [
             </tbody>
           </table>
           <p class="hs-tiers-note">
-            Every room, cottage or whole villa you rent out counts as one room.
-            Every plan has every feature. Pay by UPI or card.
+            {LISTING_MEANING} Every plan has every PMS feature. Pay by UPI or
+            card.
           </p>
+          <div class="hs-addon" aria-labelledby="hs-addon-heading">
+            <h3 class="hs-addon-title" id="hs-addon-heading">
+              <Icon name="layout" /> Channel manager add-on
+            </h3>
+            <p class="hs-addon-text">
+              Keep availability and prices in sync with booking sites like
+              Booking.com, Agoda, Airbnb and MakeMyTrip. Added on top of your
+              plan.
+            </p>
+            <ul class="hs-addon-list">
+              {
+                CHANNEL_MANAGER_ADDON.map((a) => (
+                  <li>
+                    <span>{a.listings}</span>
+                    <strong>{rupees(a.monthly)} a month</strong>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
         </div>
       </div>
     </div>
@@ -305,11 +351,11 @@ const FEATURES: FeatureItem[] = [
     <div class="container">
       <div class="hs-end-box" id="hs-end-box">
         <h2 class="display-3" id="hs-end-heading">
-          WhatsApp your Google Maps link. We'll do the rest.
+          WhatsApp your Google Maps link. We'll set up your PMS.
         </h2>
         <p class="lede">
-          Our team sets up your property and shows you around.
-          {rupees(starter.monthly)} a month for up to 3 rooms, 0% commission.
+          Our team adds your property and listings and shows you around.
+          {rupees(starter.monthly)} a month for up to 3 listings, free booking website, 0% commission.
         </p>
         <AdCtas location="footer" />
       </div>
@@ -588,6 +634,45 @@ const FEATURES: FeatureItem[] = [
     margin-top: 0.9rem;
     font-size: 0.95rem;
     color: var(--color-on-surface-variant);
+  }
+  .hs-addon {
+    margin-top: 1.5rem;
+    padding: 1.25rem 1.5rem;
+    border-radius: var(--radius-card);
+    border: 1px dashed #b9c8ee;
+    background: #fff;
+  }
+  .hs-addon-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+  .hs-addon-title .icon {
+    width: 1.2rem;
+    height: 1.2rem;
+    color: var(--color-primary);
+  }
+  .hs-addon-text {
+    margin-top: 0.4rem;
+    font-size: 0.95rem;
+    color: var(--color-on-surface-variant);
+  }
+  .hs-addon-list {
+    display: grid;
+    gap: 0.4rem;
+    margin: 0.9rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .hs-addon-list li {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-top: 0.4rem;
+    border-top: 1px solid #e3e8f4;
+    font-variant-numeric: tabular-nums;
   }
   .hs-steps {
     display: grid;

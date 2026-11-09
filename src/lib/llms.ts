@@ -92,7 +92,7 @@ ${bullets(OWNER_FEATURES)}
 
 ## Pricing
 
-StayKeep takes 0% commission on bookings, and guests pay no StayKeep booking fee. Plans for property owners (StayKeep Manage), per property by number of rooms: ${PRICING_FAQ_ANSWER}
+StayKeep takes 0% commission on bookings, and guests pay no StayKeep booking fee. StayKeep Manage is a property management system (PMS) for homestays, hotels and hostels. Plans, per property by number of listings: ${PRICING_FAQ_ANSWER}
 
 The savings example on the site is illustrative: ${FEE_FOOTNOTE}
 
