@@ -33,6 +33,18 @@ export const AD_VIDEO_POSTER = '';
  */
 export const GOOGLE_ADS_ID = '';
 
+/**
+ * Google Tag Manager container, 'GTM-' followed by letters and digits. Owner,
+ * 9 Nov 2026 (pasted from Google Ads). On 9 Nov it held only the Google Ads
+ * tag AW-18539516925 with Google's automatic events. Loads only after Accept
+ * on the cookie banner, like GA4 and Clarity. CTA clicks reach it as dataLayer
+ * events `cta_whatsapp`, `cta_call` and `cta_signup` (with cta_location and
+ * page) for conversion triggers. scripts/patch-csp-hashes.mjs reads this line
+ * to add the Google Ads origins to the CSP, so keep it a plain single-quoted
+ * string. Empty: no container.
+ */
+export const GTM_ID = 'GTM-M59JZC9N';
+
 /** One Google Ads conversion label per CTA (the part after the '/' in send_to). */
 export const GOOGLE_ADS_LABELS = {
   whatsapp: '',

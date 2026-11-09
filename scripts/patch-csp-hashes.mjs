@@ -85,7 +85,12 @@ export const CLARITY_ORIGINS = {
  * Google Ads conversion tracking (gtag.js), from Google's CSP guide for Ads:
  * the gtag loader, the conversion pixels on google.com / google.co.in
  * (India) / doubleclick / googleadservices, and the td.doubleclick.net frame.
- * Added only when GOOGLE_ADS_ID in src/content/ads.ts is set.
+ * Plus what the Google tag sends through Tag Manager (seen blocked in a browser
+ * test, 2026-11-09): ad.doubleclick.net/ccm, pagead2.googlesyndication.com and
+ * the bid.g.doubleclick.net frame; and GA4's own analytics.google.com and
+ * stats.g.doubleclick.net hits, which it sends only once ad consent is granted
+ * (so only with Ads). Added when GOOGLE_ADS_ID or GTM_ID in src/content/ads.ts
+ * is set.
  */
 export const ADS_ORIGINS = {
   script: [
@@ -100,6 +105,10 @@ export const ADS_ORIGINS = {
     'https://www.google.co.in',
     'https://googleads.g.doubleclick.net',
     'https://www.googleadservices.com',
+    'https://ad.doubleclick.net',
+    'https://pagead2.googlesyndication.com',
+    'https://analytics.google.com',
+    'https://stats.g.doubleclick.net',
   ],
   img: [
     'https://www.googletagmanager.com',
@@ -107,8 +116,12 @@ export const ADS_ORIGINS = {
     'https://www.google.co.in',
     'https://googleads.g.doubleclick.net',
     'https://www.googleadservices.com',
+    'https://ad.doubleclick.net',
+    'https://pagead2.googlesyndication.com',
+    'https://analytics.google.com',
+    'https://stats.g.doubleclick.net',
   ],
-  frame: ['https://td.doubleclick.net', 'https://www.googletagmanager.com'],
+  frame: ['https://td.doubleclick.net', 'https://bid.g.doubleclick.net', 'https://www.googletagmanager.com'],
 };
 
 export function withAnalyticsOrigins(policy, { ga4, clarity, ads = false }) {
@@ -155,6 +168,13 @@ export function adsIdFromSource(text) {
   return /^AW-\d+$/.test(id) ? id : '';
 }
 
+/** GTM_ID from src/content/ads.ts ('' when unset or not a GTM- id). */
+export function gtmIdFromSource(text) {
+  const m = /export const GTM_ID\s*(?::\s*string\s*)?=\s*['"]([^'"]*)['"]/.exec(text);
+  const id = m ? m[1].trim() : '';
+  return /^GTM-[A-Z0-9]+$/.test(id) ? id : '';
+}
+
 async function main() {
   const htmlFiles = await findHtmlFiles(DIST_DIR);
   const allHashes = new Set();
@@ -169,7 +189,9 @@ async function main() {
   const ga4 = (await readEnvId('PUBLIC_GA4_ID')) !== '';
   const clarity = (await readEnvId('PUBLIC_CLARITY_ID')) !== '';
 
-  const ads = adsIdFromSource(await readFile(join(ROOT, 'src/content/ads.ts'), 'utf8')) !== '';
+  // The Google Tag Manager container loads the Google Ads tag, so it needs the same origins.
+  const adsSource = await readFile(join(ROOT, 'src/content/ads.ts'), 'utf8');
+  const ads = adsIdFromSource(adsSource) !== '' || gtmIdFromSource(adsSource) !== '';
 
   if (allHashes.size === 0 && !ga4 && !clarity && !ads) {
     console.log('patch-csp-hashes: no inline scripts found, _headers left unchanged.');

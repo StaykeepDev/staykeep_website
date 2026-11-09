@@ -40,10 +40,16 @@ import { ANALYTICS_ENABLED, ADS_ENABLED } from "../lib/analytics-config";
    * `data-cta-location`) send `<cta>_click` with `cta_location` and `page`,
    * and, when `GOOGLE_ADS_ID` and that CTA's label are set in
    * src/content/ads.ts, a Google Ads conversion. Ads loads only after Accept.
+   *
+   * Google Tag Manager (`GTM_ID` in src/content/ads.ts, owner 9 Nov 2026) is
+   * the official container snippet, injected only after Accept too; each CTA
+   * click also pushes `cta_<cta>` to the dataLayer for its triggers, and a
+   * same-tab link waits for the container (at most 800 ms) before leaving.
    */
-  import { GOOGLE_ADS_ID, GOOGLE_ADS_LABELS } from "../content/ads";
+  import { GOOGLE_ADS_ID, GOOGLE_ADS_LABELS, GTM_ID } from "../content/ads";
   const GA4 = (import.meta.env.PUBLIC_GA4_ID ?? "").trim();
   const ADS = GOOGLE_ADS_ID.trim();
+  const GTM = GTM_ID.trim();
   const ADS_LABELS: Record<string, string> = GOOGLE_ADS_LABELS;
   const CLARITY = (import.meta.env.PUBLIC_CLARITY_ID ?? "").trim();
   const KEY = "sk_consent";
@@ -74,6 +80,7 @@ import { ANALYTICS_ENABLED, ADS_ENABLED } from "../lib/analytics-config";
   }
 
   let gaLoaded = false;
+  let gtmLoaded = false;
   let clarityLoaded = false;
 
   function defineGtag(): void {
@@ -110,7 +117,7 @@ import { ANALYTICS_ENABLED, ADS_ENABLED } from "../lib/analytics-config";
       // Ads measures conversions only; ad_personalization stays denied.
       w.gtag?.("consent", "update", {
         analytics_storage: "granted",
-        ...(ADS ? { ad_storage: "granted", ad_user_data: "granted" } : {}),
+        ...(ADS || GTM ? { ad_storage: "granted", ad_user_data: "granted" } : {}),
       });
       inject(
         "https://www.googletagmanager.com/gtag/js?id=" +
@@ -124,6 +131,17 @@ import { ANALYTICS_ENABLED, ADS_ENABLED } from "../lib/analytics-config";
           page_title: document.title,
         });
       }
+    }
+    if (GTM && !gtmLoaded) {
+      gtmLoaded = true;
+      if (!gaLoaded) {
+        // No GA4 or Ads id: the consent update above did not run, so grant here.
+        w.gtag?.("consent", "update", { ad_storage: "granted", ad_user_data: "granted" });
+      }
+      // The official container snippet: the gtm.js start event, then the loader.
+      w.dataLayer = w.dataLayer ?? [];
+      w.dataLayer.push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+      inject("https://www.googletagmanager.com/gtm.js?id=" + encodeURIComponent(GTM));
     }
     if (CLARITY && !clarityLoaded) {
       clarityLoaded = true;
@@ -142,7 +160,7 @@ import { ANALYTICS_ENABLED, ADS_ENABLED } from "../lib/analytics-config";
     const choice = read();
     if (choice === "granted") load();
     else if (choice === "denied") {
-      if (gaLoaded) {
+      if (gaLoaded || gtmLoaded) {
         w.gtag?.("consent", "update", {
           analytics_storage: "denied",
           ad_storage: "denied",
@@ -158,15 +176,21 @@ import { ANALYTICS_ENABLED, ADS_ENABLED } from "../lib/analytics-config";
     w.gtag?.("event", name, params);
   }
 
-  /** Ad landing CTA: GA4 event + optional Ads conversion. True if it navigates for us. */
+  /**
+   * Ad landing CTA: GA4 event, an optional Ads conversion and the GTM
+   * `cta_<cta>` event. True if it navigates for us.
+   */
   function trackCta(link: HTMLAnchorElement, event: MouseEvent): boolean {
     const cta = link.dataset.cta ?? "";
-    track(cta + "_click", {
+    const params = {
       cta_location: link.dataset.ctaLocation ?? "",
       page: location.pathname,
-    });
+    };
+    track(cta + "_click", params);
+    if (read() !== "granted") return false;
     const label = ADS_LABELS[cta] ?? "";
-    if (!ADS || !label || read() !== "granted" || !gaLoaded) return false;
+    const ads = ADS !== "" && label !== "" && gaLoaded;
+    if (!ads && !gtmLoaded) return false;
     // Same-tab links (sign-up) wait briefly so the conversion is sent first.
     const sameTab =
       !link.target &&
@@ -175,27 +199,35 @@ import { ANALYTICS_ENABLED, ADS_ENABLED } from "../lib/analytics-config";
       !event.ctrlKey &&
       !event.shiftKey &&
       event.button === 0;
-    if (!sameTab) {
-      w.gtag?.("event", "conversion", { send_to: ADS + "/" + label });
-      return false;
+    let go: (() => void) | undefined;
+    if (sameTab) {
+      event.preventDefault();
+      let gone = false;
+      go = (): void => {
+        if (gone) return;
+        gone = true;
+        location.href = link.href;
+      };
+      window.setTimeout(go, 800);
     }
-    event.preventDefault();
-    let gone = false;
-    const go = (): void => {
-      if (gone) return;
-      gone = true;
-      location.href = link.href;
-    };
-    w.gtag?.("event", "conversion", {
-      send_to: ADS + "/" + label,
-      event_callback: go,
-    });
-    window.setTimeout(go, 800);
-    return true;
+    if (ads) {
+      w.gtag?.("event", "conversion", {
+        send_to: ADS + "/" + label,
+        ...(go ? { event_callback: go } : {}),
+      });
+    }
+    if (gtmLoaded) {
+      w.dataLayer?.push({
+        event: "cta_" + cta,
+        ...params,
+        ...(go ? { eventCallback: go, eventTimeout: 800 } : {}),
+      });
+    }
+    return sameTab;
   }
 
-  if (GA4 || CLARITY || ADS) {
-    if (GA4 || ADS) defineGtag();
+  if (GA4 || CLARITY || ADS || GTM) {
+    if (GA4 || ADS || GTM) defineGtag();
     const banner = document.getElementById("sk-consent");
     const sync = (): void => {
       if (banner) banner.hidden = read() !== null;

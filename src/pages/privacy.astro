@@ -1,6 +1,7 @@
 ---
 import LegalLayout from '../layouts/LegalLayout.astro';
 import { REGISTERED_ADDRESS } from '../content/site';
+import { ADS_ENABLED } from '../lib/analytics-config';
 
 // Legal TEXT ported verbatim from the previous site (app/privacy/page.tsx on
 // `main`) - wording is not ours to rewrite. See the handoff report for two
@@ -36,7 +37,10 @@ const sections = [
     // Added 2026-10-01 with the analytics rollout (docs/analytics-plan.md A8).
     title: 'Analytics',
     content:
-      'With your consent, we use Google Analytics and Microsoft Clarity to understand how StayKeep is used, such as which pages are visited and where people tap or scroll. They run only after you choose Accept on the cookie banner, and nothing is loaded if you choose Decline. Personal details are masked, and we do not send names, phone numbers or email addresses to either tool. You can change your choice at any time with the Cookie settings link at the bottom of every page.',
+      'With your consent, we use Google Analytics and Microsoft Clarity to understand how StayKeep is used, such as which pages are visited and where people tap or scroll. They run only after you choose Accept on the cookie banner, and nothing is loaded if you choose Decline. Personal details are masked, and we do not send names, phone numbers or email addresses to either tool. You can change your choice at any time with the Cookie settings link at the bottom of every page.' +
+      (ADS_ENABLED
+        ? ' With the same consent, we also use Google Ads, loaded through Google Tag Manager, to measure which of our ads lead to visits and enquiries. It runs only after you choose Accept, and ads are not personalised from it.'
+        : ''),
   },
   {
     title: 'Contact Us',

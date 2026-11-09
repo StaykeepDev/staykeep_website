@@ -2,7 +2,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 
-import { adsIdFromSource, withAnalyticsOrigins } from './patch-csp-hashes.mjs';
+import { adsIdFromSource, gtmIdFromSource, withAnalyticsOrigins } from './patch-csp-hashes.mjs';
 
 const BASE =
   "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; object-src 'none'";
@@ -41,6 +41,13 @@ test('Google Ads set: exactly the Ads origins, deduped with GA4', () => {
   assert.match(out, /frame-src 'self' https:\/\/td\.doubleclick\.net/);
   const script = out.split('; ').find((d) => d.startsWith('script-src'));
   assert.equal(script.split('googletagmanager').length - 1, 1, 'gtag origin once');
+});
+
+test('gtmIdFromSource reads only a real GTM- id', () => {
+  assert.equal(gtmIdFromSource("export const GTM_ID = '';"), '');
+  assert.equal(gtmIdFromSource("export const GTM_ID = 'GTM-M59JZC9N';"), 'GTM-M59JZC9N');
+  assert.equal(gtmIdFromSource("export const GTM_ID = 'AW-123';"), '');
+  assert.equal(gtmIdFromSource("export const GOOGLE_ADS_ID = 'GTM-M59JZC9N';"), '');
 });
 
 test('adsIdFromSource reads only a real AW- id', () => {
