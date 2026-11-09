@@ -31,7 +31,7 @@ export const AD_VIDEO_POSTER = '';
  * scripts/patch-csp-hashes.mjs reads this line to add the Google Ads origins
  * to the CSP, so keep it a plain single-quoted string.
  */
-export const GOOGLE_ADS_ID = '';
+export const GOOGLE_ADS_ID = 'AW-18539516925';
 
 /**
  * Google Tag Manager container, 'GTM-' followed by letters and digits. Owner,
@@ -45,9 +45,14 @@ export const GOOGLE_ADS_ID = '';
  */
 export const GTM_ID = 'GTM-M59JZC9N';
 
-/** One Google Ads conversion label per CTA (the part after the '/' in send_to). */
+/**
+ * One Google Ads conversion label per CTA (the part after the '/' in send_to).
+ * Created 9 Nov 2026 in Google Ads > Goals > Conversions: "WhatsApp chat" and
+ * "Phone call click" (category Contact), "Sign-up click" (Sign-up), count One,
+ * all primary. The tag AW-18539516925 is the one the GTM container also holds.
+ */
 export const GOOGLE_ADS_LABELS = {
-  whatsapp: '',
-  call: '',
-  signup: '',
+  whatsapp: 'q6JYCIXO7rQdEP2nqohF',
+  call: 'ryo0CIjO7rQdEP2nqohF',
+  signup: 'i0olCIvO7rQdEP2nqohF',
 };
